@@ -1,0 +1,7 @@
+.inputInfo input,
+select {
+  width: 100%;
+}
+.text__center {
+  text-align: center;
+}
