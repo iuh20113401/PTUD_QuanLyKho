@@ -1,0 +1,86 @@
+.section{
+    display: grid;
+    grid-template-columns: 1fr 5fr; /* Chia thành hai cột bằng 1:1 */
+    grid-gap: 1px; /* Khoảng cách giữa hai cột */
+    height: 800px;
+    text-align: left;
+}
+.trai{
+    background-color: #030303;
+    width: 100%;
+    height: 100%;
+    color: aliceblue;
+    text-align: left;
+}
+.phai{
+    background-color: #ffffff;
+    width: 100%;
+    height: auto;
+    text-align: left;
+    float: right;
+}
+.vertical-menu {
+    width: 200px; /* Độ rộng của menu dọc */
+}
+
+.vertical-menu a {
+    display: block;
+    padding: 10px; /* Khoảng cách bên trong mỗi mục */
+    text-decoration: none;
+    color: #faf8f8; /* Màu chữ */
+    border-bottom: 1px solid #ccc; /* Đường kẻ ngang */
+}
+
+.vertical-menu a:hover {
+    background-color: #60df35; /* Màu nền khi hover */
+}
+.khung {
+    display: table;
+    width: 80%; /* Độ rộng của khung */
+    height: auto; /* Chiều cao của khung */
+    border: 1px solid #000; /* Viền của khung */
+    padding: 10px; /* Khoảng cách bên trong khung */
+    background-color: #ffffff; /* Màu nền của khung */
+    margin-left: 80px;
+    text-align: center;
+}
+.row {
+    display: table-row;
+}
+
+.cell {
+    display: table-cell;
+    padding: 5px;
+    border-bottom: 1px solid #ccc; /* Đường kẻ ngang */
+}
+
+.header {
+    font-weight: bold;
+}
+.phanphoi{
+    margin-top: 30px;
+    margin-left: 76px;
+}
+table{
+    border-collapse: collapse; /* Loại bỏ khoảng cách mặc định giữa các ô */
+}
+.bang {
+    padding: 20px; /* Khoảng cách bên trong tiêu đề */
+}
+th, td {
+    padding: 10px; /* Khoảng cách bên trong các ô */
+}
+tr{
+    border-bottom: 1px solid #0f0505; /* Đường gạch dưới của dòng dữ liệu */
+}
+.xem {
+    display: inline-block; /* Hiển thị nút như một khối inline */
+    padding: 10px 20px; /* Kích thước nút */
+    background-color: #0077CC; /* Màu nền */
+    color: #fff; /* Màu chữ */
+    text-decoration: none; /* Loại bỏ đường gạch chân của liên kết */
+    border-radius: 5px; /* Góc bo tròn */
+}
+.xem:hover {
+    background-color: #005599; /* Màu nền khi di chuột qua */
+}
