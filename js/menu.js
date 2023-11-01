@@ -1,10 +1,13 @@
 "use strick";
 function menu() {
-  let html = `<div class="menu">
+  let html = `
+      <div class = "menu">
         <div class="image"></div>
         <div class="nav">
           <ul>
-            <li><a href="#">Trang chủ</a></li>
+            <li class><a href="#">Trang chủ</a></li>
+            <li><a href="capTaiKhoan.html">Cấp tài khoản</a></li>
+            <li><a href="xemLaiDonYeuCauCu.html">Xem lại đơn yêu cầu cũ</a></li>
             <li class="show">
               <p>Lập đơn yêu cầu <i class="fa-solid fa-angle-down"></i></p>
               <ul class="hidden">
@@ -39,4 +42,17 @@ function menuShow() {
     })
   );
 }
-export { menu, menuShow };
+function highLightMenu() {
+  let url = window.location.pathname;
+  url = url.split("/");
+  const pathUrl = url[url.length - 1];
+  const aPath = document.querySelectorAll("a");
+  aPath.forEach((ap) => {
+    const aURL = ap.href.split("/");
+    if (aURL[aURL.length - 1] === pathUrl) {
+      ap.classList.add("active");
+      ap.closest("ul").classList.remove("hidden");
+    }
+  });
+}
+export { menu, menuShow, highLightMenu };

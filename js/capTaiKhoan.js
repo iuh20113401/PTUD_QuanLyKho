@@ -1,6 +1,12 @@
 "use strict;";
+import { menu, menuShow, highLightMenu } from "./menu.js";
 const dsTaiKhoan = [{ TenDangNhap: 20113401, MatKhau: "password123" }];
 function init() {
+  let html = `${menu()}`;
+  let container = document.querySelector(".container");
+  container.insertAdjacentHTML("afterbegin", html);
+  menuShow();
+  highLightMenu();
   let btnCapTaiKhoan = document.querySelector("#capTaiKhoan");
   btnCapTaiKhoan.addEventListener("click", (e) => {
     let msnv = document.querySelector("#msnv").value;

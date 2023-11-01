@@ -26,7 +26,7 @@
 }
 .content__inner {
   width: 99%;
-  height: 85%;
+  height: 75%;
   margin: 1% 0%;
   border: 1px solid black;
   overflow: scroll;
@@ -83,4 +83,9 @@ select {
 }
 .noMargin {
   margin: 0 !important;
+}
+.khongDon {
+  width: 100%;
+  text-align: center;
+  padding: 5% 0%;
 }

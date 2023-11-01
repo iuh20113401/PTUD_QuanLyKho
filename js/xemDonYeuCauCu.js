@@ -1,5 +1,5 @@
 "use strick";
-import { menu, menuShow } from "./menu.js";
+import { menu, menuShow, highLightMenu } from "./menu.js";
 const dsDon = [
   {
     MaDon: 1,
@@ -374,6 +374,7 @@ function render(chiTietNguyenLieu = null, thanhPham, loai = "Don") {
   let container = document.querySelector(".container");
   container.innerHTML = html;
   menuShow();
+  highLightMenu();
 }
 
 function content() {
@@ -396,7 +397,7 @@ function content() {
                 <th>Tên đơn</th>
                 <th>Người lập</th>
                 <th>Ngày lập</th>
-                <th>Số lượng nguyên liệu</th>
+                <th>Trạng thái</th>
                 <th>Hành động</th>
               </tr>
               ${dsDon
@@ -406,7 +407,7 @@ function content() {
                 <td>${don.TenDon}</td>
                 <td>${don.MaTaiKhoan}</td>
                 <td>${don.NgayLap}</td>
-                <td class="center">${don.SoLuongNguyenLieu}</td>
+                <td class="center">${don.TinhTrang}</td>
                 <td><button class="btn primary center large xem" id = ${don.MaDon}>Xem</button></td>
               </tr>`;
                 })
@@ -661,7 +662,6 @@ function renderChiTietPhieuNhap(id) {
     initPhieuNhap();
   });
 }
-
 function renderChiTietPhieuXuat(id) {
   let chitiet = layPhieuXuat(id);
   if (chitiet.Loai === 2) render(chitiet, false, "PhieuXuat");

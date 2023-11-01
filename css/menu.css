@@ -7,12 +7,17 @@
   width: 100vw;
   height: 100vh;
   box-sizing: border-box;
+  overflow: hidden;
 }
 .menu {
   width: 20%;
   height: 100%;
   flex-shrink: 0;
   background: #000;
+  overflow: scroll;
+}
+.menu::-webkit-scrollbar {
+  display: none;
 }
 .menu .image {
   width: 100%;
@@ -32,7 +37,9 @@
   gap: 14px;
   display: inline-flex;
 }
-
+.nav > ul :hover {
+  background-color: greenyellow;
+}
 .nav li {
   width: 100%;
   display: flex;
@@ -63,4 +70,7 @@
 .content {
   width: 80%;
   height: 100%;
+}
+.active {
+  color: green !important;
 }
