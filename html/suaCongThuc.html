@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sửa công thức</title>
+    <link rel="stylesheet" href="../css/form.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="menu">
+            <div class="image"></div>
+            <div class="nav">
+                <ul>
+                    <li><a href="#">Trang chủ</a></li>
+                    <li><a href="quanLyKho.html">Quản lý thông tin kho</a></li>
+                    <li><a href="xemTrangThaiDon.html">Xem trạng thái đơn yêu cầu</a></li>
+                    <li class="show">
+                        <p>Công thức<i class="fa-solid fa-angle-down"></i></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            <a href="#"> <h3>Phân phối > Công thức > Sửa</h3></a>
+            <div class="content-table thongtin">
+                <h3>SỬA CÔNG THỨC</h3>
+                <form class="">
+                    <div class="form-kho ten1">
+                        <label for="tenCT">Tên :</label>
+                        <input type="text" id="tenCT" placeholder="Nhập tên công thức">
+                    </div>
+                    <div class="form-kho dia">
+                        <label for="donvi">Đơn vị:</label>
+                        <input type="text" id="donvi" placeholder="Nhập đơn vị(m,kg,....)">
+                    </div>
+                    <div class="form-kho so">
+                        <label for="soluong">Số lượng:</label>
+                        <input type="number" id="soluong" placeholder="Nhập số lượng" min="1" max="99999">
+                    </div>
+                    <div class="form-kho DS">
+                        <label for="DSNL">DSNL:</label>
+                        <input type="text" id="DSNL" placeholder="Nhập danh sách nguyên liệu">
+                    </div>
+                    <div class="form-kho mo">
+                        <label for="mota">Mô tả:</label>
+                        <input type="text" id="mota" placeholder="Nhập mô tả">
+                    </div>
+                </form>
+                <div class="btn-screen2">
+                    <button class="btn-them">Lưu</button>
+                    <button class="btn-huy">Huỷ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

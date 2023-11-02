@@ -1,0 +1,281 @@
+*{
+    margin: 0;
+    padding:0 ;
+}
+.container{
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+/* menu ///////////////////////////////*/
+.menu{
+    width: 20%;
+    height: 100%;
+    flex-shrink: 0;
+    background:black;
+}
+.menu .image{
+    width:100% ;
+    height: 120px;
+    flex-shrink: 0;
+    background: url(../image/Unity-logo-black.png) rgb(233, 233, 233) 0% / cover
+    no-repeat;
+}
+/* nav ////////////////////*/
+.nav{
+    margin-top: 40%;
+}
+
+.nav > ul {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    display: inline-flex;
+  }
+
+  .nav li {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 4%;
+    border-bottom: 2px solid white;
+  }
+
+  /* .nav a, ///////////////*/
+.nav a{
+    text-decoration: none;
+    color: white;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    line-height: 80%;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+}
+ .nav p {
+    text-decoration: none;
+    color: #3DE293;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 100%;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+ }
+ .nav a:hover {
+    color: #3DE293;
+  } 
+
+  /* content/////////////////////////// */
+ .content {
+    width: 80%;
+    height: 100%;
+  }
+
+  .content {
+    padding: 1%;
+    box-sizing: border-box;
+  }
+
+  .content-table {
+    width: 90%;
+    height: 85%;
+    margin: 1% 0%;
+    border: 2px solid black;
+    overflow: scroll;
+  }
+  
+  table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    margin-bottom: 5%;
+  }
+
+  
+/* text/////////////////////////////////// */
+  th {
+    padding: 15px;
+  }
+  tr {
+    border-bottom: 1px solid black;
+  }
+  td {
+    padding: 1% 1rem;
+  }
+  .thongtin {
+    padding: 3% 5%;
+  }
+  .thongtin h3 {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 2rem;
+  }
+
+  .thongtin p {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2fr 9fr;
+    margin-bottom: 1rem;
+  }
+  .thongtin .TTkho {
+    font-weight: bold;
+  }
+/* button//////////////////////// */
+.sua {
+    background: #4681F4;
+    color: #fff;
+    border-radius: 12px;
+    width: 110%;
+    height: 40px;
+    border:0;
+  }
+  .them {
+    background:black;
+    color: #fff;
+    border-radius: 12px;
+    width: 80%;
+    height: 50px;
+    border:0;
+    font-size: larger;
+    font-weight: bold;
+  }
+.xoa{
+        background: #F10C0C;
+        color: #fff;
+        border-radius: 12px;
+        width: 110%;
+        height: 40px;
+        border:0;
+ 
+}
+.xem {
+  background: #4681F4;
+  color: #fff;
+  border-radius: 12px;
+  width: 100%;
+  height: 40px;
+  border:0;
+  font-weight: bold;
+  font-size: large;
+}
+.btn{
+    flex-direction: row;
+    width: 50%;
+    justify-content: flex-end;
+    margin-left:100px ;
+    display: flex;
+    gap: 5rem;
+    padding-left:70px;
+  
+}
+
+.btn-kho{
+  display: flex;
+  width: 118%;
+  gap: 1rem;
+  
+} 
+ /* form thêm thông tin  //////////////////////////////////*/
+ label{
+  
+    font-size: 25px;
+    font-weight: bold;
+    /* margin-bottom: 10px; */
+    
+ }
+ input{
+    
+    width: 83%;
+    height: 32px;
+    border-radius: 10px; 
+    border: 1px solid #ccc;
+    padding: 0 15px;
+
+ }
+ select{
+  
+    width: 86%;
+    height: 30px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 0 15px;
+ }
+ .form-kho{
+  margin-top: 25px;
+ }
+ .ten input{
+  margin-left: 20px;
+ }
+ .dia input{
+  margin-left: 33px;
+ }
+.suc input{
+  margin-left: 10px;
+}
+.so input{
+  margin-left: 15px;
+}
+.mo input{
+  margin-left: 44px;
+}
+.loai select{
+  margin-left: 16px;
+}
+
+.ten1 input{
+  margin-left: 55px;
+}
+.DS input{
+  margin-left: 40px;
+  height: 45px;
+}
+
+
+.btn-screen2{
+  margin-top: 100px;
+  display: flex;
+  gap: 3rem;
+  padding-left: 25%;
+}
+.btn-them{
+  background: black;
+  color: white;
+  border-radius: 5px;
+  width: 30%;
+  height: 50px;
+  font-size: larger;
+}
+.btn-huy{
+  background: white;
+  color: black;
+  border-radius: 5px;
+  width: 30%;
+  height: 50px;
+  font-size: larger;
+}
+
+span{
+  padding-left: 10px;
+}
+.btn-QL{
+  background: white;
+  color: black;
+  border-radius: 5px;
+  width: 30%;
+  height: 50px;
+  font-size: larger;
+  
+}
+.btnquaylai{
+  margin-top: 50px;
+  margin-left: 45%;
+}

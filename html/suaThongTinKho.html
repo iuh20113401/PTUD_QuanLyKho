@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sửa thông tin kho</title>
+    <link rel="stylesheet" href="../css/form.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="menu">
+            <div class="image"></div>
+            <div class="nav">
+                <ul>
+                    <li><a href="#">Trang chủ</a></li>
+                    <li class="show">
+                        <p>Quản lý thông tin kho<i class="fa-solid fa-angle-down"></i></p>
+                    </li>
+                    <li><a href="xemTrangThaiDon.html">Xem trạng thái đơn yêu cầu</a></li>
+                    <li><a href="congThuc.html">Công thức</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            <a href="#"> <h3>Phân phối > Quản lý thông tin kho > Sửa</h3></a>
+            <div class="content-table thongtin">
+                <h3>SỬA THÔNG TIN KHO</h3>
+                <form class="">
+                    <div class="form-kho ten">
+                        <label for="tenkho">Tên kho:</label>
+                        <input type="text" id="tenkho" placeholder="Nhập tên kho">
+                    </div>
+                    <div class="form-kho dia">
+                        <label for="diachi">Địa chỉ:</label>
+                        <input type="text" id="diachi" placeholder="Nhập địa chỉ">
+                    </div>
+                    <div class="form-kho suc">
+                        <label for="succhua">Sức chứa:</label>
+                        <input type="number" id="succhua" placeholder="Nhập sức chứa" min="1" max="99999">
+                    </div>
+                    <div class="form-kho so">
+                        <label for="soluong">Số lượng:</label>
+                        <input type="number" id="soluong" placeholder="Nhập số lượng" min="1" max="99999">
+                    </div>
+                    <div class="form-kho loai">
+                        <label for="loaikho">Loại kho:</label>
+                        <select name="loaikho" id="">
+                            <option value="">Chọn loại kho</option>
+                            <option value="1">Sản xuất</option>
+                            <option value="2">Nguyên liệu</option>
+                            <option value="3">Thành phẩm</option>
+                         </select>
+                    </div>
+                    <div class="form-kho mo">
+                        <label for="mota">Mô tả:</label>
+                        <input type="text" id="mota" placeholder="Nhập mô tả">
+                    </div>
+                </form>
+                <div class="btn-screen2">
+                    <button class="btn-them">Lưu</button>
+                    <button class="btn-huy">Huỷ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
