@@ -11,24 +11,41 @@ function render(dsNguyenLieu = null) {
 }
 function content(dsNguyenLieu = null) {
   let html = `<div class="content">
-        <h5>Lập đon yêu cầu > Nhập nguyên liệu</h5>
+        <h5>Lập đơn yêu cầu > Xuất nguyên liệu</h5>
         <form class="don">
-          <h2 class = "tittle">Đơn yêu cầu nhập nguyên liệu</h2>
-          <div name="taikhoan" class="inputInfo--flat">
-            <label for="">Người lập: </label>
-            <input
-              type="text"
-              class="default"
-              name="taiKhoan"
-              readonly
-              value="Giám đốc"
-            />
-          </div>
-          <div name="ngaylap" class="inputInfo--flat">
-            <label for="">Ngày lập: </label>
-            <input type="date" class="" name="taiKhoan" />
-          </div>
+          <h2 class = "tittle">ĐƠN YÊU CẦU XUẤT NGUYÊN LIỆU</h2>
+          <table>
+            <tr>
+            <td><label for="">Mã đơn </label></td>
+            <td><input type="text" class="" name="maDon" value="0020" readonly/><td>
+            </tr>
+
+            <tr>
+            <td><label for="">Ngày lập đơn</label></td>
+            <td><input type="date" class="" name="ngayLap" /></td>
+            </tr>
+
+            <tr>
+            <td><label for="">Người lập đơn</label></td>
+            <td><input
+                type="text"
+                class="default"
+                name="taiKhoan"
+                readonly
+                value="20010021"
+                /></td>
+            </tr>
+            </table>
+
           <h3>Danh sách yêu cầu</h3>
+          <div class="largeInput inputNguyenLieu">
+            <div class="inputInfo row">
+              <input type="checkbox" name="nguyenlieu" id="nguyenlieu" />
+              <label for="nguyenlieu">Nhập theo nguyên liệu</label>
+            </div>
+            <div class = "nguyenlieus"></div>
+          </div>
+
           <div class="largeInput inputCongThuc">
             <div class="inputInfo row ">
               <input type="checkbox" name="congthuc" id="congthuc" />
@@ -37,82 +54,13 @@ function content(dsNguyenLieu = null) {
             <div class = "nguyenlieus"></div>
           </div>
 
-          <div class="largeInput inputNguyenLieu">
-            <div class="inputInfo row">
-              <input type="checkbox" name="nguyenlieu" id="nguyenlieu" />
-              <label for="nguyenlieu">Nhập theo danh sách nguyên liệu</label>
-            </div>
-            <div class = "nguyenlieus"></div>
-          </div>
+          
           <div class ="warning"></div>
-          <button class="btn large center primary" id="lapDonNNL">
-            Lập đơn yêu cầu
-          </button>
+          <button class="btn large center primary" id="lapDonNNL">Tiếp tục </button>
         </form>
       </div>`;
-  let html2;
-  
-  if (dsNguyenLieu !== null) {
-    html = dsNguyenLieu.reduce((acc, nl) => {
-      let html = `<tr>
-              <td>${nl.ten}</td>
-              <td>${nl.soluong}</td>
-              <td>KG</td>
-            </tr>`;
-      return acc + html;
-    }, "");
-    html2 = `<div class="content">
-        <h5>Lập đon yêu cầu > Nhập nguyên liệu</h5>
-        <form class="don">
-          <h2 class="tittle">Đơn yêu cầu nhập nguyên liệu</h2>
-          <div name="maDon" class="inputInfo--flat">
-            <label for="">Ma don: </label>
-            <input
-              type="text"
-              class="default"
-              name="maDon"
-              readonly
-              value="212212"
-            />
-          </div>
-          <div name="taikhoan" class="inputInfo--flat">
-            <label for="">Người lập: </label>
-            <input
-              type="text"
-              class="default"
-              name="taiKhoan"
-              readonly
-              value="Giám đốc"
-            />
-          </div>
-          <div name="ngaylap" class="inputInfo--flat">
-            <label for="">Ngày lập: </label>
-            <input
-              type="date"
-              class="default"
-              value="2023-03-23"
-              name="taiKhoan"
-              readonly
-            />
-          </div>
-          <h3>Danh sách yêu cầu</h3>
-          <table>
-            <tr>
-              <th>Tên nguyên liệu</th>
-              <th>Số lượng</th>
-              <th>Đơn vị</th>
-            </tr>
-            ${html}
-          </table>
-          <div class="buttons">
-            <button type = "button" class="btn primary" id="xacNhan">Lập đơn</button>
-            <button type = "button" class="btn secondary" id="Huy">Hủy</button>
-          </div>
-        </form>
-      </div>`;
-  }
 
-  return dsNguyenLieu !== null ? html2 : html;
+  return dsNguyenLieu !== null ? html : html;
 }
 function init() {
   render();
@@ -167,6 +115,9 @@ function renderDsNguyenLieu(dsNguyenLieu) {
 }
 function themInput(name = "congthuc") {
   return `<div class="inputInfo dsNguyenLieu row">
+        <table>
+            <tr>
+            <td>
               <select name="${
                 name === "congthuc" ? "chonCongThuc" : "chonNguyenLieu"
               }" class="
@@ -177,13 +128,24 @@ function themInput(name = "congthuc") {
                 <option value="nguyenlieu1">${
                   name === "congthuc" ? "Congthuc1" : "NguyenLieu1"
                 }</option>
-              </select>
+              </select></td>
+              <td>
               <input
                 type="number"
                 placeholder="Nhập số lượng"
                 id="soluong"
                 class="soluong"
-              />
+              /></td>
+
+              <td>
+              <input
+                type="text"
+                placeholder="Nhập đơn vị"
+                id="donvi"
+                class="donvi"
+              /></td>
+              <tr>
+              </table>
             </div>`;
 }
 function buttonThem() {

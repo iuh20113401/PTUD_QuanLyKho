@@ -1,0 +1,101 @@
+.content {
+  width: 80%;
+  height: 100%;
+  font-family: 'Times New Roman', Times, serif;
+  background-color: #f5f5f5;
+}
+
+h5 {
+  color: rgb(0, 0, 0);
+  margin-bottom: -30px;
+  padding: 20px;
+  text-align: left;
+}
+h2 {
+  color: rgb(0, 0, 0);
+  text-align: center;
+  margin-top: -20px;
+}
+
+/* Giao diện cho biểu mẫu */
+form {
+  height: 70%;
+  margin: 30px;
+  padding: 50px;
+  background-color: #fff;
+  border: 1px solid #000000;
+  border-radius: 5px;
+}
+table {
+  margin-top: 30px;
+}
+label {
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+textarea {
+  width: 300%;
+  padding: 13px;
+  margin: 7px 0 0 50px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+/* Nút Tiếp tục */
+button#tiepTuc {
+  font-family: 'Times New Roman', Times, serif;
+  background-color: #007BFF;
+  color: white;
+  padding: 10px 20px;
+  font-size: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 250px;
+  display: block; /* Chuyển nút thành phần tử block để căn giữa */
+  margin: 180px auto; /* Căn giữa theo chiều ngang */
+  text-align: center; /* Căn giữa nội dung của nút */
+}
+
+button#tiepTuc:hover {
+  background-color: #0056b3;
+}
+
+/* Thông báo lỗi */
+.warning {
+  color: red;
+  margin: 10px 0;
+}
+
+#warning {
+    color: red;
+    margin: 10px 0;
+}
+
+/* Tùy chỉnh hiển thị trường chỉ đọc */
+input[readonly] {
+  background-color: #f7f7f7;
+  cursor: not-allowed;
+}
+
+.warning {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 20px;
+  z-index: 999;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* CSS để làm mờ các dữ liệu ở đằng sau */
+.blurred {
+  filter: blur(5px); /* Làm mờ */
+  pointer-events: none; /* Ngăn các sự kiện trên các phần tử bị làm mờ */
+}
