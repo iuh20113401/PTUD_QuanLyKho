@@ -100,6 +100,12 @@
     margin-bottom: 5%;
   }
 
+  .tableChitiet{
+    text-align: center;
+    border-collapse: collapse;
+    margin-bottom: 5%;
+  }
+
   
 /* text/////////////////////////////////// */
   th {
@@ -279,3 +285,5 @@ span{
   margin-top: 50px;
   margin-left: 45%;
 }
+
+
