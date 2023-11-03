@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Báo cáo</title>
+   
+
+    <link rel="stylesheet" href="../css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.css" />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/phieuNhap.css" />
+    <link rel="stylesheet" href="../css/baoCao.css">
+    <link rel="stylesheet" href="../fontawesome-free-6.2.0-web/css/all.css" />
+   
+
+    <script type="text/javascript" src="../js/jquery-3.7.1.min.js"></script>
+    <script src="../js/chart.min.js"></script>
+    <script src="../js/bootstrap.bundle.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/moment.min.js"></script>
+    <script src="../js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script src="../js/baoCao.js"></script>
+    <script>
+      //Data1
+     
+      $(document).ready(function() {
+        $(".language-thu1").click(function() {
+          $(".dropdown-contentmenu-thu1").slideToggle("slow");
+          $(".dropdown-contentmenu-thu2").slideUp("slow"); // Ẩn dropdown-contentmenu-thu2 khi click vào language-thu1
+        });
+      
+        $(".option").click(function() {
+          var selectedValue = $(this).attr("value"); // Lấy giá trị của option được chọn
+          var selectedText = $(this).text(); // Lấy nội dung của option được chọn
+          $(".language-thu1").html(selectedText); // Thay thế nội dung của language-thu1 bằng nội dung của option được chọn
+          $(".language-thu1").val(selectedValue); // Thay thế giá trị của language-thu1 bằng giá trị của option được chọn
+          $(".dropdown-contentmenu-thu1").slideUp("slow"); // Ẩn dropdown-contentmenu-thu1 sau khi chọn option
+
+        });
+      });
+     
+      $(document).ready(function(){
+        $(".language-thu1").click(function(){
+          $(".dropdown-contentmenu-thu1").slideToggle("slow");
+        });
+      
+        $(".option").click(function(){
+          $(".dropdown-contentmenu-thu2").slideToggle("slow");
+        });
+      
+        $("#Ten").click(function(){
+          $(".language-thu1").html('Tên sản phẩm');
+        });
+      
+        $("#SoLuong").click(function(){
+          $(".language-thu1").html('Số lượng');
+        });
+      
+        $("#DonYeuCau").click(function(){
+          $(".language-thu1").html('Đơn yêu cầu');
+        });
+      
+        $("#Ngay").click(function(){
+          $(".language-thu1").html('Ngày sx và ngày hh');
+        });
+        $("#NhomDuLieu").click(function(){
+          $(".language-thu1").html('Nhóm dữ liệu');
+        });
+      }); 
+  
+    
+        //Data 2
+        $(document).ready(function(){
+        $(".language-thu2").click(function(){
+          $(".dropdown-contentmenu-thu2").slideToggle("slow");
+        });
+      
+        $(".option1").click(function(){
+          $(".dropdown-contentmenu-thu2").slideToggle("slow");
+        });
+      
+        $("#TongSo").click(function(){
+          $(".language-thu2").html('Tổng số lượng');
+        });
+      
+        $("#TonKho").click(function(){
+          $(".language-thu2").html('Tồn kho');
+        });
+      
+        $("#HieuSuat").click(function(){
+          $(".language-thu2").html('Hiệu suất kho');
+        });
+      
+        $("#DuBao").click(function(){
+          $(".language-thu2").html('Phân tích xu hướng và dự báo');
+        });
+      }); 
+
+
+        //Data 3
+        $(document).ready(function(){
+          $(".language-thu3").click(function(){
+            $(".dropdown-contentmenu-thu3").slideToggle("slow");
+          });
+        
+          $(".option2").click(function(){
+            $(".dropdown-contentmenu-thu3").slideToggle("slow");
+          });
+        
+          $("#GiaiDoanTruoc").click(function(){
+            $(".language-thu3").html('Giai đoạn trước');
+          });
+        
+          $("#CungKyTuanTruoc").click(function(){
+            $(".language-thu3").html('Cùng kỳ tuần trước');
+          });
+        
+          $("#CungKyThangTruoc").click(function(){
+            $(".language-thu3").html('Cùng kỳ tháng trước');
+          });
+        
+          $("#CungKyNamTruoc").click(function(){
+            $(".language-thu3").html('Cùng kỳ năm trước');
+          });
+        }); 
+  
+
+
+      </script> 
+   
+  </head>
+ 
+  <style>
+    .dropdownmenu-thu1, .dropdownmenu-thu2  {
+      position: relative;
+      top: 140px;
+      display: inline-block;
+    }
+    .dropdownmenu-thu3{
+      position: absolute;
+      top: 117px;
+      right: 135px;
+
+    }
+    .dropdownmenu-thu2{
+      width: 300px;
+      height: auto;
+      position: absolute;
+      top: 117px;
+      left: 480px;
+     
+    }
+    .dropdownmenu-thu1{
+      width: 250px;
+      height: auto;
+      position: absolute;
+      top: 117px;
+      left: 270px;
+     
+    }
+    .language-thu1{
+      width: 200px;
+      height: 38px;
+      border-radius: 5px;
+      padding-right: 20px;
+
+    }
+    .language-thu2{
+      width: 250px;
+      border-radius: 5px;
+      padding-right:  2px   8px;
+      height: 38px;
+    }
+
+    .language-thu3{
+      width: 180px;
+      border-radius: 5px;
+      padding-right: 10px;
+      height: 38px;
+      position: relative;
+      left: 10px;
+    }
+
+   
+    .dropdown-contentmenu-thu1, .dropdown-contentmenu-thu2, .dropdown-contentmenu-thu3   {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      width: 200px;
+      padding: 8px;
+      z-index: 1;
+    }
+
+    .dropdown-contentmenu-thu1{
+      padding: 0px;
+      position: relative;
+      left: 20px;
+      height: inherit;
+      }
+  
+    .dropdown-contentmenu-thu2 {
+    position: relative;
+    left: 25px;
+    width: 245px;
+    padding-right: 30px;
+
+    }
+    .dropdown-contentmenu-thu3 {
+      position: relative;
+      left: 40px;
+      width: max-content;
+      padding-right: 28px;
+
+      }
+  
+    .dropdown-contentmenu-thu1 .option, .dropdown-contentmenu-thu2 .option1,  .dropdown-contentmenu-thu3 .option2  {
+      cursor: pointer;
+    }
+
+    .show {
+      display: block;
+    }
+
+ 
+
+
+  </style>
+  <body>
+    <div class="section">
+        <div class="trai" style="height: 100%;">
+           <div class="navbar navbar-brand"><img src="../image/logo.jpg" alt="" height="200px" ></div><br></br><br></br>
+            <div class="vertical-menu">
+                <a href="#">Trang chủ</a>
+                <a href="baoCao.html">Báo cáo</a>
+                <div class="dropdown">
+                  <button class="dropbtn">Đơn yêu cầu</button>
+                  <div class="dropdown-content">
+                  <a href="phieuNhap.html">Phiếu nhập</a>
+                  <a href="phieuXuat.html">Phiếu xuất</a>
+                
+                  </div>
+                </div>
+                <div class="dropdown-trai">
+                  <button class="dropbtn-trai">Quản lý nguyên vật liệu/thành phẩm</button>
+                  <div class="dropdown-content-trai">
+                  <a href="nguyenVatLieu.html">Nguyên vật liệu</a>
+                  <a href="thanhPham.html">Thành phẩm</a>
+                
+                  </div>
+                </div>
+                <a href="#">Nhập kho</a>
+                <a href="#">Xuất kho</a>
+            </div>
+        </div>
+
+        <div class="phai" >
+            <div class="phanphoi"><h4>Trang chủ > Báo cáo</h4>
+            </div>
+            <br>
+            <div class="khung" style="width: 97%; height: 100%; padding: 0px;" style="background-color: azure;">
+              <div class="dropdownmenu-thu1">
+                <label for="TenSanPham" class="col-sm-1 col-form-label" style="max-width: 80%; position: relative;right: 52px; padding: 0px;">Tên sản phẩm</label>
+                <button class="language-thu1" value="tenSanPham" style="background-color: #ffffff;">Tên sản phẩm <i class="fa-solid fa-caret-up fa-rotate-180 fa-xs" style="color: #a6a6a6; position: relative; left: 35px;"></i></button>
+                <div id="myDropdown" class="dropdown-contentmenu-thu1">
+                  <div class="option" id="Ten" value="tenSanPham">Tên sản phẩm</div>
+                  <div class="option" id="SoLuong" value="soLuong">Số lượng</div>
+                  <div class="option" id="DonYeuCau" value="donYeuCau">Đơn yêu cầu</div>
+                  <div class="option" id="Ngay" value="ngay">Ngày sx và ngày hh</div>
+                  <div class="option" id="NhomDuLieu" value="nhomDuLieu">Nhóm dữ liệu</div>
+                </div>
+              </div>
+        
+              <div class="dropdownmenu-thu2">
+                <label for="DuLieuHieThi" class="col-sm-1 col-form-label" style="max-width: 80%; position: relative;right: 52px; padding: 0px">Dữ liệu được hiển thị</label>
+
+                <button class="language-thu2" value="tongSo" style="background-color: #ffffff;">Dữ liệu được hiển thị <i class="fa-solid fa-caret-up fa-rotate-180 fa-xs" style="color: #a6a6a6; position: relative; left: 30px;top: 0px;"></i></button>
+                <div id="myDropdown1" class="dropdown-contentmenu-thu2">
+                  <div class="option1" id="TongSo" value="tongSo">Tổng số lượng</div>
+                  <div class="option1" id="TonKho" value="tonKho">Tồn kho</div>
+                  <div class="option1" id="HieuSuat" value="hieuSuat">Hiệu suất kho</div>
+                  <div class="option1" id="DuBao" value="duBao">Phân tích xu hướng và dự báo</div>
+                </div>
+              </div>
+       
+           
+                <div class="form-thu1" style="width: 200px; position: absolute; right: 555PX; top: 110px;">
+                  <form >
+                  <label for="NgayBatDau" class="NgayBatDau" style="float: left;" >Ngày bắt đầu</label>
+                  <div class="noidung-form1">
+                    <div class="input-group date" id="datepicker" > 
+                    <input type="text" class="form-control"  style="position: static;">
+                    <span class="input-group-append">
+                      <span class="input-group-text bg-white">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                  </span>
+                 </div>
+                </div>
+              </form>
+
+                </div>
+                <div class="form-thu2" style="width: 200px; position: absolute; right: 345PX; top: 110px;">
+                  <form >
+                  <label for="NgayKetThuc" class="NgayBatDau" style="float: left;">Ngày kết thúc</label>
+                  <div class="noidung-form2">
+                    <div class="input-group date" id="datepicker-end" > 
+                    <input type="text" class="form-control"  style="position: static;">
+                    <span class="input-group-append">
+                      <span class="input-group-text bg-white">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                  </span>
+                 </div>
+                </div>
+              </form>
+
+                </div>
+          
+            
+              <div class="dropdownmenu-thu3 ">
+                <label for="SoSanhGiaTri" class="col-sm-1 col-form-label" style="max-width: 80%; position: relative;right: 52px; padding: 0px">So sánh</label>
+                <button class="language-thu3" value="soSanh" style="background-color: #ffffff;">So sánh <i class="fa-solid fa-caret-up fa-rotate-180 fa-xs" style="color: #a6a6a6; position: relative; left: 50px;top: 0px; width: 80px;"></i></button>
+                <div id="myDropdown3" class="dropdown-contentmenu-thu3">
+                  <div class="option2" id="GiaiDoanTruoc" value="giaiDoanTruoc">Giai đoạn trước</div>
+                  <div class="option2" id="CungKyTuanTruoc" value="cungKyTuanTruoc">Cùng kỳ tuần trước</div>
+                  <div class="option2" id="CungKyThangTruoc" value="cungKyThangTruoc">Cùng kỳ tháng trước</div>
+                  <div class="option2" id="CungKyNamTruoc" value="cungKyNamTruoc">Cùng kỳ năm trước</div>
+                </div>
+              </div>
+           <div class="btn-XemBaoCao" style="position: absolute; top: 140px; right:25px ;"><a href="#"><button id="Btn-XemBaoCao" class="btn btn-primary" >Xem báo cáo</button></a></div>
+           <div class="btn-LapBaoCao" style="position: absolute; top: 210px; right: 12px ;"><a href="#">
+            <button id="Btn-LapBaoCao" class="btn  btn-outline-success"  > 
+              <img src="../image/excel-icon-image-25.png" alt=""style="padding: 0px;margin: 0px;floa:left" width="30x"; >Xuất báo cáo
+            </button>
+         </div>
+         <div class="footer" style="margin-top: 13%; clear:both ; border-top:1px solid black  ; width: 100%; height:auto; ">
+        
+         </div>
+        </div>
+
+        </div>
+ </div>
+</body>
+   
+</html>
