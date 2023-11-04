@@ -26,6 +26,20 @@
                 }
             }
         }
+        function layPhieuNhapKhoTheoTaiKhoan($maTaiKhoan){
+
+            $p = new PhieuNhap();
+            $res = $p->layPhieuNhapKhoTheoTaiKhoan($maTaiKhoan);
+            if (!$res) {
+                return false;
+            } else {
+                if (mysqli_num_rows($res) == 0) {
+                    return 0;
+                } else {
+                    return $res;
+                }
+            }
+        }
         function layChiTietPhieuNhap($maPhieu){
             $p = new PhieuNhap();
             $res = $p->layChiTietPhieuNhap($maPhieu);

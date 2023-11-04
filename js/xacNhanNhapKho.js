@@ -33,7 +33,6 @@ async function layChiTietPhieuNhap(maPhieu) {
 }
 async function xacNhanNhapKho(phieu) {
   let data;
-  console.log(phieu);
   await $.ajax({
     url: "../ajax/nhapKho.php", // Đường dẫn đến tệp PHP
     type: "post", // Phương thức POST hoặc GET
@@ -55,7 +54,6 @@ async function xacNhanNhapKho(phieu) {
   });
   return data;
 }
-let dsPhieu = await layDanhSachPhieuNhap();
 function render(chiTietNguyenLieu = null) {
   let html =
     chiTietNguyenLieu !== null ? contentChiTiet(chiTietNguyenLieu) : content();
@@ -67,6 +65,7 @@ function render(chiTietNguyenLieu = null) {
   menuShow();
   highLightMenu();
 }
+let dsPhieu;
 function content() {
   let html = `        
         <div class="content">
@@ -187,7 +186,8 @@ function xoaOverlay() {
   overlayDivEl.innerHTML = "";
   overlayDivEl.removeEventListener("click", showOverlay);
 }
-function init() {
+async function init() {
+  dsPhieu = await layDanhSachPhieuNhap();
   render();
   const btnXem = document.querySelectorAll("button");
   btnXem.forEach((e) =>

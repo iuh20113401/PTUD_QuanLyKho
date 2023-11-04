@@ -7,7 +7,23 @@
             if(!$db){
                 return false;
             }else{
-                $query = "CALL layPhieuNhapKhoTheoKho($maKho)";
+                $query = "CALL layPhieuNhapKhoTheoKho('',$maKho, 'Chờ nhập')";
+                $res = mysqli_query($conn,$query);
+                $p->dongKetNoi($conn);
+                if(!$res){
+                    return false;
+                }else{
+                    return $res;
+                }
+            }
+        }
+        function layPhieuNhapKhoTheoTaiKhoan($maTaiKhoan){
+            $p= new KetNoi();
+            $db = $p->ketNoi($conn);
+            if(!$db){
+                return false;
+            }else{
+                $query = "CALL layPhieuNhapKhoTheoKho($maTaiKhoan,'', 'Đã nhập kho')";
                 $res = mysqli_query($conn,$query);
                 $p->dongKetNoi($conn);
                 if(!$res){
@@ -23,7 +39,9 @@
             if(!$db){
                 return false;
             }else{
-                $query = "insert phieunhap values(1,$maDon ,$maKho, $maTaiKhoan, '$ngayLap', '$ngayNhap','$trangThai')";
+                $ngayNhap = date("Y-m-d");
+                $maPhieu = rand(1,1000);
+                $query = "insert phieunhap values($maPhieu,$maDon ,$maKho, $maTaiKhoan, '$ngayLap', '$ngayNhap','$trangThai')";
                 $res = mysqli_query($conn,$query);
                 $p->dongKetNoi($conn);
                 if(!$res){
@@ -75,6 +93,7 @@
                 $res = mysqli_query($conn,$query);
                 $p->dongKetNoi($conn);
                 if(!$res){
+                    echo json_encode($query);
                     return false;
                 }else{
                     return $res;

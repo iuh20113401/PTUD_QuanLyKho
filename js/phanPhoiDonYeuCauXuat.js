@@ -50,10 +50,13 @@ async function lapPhieuXuatKho(maDon) {
   let data;
   const dsNguyenLieu = dsDonXuat.map((dx) => dx.dsNguyenLieu);
   console.log(
+    dsNguyenLieu,
+    dsNguyenLieu.map((nl) => nl.map((n) => n.Kho)),
+    dsNguyenLieu.map((nl) => nl.map((n) => n.Kho)).join("/"),
     dsNguyenLieu
       .map((nl) => nl.map((n) => n.Kho))
-      .join("/")
-      .split("/")
+      .join(",")
+      .split(",")
   );
   await $.ajax({
     url: "../ajax/phanPhoiDonYeuCauXuat.php", // Đường dẫn đến tệp PHP
@@ -63,16 +66,16 @@ async function lapPhieuXuatKho(maDon) {
       maDon: maDon,
       MaChiTietSanPham: dsNguyenLieu
         .map((nl) => nl.map((n) => n.MaChiTiet))
-        .join("/")
-        .split("/"),
+        .join(",")
+        .split(","),
       SoLuong: dsNguyenLieu
         .map((nl) => nl.map((n) => n.SoLuong))
-        .join("/")
-        .split("/"),
+        .join(",")
+        .split(","),
       Kho: dsNguyenLieu
         .map((nl) => nl.map((n) => n.Kho))
-        .join("/")
-        .split("/"),
+        .join(",")
+        .split(","),
     },
     success: function (response) {
       console.log(response);
@@ -464,12 +467,29 @@ async function renderXacNhanCuoi(id) {
   menuShow();
   const btnLap = document.querySelector("#lapPhieu");
   const btnQuayLai = document.querySelector("#quayLai");
-  btnLap.addEventListener("click", (e) => {
-    lapPhieuXuatKho(chiTiet.MaDon);
+  btnLap.addEventListener("click", async (e) => {
+    await lapPhieuXuatKho(chiTiet.MaDon);
+    themOverlay();
+    const overlayDivEl = document.querySelector(".overlayDiv");
+    overlayDivEl.addEventListener("click", (e) => showOverlay(id));
   });
   btnQuayLai.addEventListener("click", (e) => {
     renderChiTiet(id);
   });
+}
+function showOverlay(id) {
+  init();
+  xoaOverlay();
+}
+function themOverlay() {
+  const overlayDivEl = document.querySelector(".overlayDiv");
+  overlayDivEl.innerHTML = `<div class="overlay"></div>
+      <div class="message">Đã phân phối đơn thành công</div>`;
+}
+function xoaOverlay() {
+  const overlayDivEl = document.querySelector(".overlayDiv");
+  overlayDivEl.innerHTML = "";
+  overlayDivEl.removeEventListener("click", showOverlay);
 }
 function init() {
   render();

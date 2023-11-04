@@ -35,6 +35,19 @@
                 }
             }
         }
+        function layPhieuXuatKhoTheoTaiKhoan($maTaiKhoan){
+            $p = new PhieuXuat();
+            $res = $p->layPhieuXuatKhoTheoTaiKhoan($maTaiKhoan);
+            if (!$res) {
+                return false;
+            } else {
+                if (mysqli_num_rows($res) == 0) {
+                    return 0;
+                } else {
+                    return $res;
+                }
+            }
+        }
         function layChiTietPhieuXuat($maPhieu){
             $p = new PhieuXuat();
             $res = $p->layChiTietPhieuXuat($maPhieu);
@@ -49,12 +62,26 @@
             }
         }
        function xacNhanXuatKho($maPhieu,$ngayXuat ){
+
             $p = new PhieuXuat();
             $res = $p->xacNhanXuatKho($maPhieu, $ngayXuat);
             if(!$res){
                 return false;
             }else{
                 return true;
+            }
+        }
+        function layTrangThaiPhieuXuat($maPhieu){
+            $p = new PhieuXuat();
+            $res = $p->layTrangThaiPhieuXuat($maPhieu);
+            if(!$res){
+                return false;
+            }else{
+                 if (mysqli_num_rows($res) == 0) {
+                    return 0;
+                } else {
+                    return $res;
+                }
             }
         }
     }

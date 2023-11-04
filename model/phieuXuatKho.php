@@ -7,7 +7,23 @@
             if(!$db){
                 return false;
             }else{
-                $query = "CALL layPhieuXuatKhoTheoKho($maKho)";
+                $query = "CALL layPhieuXuatKhoTheoKho('',$maKho,'Chờ xuất')";
+                $res = mysqli_query($conn,$query);
+                $p->dongKetNoi($conn);
+                if(!$res){
+                    return false;
+                }else{
+                    return $res;
+                }
+            }
+        }
+        function layPhieuXuatKhoTheoTaiKhoan($maTaiKhoan){
+            $p= new KetNoi();
+            $db = $p->ketNoi($conn);
+            if(!$db){
+                return false;
+            }else{
+                $query = "CALL layPhieuXuatKhoTheoKho($maTaiKhoan, '','Đã xuất')";
                 $res = mysqli_query($conn,$query);
                 $p->dongKetNoi($conn);
                 if(!$res){
@@ -65,13 +81,13 @@
                 }
             }
         }
-        function layTrangThaiPhieuNhap($maDon){
+        function layTrangThaiPhieuXuat($maPhieu){
             $p= new KetNoi();
             $db = $p->ketNoi($conn);
             if(!$db){
                 return false;
             }else{
-                $query = " SELECT DISTINCT pn.TrangThai FROM phieunhap as pn JOIN donyeucau as d on d.MaDon = pn.MaDon JOIN chitietdonyeucau as ctd on ctd.MaDon = $maDon";
+                $query = " SELECT DISTINCT px.TrangThai FROM phieuxuat as px JOIN donyeucau as d on d.MaDon = px.MaDon where px.MaPhieu = $maPhieu";
                 $res = mysqli_query($conn,$query);
                 $p->dongKetNoi($conn);
                 if(!$res){

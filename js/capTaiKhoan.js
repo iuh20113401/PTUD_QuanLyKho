@@ -1,6 +1,24 @@
 "use strict;";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 const dsTaiKhoan = [{ TenDangNhap: 20113401, MatKhau: "password123" }];
+async function themTaiKhoan(loai, tenDangNhap, password) {
+  let data;
+  await $.ajax({
+    url: "../ajax/taiKhoan.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "themTaiKhoan",
+      loai: loai,
+      tenDangNhap: tenDangNhap,
+      pass: password,
+    },
+    success: function (response) {
+      console.log(response);
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
 function init() {
   let html = `${menu()}`;
   let container = document.querySelector(".container");
@@ -11,6 +29,9 @@ function init() {
   btnCapTaiKhoan.addEventListener("click", (e) => {
     let msnv = document.querySelector("#msnv").value;
     let vaitro = document.querySelector("#vaitro").value;
+    let vaitroValue = document.querySelector(
+      "#vaitro option:checked"
+    ).textContent;
     let reg = /^[0-9]{8}$/;
     let error = document.querySelector(".loiMsnv");
     let errorVT = document.querySelector(".loiVaiTro");
@@ -30,14 +51,15 @@ function init() {
     } else {
       errorVT.textContent = "";
     }
-    themOverLay(msnv, vaitro);
+    themOverLay(msnv, vaitro, vaitroValue);
+    console.log(msnv, vaitro, vaitroValue);
   });
 }
-function themOverLay(msnv, vaitro) {
+function themOverLay(msnv, vaitro, vaitroValue) {
   let html = `<div class="overlay"></div>
       <div class="message message__lage xacNhanTaiKhoan">
         <h3>Tài khoản của bạn là</h3>
-        <p><span>Vai trò:</span> ${vaitro}</p>
+        <p><span>Vai trò:</span> ${vaitroValue}</p>
         <p><span>Mã tài khoản:</span> ${msnv}</p>
         <p><span>Password:</span> pasword123</p>
         <div class="buttons">
@@ -50,8 +72,10 @@ function themOverLay(msnv, vaitro) {
   let btnHuy = overlayDivEl.querySelector("#huy");
   let btnXacNhan = overlayDivEl.querySelector("#xacNhan");
   let divMessage = overlayDivEl.querySelector(".message");
-  btnXacNhan.addEventListener("click", (e) => {
+  btnXacNhan.addEventListener("click", async (e) => {
     divMessage.classList.remove("message__large");
+    const data = await themTaiKhoan(vaitro, msnv, "password123");
+    console.log(data);
     divMessage.innerHTML =
       "<h2 class='text__center'>Tạo tài khoản thành công</h2>";
     overlayDivEl.addEventListener("click", function hideOverLay(e) {

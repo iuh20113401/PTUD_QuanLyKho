@@ -22,7 +22,7 @@
                 layChiTietPhieuXuat($maPhieu);
                 break;
             case "xacNhanXuatKho":
-                xacNhanXuatKho($maPhieu, $ngayXuat);
+                xacNhanXuatKho($maDon,$maPhieu, $ngayXuat);
                 break;
         }
 
@@ -59,18 +59,23 @@
             echo json_encode($restbl);
         }
     }
-    function xacNhanXuatKho($maPhieu, $ngayXuat){
+    function xacNhanXuatKho($maDon,$maPhieu, $ngayXuat){
         $p = new ControlPhieuXuat(); 
         $res = $p->xacNhanXuatKho($maPhieu, $ngayXuat);
         if (!$res){
             echo json_encode(false);
         }else{
+            $res2 = $p->layTrangThaiPhieuXuat($maPhieu);
+            if($res2){
+                $p2 = new ControllDonYeuCau();
+                $p2->capNhapTrangThaiDonYeuCau($maDon, "Đã xuất kho");
+            }
             echo json_encode(true);
         }
     }
-    function layTrangThaiPhieuNhap($maDon){
-        $p = new ControlPhieuNhap(); 
-        $res = $p->layTrangThaiPhieuNhap($maDon);
+    function layTrangThaiPhieuXuat($maDon){
+        $p = new ControlPhieuXuat(); 
+        $res = $p->layTrangThaiPhieuXuat($maDon);
         if (!$res){
             return false;
         }else{

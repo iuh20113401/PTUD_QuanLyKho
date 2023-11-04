@@ -28,7 +28,7 @@
                 layChiTietPhieuNhap($maPhieu);
                 break;
             case "xacNhanNhapKho":
-                themChiTietNguyenLieu($maDon,$maChiTiet,$maSanPham,$maKho,$maPhieu,$soLuong,$donVi,20000,$ngaySanXuat,$ngayHetHan);  
+                themChiTietNguyenLieu($maDon,$maChiTiet,$maSanPham,$maPhieu,$maKho,$soLuong,$donVi,20000,$ngaySanXuat,$ngayHetHan);  
                 break;
         }
 
@@ -71,6 +71,7 @@
             $res = $p->themChiTietNguyenLieu($maChiTiet[$i], $maSanPham[$i], $maPhieu, $maKho, $soLuongTon[$i],$donVi[$i], $gia, $ngaySanXuat[$i], $ngayHetHan[$i]);
         }
         if(!$res){
+            echo json_encode($maKho);
             echo json_encode($res);
             return;
         }

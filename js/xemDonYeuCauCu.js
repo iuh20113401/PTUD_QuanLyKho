@@ -1,353 +1,99 @@
 "use strick";
 import { menu, menuShow, highLightMenu } from "./menu.js";
-const dsDon = [
-  {
-    MaDon: 1,
-    Loai: 3,
-    TenDon: "Đon yêu cầu xuất nguyên liệu",
-    MaTaiKhoan: 20113401,
-    NgayLap: "23/09/2023",
-    TinhTrang: "Đã xuất",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      { MaNguyenLieu: 1, Ten: "Bột mì", SoLuong: 20, DonVi: "KG" },
-      {
-        MaNguyenLieu: 2,
-        Ten: "Đường",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-    ],
-  },
-  {
-    MaDon: 2,
-    Loai: 4,
-    TenDon: "Đon yêu cầu xuất thành phẩm",
-    MaTaiKhoan: 20113401,
-    NgayLap: "23/09/2023",
-    TinhTrang: "Đã xuất",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        MaNguyenLieu: 3,
-        Ten: "Bánh đậu xanh",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-      {
-        MaNguyenLieu: 4,
-        Ten: "Bánh trà xanh",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-    ],
-  },
-  {
-    MaDon: 3,
-    Loai: 3,
-    TenDon: "Đon yêu cầu xuất nguyên liệu",
-    MaTaiKhoan: 20113401,
-    NgayLap: "23/09/2023",
-    TinhTrang: "Hủy",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        MaNguyenLieu: 1,
-        Ten: "Bột mì",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-      {
-        MaNguyenLieu: 2,
-        Ten: "Đường",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-    ],
-  },
-  {
-    MaDon: 4,
-    Loai: 4,
-    TenDon: "Đon yêu cầu xuất thành phẩm",
-    MaTaiKhoan: 20113401,
-    NgayLap: "23/09/2023",
-    TinhTrang: "Đã duyệt",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        MaNguyenLieu: 3,
-        Ten: "Bánh đậu xanh",
-        SoLuong: 40,
-        DonVi: "KG",
-      },
-      {
-        MaNguyenLieu: 4,
-        Ten: "Bánh trà xanh",
-        SoLuong: 50,
-        DonVi: "KG",
-      },
-    ],
-  },
-  {
-    MaDon: 5,
-    Loai: 3,
-    TenDon: "Đon yêu cầu xuất nguyên liệu",
-    MaTaiKhoan: 20113401,
-    NgayLap: "23/09/2023",
-    TinhTrang: "Đã duyệt",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        Ten: "Bột mì",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-      {
-        Ten: "Đường",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-    ],
-  },
-  {
-    MaDon: 6,
-    Loai: 1,
-    TenDon: "Đon yêu cầu nhập nguyên liệu",
-    MaTaiKhoan: 20113401,
-    NgayLap: "23/09/2023",
-    TinhTrang: "Đã duyệt",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        Ten: "Bột mì",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-      {
-        Ten: "Đường",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-    ],
-  },
-  {
-    MaDon: 7,
-    Loai: 2,
-    TenDon: "Đon yêu cầu nhập thành phẩm",
-    MaTaiKhoan: 20113401,
-    NgayLap: "23/09/2023",
-    TinhTrang: "Hủy",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        Ten: "Bánh đậu xanh",
-        SoLuong: 20,
-        DonVi: "KG",
-        NgaySanXuat: "23/09/2023",
-        NgayHetHan: "3/11/2024",
-      },
-      {
-        Ten: "Bánh trà xanh",
-        SoLuong: 20,
-        DonVi: "KG",
-        NgaySanXuat: "23/09/2023",
-        NgayHetHan: "3/11/2024",
-      },
-    ],
-  },
-  {
-    MaDon: 8,
-    Loai: 1,
-    TenDon: "Đon yêu cầu nhập nguyên liệu",
-    MaTaiKhoan: 20113401,
-    NgayLap: "23/09/2023",
-    TinhTrang: "Hủy",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        Ten: "Bột mì",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-      {
-        Ten: "Đường",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-    ],
-  },
-  {
-    MaDon: 9,
-    Loai: 2,
-    TenDon: "Đon yêu cầu nhập thành phẩm",
-    MaTaiKhoan: 20113401,
-    NgayLap: "23/09/2023",
-    TinhTrang: "Đã nhập kho",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        Ten: "Bánh đậu xanh",
-        SoLuong: 20,
-        DonVi: "KG",
-        NgaySanXuat: "23/09/2023",
-        NgayHetHan: "3/11/2024",
-      },
-      {
-        Ten: "Bánh trà xanh",
-        SoLuong: 20,
-        DonVi: "KG",
-        NgaySanXuat: "23/09/2023",
-        NgayHetHan: "3/11/2024",
-      },
-    ],
-  },
-  {
-    MaDon: 10,
-    Loai: 1,
-    TenDon: "Đon yêu cầu nhập nguyên liệu",
-    MaTaiKhoan: 20113401,
-    NgayLap: "23/09/2023",
-    TinhTrang: "Đã nhập kho",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        Ten: "Bột mì",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-      {
-        Ten: "Đường",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-    ],
-  },
-];
-const dsPhieuNhap = [
-  {
-    MaPhieu: 1,
-    MaDon: 1,
-    TenDon: "Phiếu nhập kho nguyên liêu",
-    MaKho: 1,
-    MaTaiKhoan: 20113401,
-    NgayLap: "13/09/2023",
-    NgayNhap: "14/09/2023",
-    TinhTrang: "Đã nhập kho",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        MaSanPham: 1,
-        TenSanPham: "Bột mì",
-        SoLuong: 20,
-        DonVi: "KG",
-        NgaySanXuat: "25/09/2023",
-        NgayHetHan: "1/11/2024",
-      },
-      {
-        MaSanPham: 2,
-        TenSanPham: "Đường",
-        SoLuong: 20,
-        DonVi: "KG",
-        NgaySanXuat: "25/09/2023",
-        NgayHetHan: "1/11/2024",
-      },
-    ],
-  },
-  {
-    MaPhieu: 2,
-    MaDon: 1,
-    TenDon: "Phiếu nhập kho nguyên liệu",
-    MaKho: 2,
-    MaTaiKhoan: 20113401,
-    NgayLap: "13/09/2023",
-    NgayNhap: "14/09/2023",
-
-    TinhTrang: "Đã nhập kho",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        MaSanPham: 1,
-        TenSanPham: "Bột mì",
-        SoLuong: 20,
-        DonVi: "KG",
-        NgaySanXuat: "25/09/2023",
-        NgayHetHan: "1/11/2024",
-      },
-      {
-        MaSanPham: 2,
-        TenSanPham: "Đường",
-        SoLuong: 20,
-        DonVi: "KG",
-        NgaySanXuat: "25/09/2023",
-        NgayHetHan: "1/11/2024",
-      },
-    ],
-  },
-];
-const dsPhieuXuat = [
-  {
-    MaPhieu: 1,
-    MaDon: 1,
-    TenDon: "Phiếu xuất kho nguyên liêu",
-    MaKho: 1,
-    MaTaiKhoan: 20113401,
-    NgayLap: "13/09/2023",
-    NgayXuat: "14/09/2023",
-    TinhTrang: "Đã xuất kho",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        MaChiTietSanPham: 1,
-        MaSanPham: 1,
-        TenSanPham: "Bột mì",
-        SoLuong: 20,
-        DonVi: "KG",
-        NgaySanXuat: "25/09/2023",
-        NgayHetHan: "1/11/2024",
-      },
-      {
-        MaChiTietSanPham: 2,
-        MaSanPham: 2,
-        TenSanPham: "Đường",
-        SoLuong: 20,
-        DonVi: "KG",
-        NgaySanXuat: "25/09/2023",
-        NgayHetHan: "1/11/2024",
-      },
-    ],
-  },
-  {
-    MaPhieu: 2,
-    MaDon: 1,
-    TenDon: "Phiếu xuất kho nguyên liệu",
-    MaKho: 2,
-    MaTaiKhoan: 20113401,
-    NgayLap: "13/09/2023",
-    NgayXuat: "14/09/2023",
-    TinhTrang: "Đã xuất kho",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        MaChiTietSanPham: 1,
-        MaSanPham: 1,
-        TenSanPham: "Bột mì",
-        SoLuong: 20,
-        DonVi: "KG",
-        NgaySanXuat: "25/09/2023",
-        NgayHetHan: "1/11/2024",
-      },
-      {
-        MaChiTietSanPham: 2,
-        MaSanPham: 2,
-        TenSanPham: "Đường",
-        SoLuong: 20,
-        DonVi: "KG",
-        NgaySanXuat: "25/09/2023",
-        NgayHetHan: "1/11/2024",
-      },
-    ],
-  },
-];
+import { exportEcxel } from "./exportEcxcel.js";
+async function layDanhSachDonYeuCauCu() {
+  let data;
+  await $.ajax({
+    url: "../ajax/xemDonYeuCauCu.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layDonYeuCauCuTheoTaiKhoan",
+      maTaiKhoan: 1,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function layChiTietNguyenLieu(maDon) {
+  let data;
+  await $.ajax({
+    url: "../ajax/xemDonYeuCauCu.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layChiTietNguyenLieu",
+      maDon: maDon,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function layPhieuXuatKhoTheoTaiKhoan() {
+  let data;
+  await $.ajax({
+    url: "../ajax/xemDonYeuCauCu.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layPhieuXuatKhoTheoTaiKhoan",
+      maTaiKhoan: 2,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function layChiTietPhieuXuat(maPhieu) {
+  let data;
+  await $.ajax({
+    url: "../ajax/xemDonYeuCauCu.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layChiTietPhieuXuat",
+      maPhieu: maPhieu,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function layPhieuNhapKhoTheoTaiKhoan() {
+  let data;
+  await $.ajax({
+    url: "../ajax/xemDonYeuCauCu.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layPhieuNhapKhoTheoTaiKhoan",
+      maTaiKhoan: 2,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function layChiTietPhieuNhap(maPhieu) {
+  let data;
+  await $.ajax({
+    url: "../ajax/xemDonYeuCauCu.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layChiTietPhieuNhap",
+      maPhieu: maPhieu,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+const dsDon = await layDanhSachDonYeuCauCu();
+const dsPhieuNhap = await layPhieuNhapKhoTheoTaiKhoan();
+const dsPhieuXuat = await layPhieuXuatKhoTheoTaiKhoan();
 function render(chiTietNguyenLieu = null, thanhPham, loai = "Don") {
   let html;
   if (loai === "Don") {
@@ -404,10 +150,10 @@ function content() {
                 .map((don) => {
                   return `<tr>
                 <td>${don.MaDon}</td>
-                <td>${don.TenDon}</td>
+                <td>${don.TenLoai}</td>
                 <td>${don.MaTaiKhoan}</td>
                 <td>${don.NgayLap}</td>
-                <td class="center">${don.TinhTrang}</td>
+                <td class="center">${don.TrangThai}</td>
                 <td><button class="btn primary center large xem" id = ${don.MaDon}>Xem</button></td>
               </tr>`;
                 })
@@ -433,11 +179,11 @@ function contentChiTiet(chiTiet, thanhPham = false) {
             </tr>
             ${chiTiet.NguyenLieu.map((e) => {
               return `<tr>
-              <td>${e.Ten}</td>
+              <td>${e.TenSanPham}</td>
               <td>${e.SoLuong}</td>
               <td>${e.DonVi}</td>
               ${
-                e.NgayHetHan
+                thanhPham
                   ? `<td>${e.NgaySanXuat}</td>
                   <td>${e.NgayHetHan}</td>`
                   : ""
@@ -445,11 +191,7 @@ function contentChiTiet(chiTiet, thanhPham = false) {
             </tr>`;
             }).join("")}
           </table>
-          <div class="buttons">
-            <button class="btn primary" id="pdf">Xuất dưới dạng pdf</button>
-            <button class="btn success" id = "excel">Xuất dưới dạng pdf</button>
-            <button class="btn secondary small" id ="quayLai">Quay lại</button>
-          </div>`;
+          `;
 
   let html = `<div class="content">
         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
@@ -460,14 +202,21 @@ function contentChiTiet(chiTiet, thanhPham = false) {
           </button>
         </form>
         <div class="content__inner chitiet">
-          <h3>Đơn yêu cầu nhập nguyên liệu</h3>
-          <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaDon}</p>
-          <p><span class="deMuc">Tên đơn:</span>${chiTiet.TenDon}</p>
-          <p><span class="deMuc">Người lập:</span>${chiTiet.MaTaiKhoan}</p>
-          <p><span class="deMuc">Ngày lập:</span>${chiTiet.NgayLap}</p>
-          <p><span class="deMuc">Trạng Thai: </span>${chiTiet.TinhTrang}</p>
-          <p><span class="deMuc">Danh sách yêu cầu:</span></p>
+          <div id="in">
+          <h3>${chiTiet.TenLoai}</h3>
+          <p><strong class="deMuc">Mã đơn:</strong>${chiTiet.MaDon}</p>
+          <p><strong class="deMuc">Tên đơn:</strong>${chiTiet.TenLoai}</p>
+          <p><strong class="deMuc">Người lập:</strong>${chiTiet.MaTaiKhoan}</p>
+          <p><strong class="deMuc">Ngày lập:</strong>${chiTiet.NgayLap}</p>
+          <p><strong class="deMuc">Trạng Thai: </strong>${chiTiet.TrangThai}</p>
+          <p><strong class="deMuc">Danh sách yêu cầu:</strong></p>
           ${dsNguyenLieu}
+          </div>
+          <div class="buttons">
+            <button class="btn primary" id="pdf">Xuất dưới dạng pdf</button>
+            <button class="btn success" id = "excel">Xuất dưới dạng pdf</button>
+            <button class="btn secondary small" id ="quayLai">Quay lại</button>
+          </div>
         </div>
       </div>`;
   return html;
@@ -501,10 +250,10 @@ function contentPhieuNhap() {
                   return `<tr>
                 <td>${phieu.MaPhieu}</td>
                 <td>${phieu.MaDon}</td>
-                <td>${phieu.TenDon}</td>
+                <td>${phieu.TenLoai}</td>
                 <td>${phieu.MaTaiKhoan}</td>
                 <td>${phieu.NgayLap}</td>
-                <td class="center">${phieu.SoLuongNguyenLieu}</td>
+                <td class="center">${phieu.soluongnguyenlieu}</td>
                 <td><button class="btn primary center large xem" id = ${phieu.MaPhieu}>Xem</button></td>
               </tr>`;
                 })
@@ -544,10 +293,10 @@ function contentPhieuXuat() {
                   return `<tr>
                 <td>${phieu.MaPhieu}</td>
                 <td>${phieu.MaDon}</td>
-                <td>${phieu.TenDon}</td>
+                <td>${phieu.TenLoai}</td>
                 <td>${phieu.MaTaiKhoan}</td>
                 <td>${phieu.NgayLap}</td>
-                <td class="center">${phieu.SoLuongNguyenLieu}</td>
+                <td class="center">${phieu.soluongnguyenlieu}</td>
                 <td><button class="btn primary center large xem" id = ${phieu.MaPhieu}>Xem</button></td>
               </tr>`;
                 })
@@ -573,11 +322,7 @@ function contentChiTietPhieuNhap(chiTiet) {
             </tr>`;
             }).join("")}
           </table>
-           <div class="buttons">
-            <button class="btn primary" id="pdf">Xuất dưới dạng pdf</button>
-            <button class="btn success" id = "excel">Xuất dưới dạng pdf</button>
-            <button class="btn secondary small" id ="quayLai">Quay lại</button>
-          </div>`;
+           `;
   let html = `<div class="content">
         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
         <form class="search">
@@ -587,16 +332,23 @@ function contentChiTietPhieuNhap(chiTiet) {
           </button>
         </form>
         <div class="content__inner chitiet">
-          <h3>Đơn yêu cầu nhập nguyên liệu</h3>
-          <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaDon}</p>
-          <p><span class="deMuc">Mã kho:</span>${chiTiet.MaKho}</p>
-          <p><span class="deMuc">Tên đơn:</span>${chiTiet.TenDon}</p>
-          <p><span class="deMuc">Người lập:</span>${chiTiet.MaTaiKhoan}</p>
-          <p><span class="deMuc">Ngày lập:</span>${chiTiet.NgayLap}</p>
-          <p><span class="deMuc">Ngày nhập kho:</span>${chiTiet.NgayNhap}</p>
-          <p><span class="deMuc">Trạng thái:</span>${chiTiet.TinhTrang}</p>
-          <p><span class="deMuc">Danh sách yêu cầu:</span></p>
-          ${dsNguyenLieu}
+          <div id = 'in'>
+            <h3>${chiTiet.TenLoai}</h3>
+            <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaDon}</p>
+            <p><span class="deMuc">Mã kho:</span>${chiTiet.MaKho}</p>
+            <p><span class="deMuc">Tên đơn:</span>${chiTiet.TenLoai}</p>
+            <p><span class="deMuc">Người lập:</span>${chiTiet.MaTaiKhoan}</p>
+            <p><span class="deMuc">Ngày lập:</span>${chiTiet.NgayLap}</p>
+            <p><span class="deMuc">Ngày nhập kho:</span>${chiTiet.NgayNhap}</p>
+            <p><span class="deMuc">Trạng thái:</span>${chiTiet.TrangThai}</p>
+            <p><span class="deMuc">Danh sách yêu cầu:</span></p>
+            ${dsNguyenLieu}
+          </div>
+          <div class="buttons">
+            <button class="btn primary" id="pdf">Xuất dưới dạng pdf</button>
+            <button class="btn success" id = "excel">Xuất dưới dạng pdf</button>
+            <button class="btn secondary small" id ="quayLai">Quay lại</button>
+          </div>
         </div>
       </div>`;
   return html;
@@ -616,11 +368,7 @@ function contentChiTietPhieuXuat(chiTiet) {
             </tr>`;
             }).join("")}
           </table>
-           <div class="buttons">
-            <button class="btn primary" id="pdf">Xuất dưới dạng pdf</button>
-            <button class="btn success" id = "excel">Xuất dưới dạng pdf</button>
-            <button class="btn secondary small" id ="quayLai">Quay lại</button>
-          </div>`;
+           `;
   let html = `<div class="content">
         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
         <form class="search">
@@ -630,55 +378,66 @@ function contentChiTietPhieuXuat(chiTiet) {
           </button>
         </form>
         <div class="content__inner chitiet">
-          <h3>Đơn yêu cầu nhập nguyên liệu</h3>
-          <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaDon}</p>
-          <p><span class="deMuc">Mã kho:</span>${chiTiet.MaKho}</p>
-          <p><span class="deMuc">Tên đơn:</span>${chiTiet.TenDon}</p>
-          <p><span class="deMuc">Người lập:</span>${chiTiet.MaTaiKhoan}</p>
-          <p><span class="deMuc">Ngày lập:</span>${chiTiet.NgayLap}</p>
-          <p><span class="deMuc">Ngày xuất kho:</span>${chiTiet.NgayXuat}</p>
-          <p><span class="deMuc">Trạng thái:</span>${chiTiet.TinhTrang}</p>
-          <p><span class="deMuc">Danh sách yêu cầu:</span></p>
+            <div id="in">
+          <h3>${chiTiet.TenLoai}</h3>
+          <p><strong class="deMuc">Mã đơn:</strong>${chiTiet.MaDon}</p>
+          <p><strong class="deMuc">Tên đơn:</strong>${chiTiet.TenLoai}</p>
+          <p><strong class="deMuc">Người lập:</strong>${chiTiet.MaTaiKhoan}</p>
+          <p><strong class="deMuc">Ngày lập:</strong>${chiTiet.NgayLap}</p>
+          <p><strong class="deMuc">Trạng Thai: </strong>${chiTiet.TrangThai}</p>
+          <p><strong class="deMuc">Danh sách yêu cầu:</strong></p>
           ${dsNguyenLieu}
+          </div>
+          <div class="buttons">
+            <button class="btn primary" id="pdf">Xuất dưới dạng pdf</button>
+            <button class="btn success" id = "excel">Xuất dưới dạng excel</button>
+            <button class="btn secondary small" id ="quayLai">Quay lại</button>
+          </div>
         </div>
-      </div>`;
+       
+      </div>
+       `;
   return html;
 }
-function renderChiTiet(id) {
-  let chitiet = layDon(id);
-  if (chitiet.Loai === 2) render(chitiet, true);
+async function renderChiTiet(id) {
+  let chitiet = await layDon(id);
+  if (chitiet.Loai === 3) render(chitiet, true);
   else render(chitiet, false);
   const btnBack = document.querySelector("#quayLai");
   btnBack.addEventListener("click", (e) => {
     initDon();
   });
+  toExcel(chitiet.TenLoai);
+  toPDF(chitiet.TenLoai);
 }
-function renderChiTietPhieuNhap(id) {
-  let chitiet = layPhieuNhap(id);
-  if (chitiet.Loai === 2) render(chitiet, false, "PhieuNhap");
-  else render(chitiet, false, "PhieuNhap");
+async function renderChiTietPhieuNhap(id) {
+  let chitiet = await layPhieuNhap(id);
+  render(chitiet, false, "PhieuNhap");
   const btnBack = document.querySelector("#quayLai");
   btnBack.addEventListener("click", (e) => {
     initPhieuNhap();
   });
+  toExcel(chitiet.TenLoai);
+  toPDF(chitiet.TenLoai);
 }
-function renderChiTietPhieuXuat(id) {
-  let chitiet = layPhieuXuat(id);
-  if (chitiet.Loai === 2) render(chitiet, false, "PhieuXuat");
-  else render(chitiet, false, "PhieuXuat");
+async function renderChiTietPhieuXuat(id) {
+  let chitiet = await layPhieuXuat(id);
+  render(chitiet, false, "PhieuXuat");
   const btnBack = document.querySelector("#quayLai");
   btnBack.addEventListener("click", (e) => {
     initPhieuXuat();
   });
+  toExcel(chitiet.TenLoai);
+  toPDF(chitiet.TenLoai);
 }
 function initDon() {
   render();
   init();
   const btnXem = document.querySelectorAll(".xem");
   btnXem.forEach((e) =>
-    e.addEventListener("click", (e) => {
+    e.addEventListener("click", async (e) => {
       const id = e.target.id;
-      renderChiTiet(id);
+      await renderChiTiet(id);
     })
   );
 }
@@ -698,9 +457,9 @@ function initPhieuXuat() {
   init();
   const btnXem = document.querySelectorAll(".xem");
   btnXem.forEach((e) =>
-    e.addEventListener("click", (e) => {
+    e.addEventListener("click", async (e) => {
       const id = e.target.id;
-      renderChiTietPhieuXuat(id);
+      await renderChiTietPhieuXuat(id);
     })
   );
 }
@@ -712,17 +471,143 @@ function init() {
   btnPhieuNhapKho.addEventListener("click", initPhieuNhap);
   btnPhieuXuatKho.addEventListener("click", initPhieuXuat);
 }
-function layDon(id) {
+async function layDon(id) {
   const chiTiet = dsDon.filter((e) => e.MaDon == id)[0];
+  chiTiet.NguyenLieu = await layChiTietNguyenLieu(id);
   return chiTiet;
 }
-function layPhieuNhap(id) {
+async function layPhieuNhap(id) {
   const chiTiet = dsPhieuNhap.filter((e) => e.MaPhieu == id)[0];
+  chiTiet.NguyenLieu = await layChiTietPhieuNhap(id);
   return chiTiet;
 }
-function layPhieuXuat(id) {
+async function layPhieuXuat(id) {
   const chiTiet = dsPhieuXuat.filter((e) => e.MaPhieu == id)[0];
+  chiTiet.NguyenLieu = await layChiTietPhieuXuat(id);
   return chiTiet;
 }
 
 initDon();
+function toExcel(title) {
+  $("#excel").click((e) => {
+    function excel() {
+      themOverlay();
+      setTimeout((e) => {
+        let html = document.querySelector("table").innerHTML;
+        html = `<table>${html}</table>`;
+        exportEcxel(title, html);
+        xoaOverlay();
+      }, 1000);
+    }
+    excel();
+  });
+}
+function toPDF(title) {
+  $("#pdf").click(async (e) => {
+    themOverlay();
+    title = title
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .split(" ");
+
+    title =
+      title
+        .map(function (word) {
+          return word.charAt(0).toUpperCase() + word.slice(1);
+        })
+        .join("") +
+      "_" +
+      new Date().toLocaleDateString().replaceAll("/", "_");
+
+    let html = document.querySelector("#in").innerHTML;
+    html = `<html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                              <style>
+                    * {
+                      box-sizing: border-box;
+                    }
+                    #in {
+                      padding: 1%;
+                      box-sizing: border-box;
+                    }
+
+                    #in {
+                      width: 99%;
+                      height: 75%;
+                      margin: 1% 0%;
+                      border: 1px solid black;
+                      overflow: scroll;
+                    }
+                    table {
+                      width: 100%;
+                      text-align: center;
+                      border-collapse: collapse;
+                      margin-bottom: 5%;
+                    }
+                    th {
+                      padding: 15px;
+                    }
+                    tr {
+                      border-bottom: 1px solid black;
+                    }
+                    td {
+                      padding: 1% 1rem;
+                    }
+                    #in {
+                      padding: 3% 5%;
+                    }
+                    h3 {
+                          text-align: center;
+                          font-size: 30px;
+                        }
+                          p {
+                      width: 100%;
+                      display: table;
+                      justify-content: space-between;
+                      align-items: center;
+                    }
+                    span {
+                      width: 30%;
+                    }
+                </style>
+                
+            </head>
+            <body>
+            <p><i>Ngày 23 tháng 11 năm 2023</i></h5>
+            <p><i>Số: 20113401</i></p>
+              ${html}
+            </body>
+            </html>`;
+    await $.ajax({
+      url: "../ajax/exportPdf.php", // Đường dẫn đến tệp PHP
+      type: "post", // Phương thức POST hoặc GET
+      data: {
+        action: "viewAll",
+        html: html,
+        title: title,
+      },
+      success: function (response) {
+        xoaOverlay();
+      },
+    });
+  });
+}
+function themSpinner() {
+  return `<div >Đang xuất file <i class="fa-solid fa-spinner" style =" animation: spin 0.8s infinite ease-in-out;"></i></div>`;
+}
+function themOverlay() {
+  const overlayDivEl = document.querySelector(".overlayDiv");
+  overlayDivEl.innerHTML = `<div class="overlay"></div>
+      <div class="message">${themSpinner()}</div>`;
+}
+function showOverlay(id) {
+  init();
+  xoaOverlay();
+}
+function xoaOverlay() {
+  const overlayDivEl = document.querySelector(".overlayDiv");
+  overlayDivEl.innerHTML = "";
+  overlayDivEl.removeEventListener("click", showOverlay);
+}

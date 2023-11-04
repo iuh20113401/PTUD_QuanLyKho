@@ -81,6 +81,7 @@
     }
     function lapPhieuXuatKho($maDon, $maKho, $maTaiKhoan, $ngayLap,$trangThai,$maChiTietSanPham, $soLuong){
         $maPhieu = [];
+        echo json_encode($maKho);
         for($i = 0; $i < count(array_unique($maKho)); $i++){
             array_push($maPhieu,rand(0,1000));
             $res = lapPhieuXuat($maPhieu[$i],$maDon ,$maKho[$i], $maTaiKhoan, $ngayLap, null,$trangThai);
@@ -92,14 +93,13 @@
         $i =0;
         $n = 0;
         while($i < count($maChiTietSanPham)){
-             $res = themChiTietPhieuXuat($maPhieu[$n    ], $maChiTietSanPham[$i], $soLuong[$i]);
+             $res = themChiTietPhieuXuat($maPhieu[$n], $maChiTietSanPham[$i], $soLuong[$i]);
              $i++;
              if($i < count ($maChiTietSanPham)){
                $maKho[$i] != $maKho[$i-1] ? $n++ : $n;
              }
         } 
            
-        
         if(!$res){
             echo json_encode(false);
             return;
