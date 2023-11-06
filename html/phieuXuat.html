@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phiếu nhập</title>
+    <link rel="stylesheet" href="../css/bootstrap.css" />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../fontawesome-free-6.2.0-web/css/all.css" />
+    <link rel="stylesheet" href="../css/phieuNhap.css" />
+
+    <script type="text/javascript" src="../js/jquery-3.7.1.min.js"></script>
+    <script src="../js/bootstrap.bundle.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/moment.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script src="../js/baoCao.js"></script>
+
+  </head>
+  <body>
+    <div class="section">
+        <div class="trai">
+           <div class="navbar navbar-brand"><img src="../image/logo.jpg" alt="" height="200px" ></div><br></br><br></br>
+           <div class="vertical-menu">
+            <div class="menu">
+              <div class="item"><a href="#">Trang chủ</a></div>
+              <div class="item"> <a href="baoCao.html">Báo cáo</a></div>
+              <div class="item"> <a href="#" class="sub-btn">Đơn yêu cầu <i class="fas fa-angle-right dropdown"></i> </a>
+                <div class="sub-menu">
+                  <a class="sub-item" href="phieuNhap.html">Phiếu nhập</a>
+                  <a class="sub-item" href="phieuXuat.html">Phiếu xuất</a>
+                  </div>
+              </div>
+              <div class="item" id="nvls"><a href="#" class="sub-btn">Quản lý nguyên vật liệu/thành phẩm<i class="fas fa-angle-right dropdown"></i></a>
+                <div class="sub-menu">
+                  <a class="sub-item" href="nguyenVatLieu.html">Nguyên vật liệu</a>
+                  <a class="sub-item" href="thanhPham.html">Thành phẩm</a>
+                  </div>
+              </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="phai">
+            <div class="phanphoi"><h3>Đơn yêu cầu > Phiếu xuất</h3></div><br>
+            <div class="khung">
+                <table class="table">
+                  <div class="LocPhieu"><button class="btn-lpxk" style="padding:8px 22px 8px 8px";border-radius:10px;>Lọc phiếu trong kho <i class="fa-solid fa-caret-right fa-rotate-90"></i></button>
+                  </div>
+                           <form class="search" >
+                           <input type="text" name="search" id="search"  placeholder="Tìm kiếm theo Mã phiếu hoặc Tên phiếu"> 
+                            </form>
+                    <tr>
+                        <th class="bang">Mã phiếu</th>
+                        <th class="bang">Thời gian tạo</th>
+                        <th class="bang">Tên phiếu</th>
+                        <th class="bang">Số lượng</th>
+                        <th class="bang">Người lập</th>
+                        <th class="bang">Trạng thái</th>
+
+                    </tr>
+                    <tr data-toggle="modal" data-target="#myModal">
+                        <td>XVN01</td>
+                        <td>23/10/2023</td>
+                        <td>Xuất nguyên liệu</td>
+                        <td>100</td>
+                        <td>Nguyễn Văn A</td>
+                        <td><a class="xem" href="#">Chưa Duyệt</a></td>
+                    </tr>
+                    <tr data-toggle="modal" data-target="#myModal">
+                      <td>XVN01</td>
+                      <td>23/10/2023</td>
+                      <td>Xuất nguyên liệu</td>
+                      <td>100</td>
+                      <td>Nguyễn Văn A</td>
+                      <td><a class="xem" href="#">Chưa Duyệt</a></td>
+                  </tr>
+                  <tr data-toggle="modal" data-target="#myModal">
+                    <td>XVN01</td>
+                    <td>23/10/2023</td>
+                    <td>Xuất nguyên liệu</td>
+                    <td>100</td>
+                    <td>Nguyễn Văn A</td>
+                    <td><a class="xem" href="#">Chưa Duyệt</a></td>
+                </tr>
+                <tr data-toggle="modal" data-target="#myModal">
+                  <td>XVN01</td>
+                  <td>23/10/2023</td>
+                  <td>Xuất nguyên liệu</td>
+                  <td>100</td>
+                  <td>Nguyễn Văn A</td>
+                  <td><a class="xem" href="#">Chưa Duyệt</a></td>
+              </tr>
+              <tr data-toggle="modal" data-target="#myModal">
+                <td>XVN01</td>
+                <td>23/10/2023</td>
+                <td>Xuất nguyên liệu</td>
+                <td>100</td>
+                <td>Nguyễn Văn A</td>
+                <td><a class="xem" href="#">Chưa Duyệt</a></td>
+            </tr>
+                </table>
+            </div>
+        </div>
+                  <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog ">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Chi tiết phiếu xuất</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form class="form">
+            <div class="form-group">
+              <label for="Thời gian tạo	" class="control-label ">Mã phiếu</label>
+                <input type="text" value="XVN02" class="form-control" disabled>
+             </div>
+           <div class="form-group">
+            <label for="Thời gian tạo	" class="control-label ">Thời gian tạo</label>
+              <input type="text" value="23/10/2023" class="form-control" disabled>
+           </div>
+           <div class="form-group">
+            <label for="Số lượng" class="control-label ">Mã sản phẩm</label>         
+              <input type="text" value="1" class="form-control" disabled>          
+           </div>  
+           <div class="form-group">
+            <label for="Số lượng" class="control-label ">Tên sản phẩm</label>         
+              <input type="text" value="Đường" class="form-control" disabled>          
+           </div>  
+           <div class="form-group">
+            <label for="Số lượng" class="control-label ">Số lượng</label>         
+              <input type="text" value="100" class="form-control" disabled>          
+           </div>  
+           <div class="form-group">
+            <label for="Đơn vị" class="control-label ">Đơn vị</label>         
+              <input type="text" value="KG" class="form-control" disabled>          
+           </div>
+           <div class="form-group">
+            <label for="Người lập" class="control-label ">Người lập</label>         
+              <input type="text" value="Nguyễn Văn A" class="form-control" disabled>          
+           </div>
+
+          </form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="btn-TuChoi-PhieuXuat">Từ chối</button>
+          <button type="button" class="btn btn-primary"  id="btn-Duyet-PhieuXuat">Duyệt</button>
+
+        </div>
+        
+      </div>
+    </div>
+  </div>
+    </div>
+</body>
+   
+</html>
