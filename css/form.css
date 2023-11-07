@@ -283,7 +283,15 @@ span{
 }
 .btnquaylai{
   margin-top: 50px;
-  margin-left: 45%;
+  margin-left: 30%;
 }
 
+.btn-xuat{
+  background: rgb(6, 184, 18);
+  color: rgb(255, 255, 255);
+  border-radius: 5px;
+  width: 30%;
+  height: 50px;
+  font-size: larger;
+}
 

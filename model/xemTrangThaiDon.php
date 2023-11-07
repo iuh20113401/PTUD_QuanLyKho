@@ -2,13 +2,13 @@
     include_once("../php/condb.php");
      class xemTrangThaiDon{
         
-        function layDonTT($maDon1,$tenDon,$trangThai){
+        function layDonTT($maDon1,$tenDon,$DSNL,$trangThai){
             $p= new KetNoi();
             $db = $p->ketNoi($conn);
             if(!$db){
                 return false;
             }else{
-                $query = "SELECT * FROM kho where MaDon = $maDon1, TenDon=$tenDon,Trangthai=$trangThai";
+                $query = "SELECT * FROM  where MaDon = $maDon1, TenDon=$tenDon,DSNL=$DSNL,Trangthai=$trangThai";
                 $res = mysqli_query($conn,$query);
                 $p->dongKetNoi($conn);
                 if(!$res){

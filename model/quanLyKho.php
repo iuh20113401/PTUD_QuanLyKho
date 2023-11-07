@@ -22,8 +22,24 @@
             }
             }
         }
+        function xemKho($maKho){
+            $p= new KetNoi();
+            $db = $p->ketNoi($conn);
+            if(!$db){
+                 return false;
+            }else{
+                $query = "SELECT * FROM where MaKho=$maKho";
+                $res = mysqli_query($conn,$query);
+                $p->dongKetNoi($conn);
+                if(!$res){
+                    return false;
+                }else{
+                    return $res;
+                }
+            }
+        }
 
-        function suaTTK($maKho ,$tenKho, $viTri, $sucChua, $soLuong,$loai,$moTa){
+        function suaTTK($tenKho, $viTri, $sucChua, $soLuong,$loai,$moTa){
                 $p= new KetNoi();
                 $db = $p->ketNoi($conn);
                 if(!$db){
@@ -78,27 +94,27 @@
                 }
             }
         }
-        function luuCSDLKho()  {
-            $p= new KetNoi();
-            $db = $p->ketNoi($conn);
-            if(!$db){
-                return false;
-            }else{
+    //     function luuCSDLKho()  {
+    //         $p= new KetNoi();
+    //         $db = $p->ketNoi($conn);
+    //         if(!$db){
+    //             return false;
+    //         }else{
                 
-                $tenKho = mysqli_real_escape_string($conn, $_POST['name']);
-                $viTri = mysqli_real_escape_string($conn, $_POST['vitri']);
-                $sucChua = mysqli_real_escape_string($conn, $_POST['succhua']);
-                $soLuong = mysqli_real_escape_string($conn, $_POST['soluong']);
-                $moTa = mysqli_real_escape_string($conn, $_POST['mota']);
-                $sql = "INSERT INTO warehouses (name, donvi, soluong1, DSNL,mota) VALUES ('$tenKho', '$viTri', '$sucChua', '$soLuong','$moTa')";
+    //             $tenKho = mysqli_real_escape_string($conn, $_POST['name']);
+    //             $viTri = mysqli_real_escape_string($conn, $_POST['vitri']);
+    //             $sucChua = mysqli_real_escape_string($conn, $_POST['succhua']);
+    //             $soLuong = mysqli_real_escape_string($conn, $_POST['soluong']);
+    //             $moTa = mysqli_real_escape_string($conn, $_POST['mota']);
+    //             $sql = "INSERT INTO warehouses (name, donvi, soluong1, DSNL,mota) VALUES ('$tenKho', '$viTri', '$sucChua', '$soLuong','$moTa')";
 
-                if (mysqli_query($conn, $sql)) {
-                echo "Thêm kho thành công.";
-                } else {
-                echo "Lỗi: " . mysqli_error($conn);
-                }
+    //             if (mysqli_query($conn, $sql)) {
+    //             echo "Thêm kho thành công.";
+    //             } else {
+    //             echo "Lỗi: " . mysqli_error($conn);
+    //             }
 
-        }
-    }
+    //     }
+    // }
 }
 ?>
