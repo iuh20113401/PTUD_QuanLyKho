@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý nguyên vật liệu</title>
+
+    <link rel="stylesheet" href="../css/bootstrap.css" />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../fontawesome-free-6.2.0-web/css/all.css" />
+    <link rel="stylesheet" href="../css/phieuNhap.css" />
+    <link rel="stylesheet" href="../css/nguyenVatLieu.css">
+    <link rel="stylesheet" href="../css/themNguyenVatLieu.css">
+
+    <script type="text/javascript" src="../js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.bundle.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/moment.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/baoCao.js"></script>
+  </head>
+  <body>
+    <div class="section">
+        <div class="trai">
+           <div class="navbar navbar-brand"><img src="../image/logo.jpg" alt="" height="200px" ></div><br></br><br></br>
+           <div class="vertical-menu">
+                <div class="menu">
+                  <div class="item"><a href="#">Trang chủ</a></div>
+                  <div class="item"> <a href="baoCao.html">Báo cáo</a></div>
+                  <div class="item"> <a href="#" class="sub-btn">Đơn yêu cầu <i class="fas fa-angle-right dropdown"></i> </a>
+                    <div class="sub-menu">
+                      <a class="sub-item" href="phieuNhap.html">Phiếu nhập</a>
+                      <a class="sub-item" href="phieuXuat.html">Phiếu xuất</a>
+                      </div>
+                  </div>
+                  <div class="item" id="nvls"><a href="#" class="sub-btn">Quản lý nguyên vật liệu/thành phẩm<i class="fas fa-angle-right dropdown"></i></a>
+                    <div class="sub-menu">
+                      <a class="sub-item" href="nguyenVatLieu.html">Nguyên vật liệu</a>
+                      <a class="sub-item" href="thanhPham.html">Thành phẩm</a>
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+<!--    <th class="bang">Mã nguyên liệu </th>
+                        <th class="bang">Tên nguyên liệu</th>
+                        <th class="bang">Số lượng tồn</th>
+                        <th class="bang">Đơn vị</th>
+                        <th class="bang">Trạng thái</th>
+                        <th class="bang">Thao tác</th>
+ -->
+        <div class="phai">
+          <div class="phanphoi">
+            <a href="#"> <h3>Quản lý nguyên vật liệu/thành phẩm > Nguyên vật liệu > Thêm nguyên vật liệu</h3></a>
+          </div>
+            <div class="khung">
+                <div class="content-table thongtin">
+                    <h3>THÊM NGUYÊN VẬT LIỆU</h3>
+                    <form class="form" action="/action_page.php">
+                      <div class="form-group">
+                        <label for="Mã nguyên liệu">Mã nguyên liệu:</label>
+                        <input type="text" class="form-control" id="MaNguyenLieu" >
+                      </div>
+                      <div class="form-group">
+                        <label for="Tên nguyên liệu">Tên nguyên liệu:</label>
+                        <input type="text" class="form-control" id="TenNguyenLieu" >
+                      </div>
+                      <div class="form-group">
+                        <label for="Số lượng tồn">Số lượng  :</label>
+                        <input type="text" class="form-control" id="SoLuongTon" disabled>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="Đơn vị">Đơn vị:</label>
+                        <input type="text" class="form-control" id="DonVi" >
+                      </div>
+                      <button class="btn btn-danger "> <a href="nguyenVatLieu.html">Hủy</a></button>
+                      <button class="btn btn-success "> <a href="#">Thêm</a></button>
+                    </form> 
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+   
+</html>
