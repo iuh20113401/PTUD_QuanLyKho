@@ -1,0 +1,12 @@
+#flexCheckChecked {
+  position: relative;
+  left: 28px;
+  top: 3px;
+}
+.ThemNguyenVatLieu {
+  text-align: end;
+}
+
+button.btn-ChucNang > a {
+  color: #ffffff;
+}

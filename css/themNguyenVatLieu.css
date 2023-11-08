@@ -1,0 +1,7 @@
+.form .form-group > label {
+  float: left;
+}
+
+.form button > a {
+  color: #ffffff;
+}

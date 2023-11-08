@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+table {
+  text-align: center;
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 5%;
+}
+
+.close span a {
+  position: relative;
+  right: 0px;
+  top: -40px;
+  color: black;
+}
+
+.btn-Phieu > button {
+  float: left;
+  display: inline;
+  margin: 5px;
+}
