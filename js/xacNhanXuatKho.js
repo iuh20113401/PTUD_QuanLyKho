@@ -1,0 +1,194 @@
+"use strick";
+import { menu, menuShow } from "./menu.js";
+const dsPhieu = [
+  {
+    MaPhieu: 1,
+    MaDon: 1,
+    TenDon: "Phiếu xuất kho nguyên liêu",
+    MaKho: 1,
+    MaTaiKhoan: 20113401,
+    NgayLap: "13/09/2023",
+    SoLuongNguyenLieu: 2,
+    NguyenLieu: [
+      {
+        MaChiTietSanPham: 1,
+        MaSanPham: 1,
+        TenSanPham: "Bột mì",
+        SoLuong: 20,
+        DonVi: "KG",
+        NgaySanXuat: "25/09/2023",
+        NgayHetHan: "1/11/2024",
+      },
+      {
+        MaChiTietSanPham: 2,
+        MaSanPham: 2,
+        TenSanPham: "Đường",
+        SoLuong: 20,
+        DonVi: "KG",
+        NgaySanXuat: "25/09/2023",
+        NgayHetHan: "1/11/2024",
+      },
+    ],
+  },
+  {
+    MaPhieu: 2,
+    MaDon: 1,
+    TenDon: "Phiếu xuất kho nguyên liệu",
+    MaKho: 2,
+    MaTaiKhoan: 20113401,
+    NgayLap: "13/09/2023",
+    SoLuongNguyenLieu: 2,
+    NguyenLieu: [
+      {
+        MaChiTietSanPham: 1,
+        MaSanPham: 1,
+        TenSanPham: "Bột mì",
+        SoLuong: 20,
+        DonVi: "KG",
+        NgaySanXuat: "25/09/2023",
+        NgayHetHan: "1/11/2024",
+      },
+      {
+        MaChiTietSanPham: 2,
+        MaSanPham: 2,
+        TenSanPham: "Đường",
+        SoLuong: 20,
+        DonVi: "KG",
+        NgaySanXuat: "25/09/2023",
+        NgayHetHan: "1/11/2024",
+      },
+    ],
+  },
+];
+function render(chiTietNguyenLieu = null) {
+  let html =
+    chiTietNguyenLieu !== null ? contentChiTiet(chiTietNguyenLieu) : content();
+  html = `${menu()}
+      ${html}
+      `;
+  let container = document.querySelector(".container");
+  container.innerHTML = html;
+  menuShow();
+}
+function content() {
+  let html = `        
+        <div class="content">
+         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+          <form class="search">
+            <input type="text" name="search" id="search">
+            <button type="button"><i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8;"></i></button>
+          </form>
+         <div class="content__inner">
+            <table>
+              <tr class="muc">
+                <th>Mã Phiếu</th>
+                <th>Mã đơn</th>
+                <th>Tên đơn</th>
+                <th>Người lập</th>
+                <th>Ngày lập</th>
+                <th>Số lượng nguyên liệu</th>
+                <th>Hành động</th>
+              </tr>
+              ${dsPhieu
+                .map((phieu) => {
+                  return `<tr>
+                <td>${phieu.MaPhieu}</td>
+                <td>${phieu.MaDon}</td>
+                <td>${phieu.TenDon}</td>
+                <td>${phieu.MaTaiKhoan}</td>
+                <td>${phieu.NgayLap}</td>
+                <td class="center">${phieu.SoLuongNguyenLieu}</td>
+                <td><button class="btn primary center large" id = ${phieu.MaPhieu}>Xem</button></td>
+              </tr>`;
+                })
+                .join("")}
+              
+            </table>
+         </div>
+        </div>`;
+  return html;
+}
+function contentChiTiet(chiTiet) {
+  let dsNguyenLieu = `<table class="small">
+            <tr>
+              <th>Mã chi tiết sản phẩm</th>
+              <th>Tên nguyên liệu</th>
+              <th>Số lượng</th>
+              <th>Đơn vị</th>
+            </tr>
+            ${chiTiet.NguyenLieu.map((e) => {
+              return `<tr>
+              <td>${e.MaChiTietSanPham}</td>
+              <td>${e.TenSanPham}</td>
+              <td>${e.SoLuong}</td>
+              <td>${e.DonVi}</td>
+            </tr>`;
+            }).join("")}
+          </table>
+          <div class="buttons">
+            <button class="btn primary" id="xacNhan">Xác nhận nhập kho</button>
+            <button class="btn secondary small" id = "quayLai">Quay lại</button>
+          </div>`;
+  let html = `<div class="content">
+        <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+        <form class="search">
+          <input type="text" name="search" id="search" />
+          <button type="button">
+            <i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8"></i>
+          </button>
+        </form>
+        <div class="content__inner chitiet">
+          <h3>Đơn yêu cầu nhập nguyên liệu</h3>
+          <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaDon}</p>
+          <p><span class="deMuc">Tên đơn:</span>${chiTiet.TenDon}</p>
+          <p><span class="deMuc">Người lập:</span>${chiTiet.MaTaiKhoan}</p>
+          <p><span class="deMuc">Ngày lập:</span>${chiTiet.NgayLap}</p>
+          <p><span class="deMuc">Danh sách yêu cầu:</span></p>
+          ${dsNguyenLieu}
+        </div>
+      </div>`;
+  return html;
+}
+function layPhieu(maPhieu) {
+  return dsPhieu.filter((dp) => dp.MaPhieu == maPhieu)[0];
+}
+function renderChiTiet(maPhieu) {
+  let chiTiet = layPhieu(maPhieu);
+  render(chiTiet);
+  const btnXacNhan = document.querySelector("#xacNhan");
+  const btnQuayLai = document.querySelector("#quayLai");
+  btnXacNhan.addEventListener("click", (e) => {
+    if (confirm("Bạn có chắc đã nhập kho phiếu yêu cầu này? ")) themOverlay();
+    console.log(chiTiet);
+  });
+  btnQuayLai.addEventListener("click", (e) => {
+    init();
+  });
+  const overlayDivEl = document.querySelector(".overlayDiv");
+  overlayDivEl.addEventListener("click", showOverlay);
+}
+function themOverlay() {
+  const overlayDivEl = document.querySelector(".overlayDiv");
+  overlayDivEl.innerHTML = `<div class="overlay"></div>
+      <div class="message">Đã phân phối đơn thành công</div>`;
+}
+function showOverlay(id) {
+  init();
+  xoaOverlay();
+}
+function xoaOverlay() {
+  const overlayDivEl = document.querySelector(".overlayDiv");
+  overlayDivEl.innerHTML = "";
+  overlayDivEl.removeEventListener("click", showOverlay);
+}
+function init() {
+  render();
+  const btnXem = document.querySelectorAll("button");
+  btnXem.forEach((e) =>
+    e.addEventListener("click", (e) => {
+      const maPhieu = e.target.id;
+      renderChiTiet(maPhieu);
+    })
+  );
+}
+init();

@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  padding: 8% 15%;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+      0deg,
+      rgba(170, 161, 161, 0.6) 0%,
+      rgba(170, 161, 161, 0.6) 100%
+    ),
+    url("../image/login_warehouse.webp") lightgray 30% / cover no-repeat;
+
+  box-sizing: border-box;
+}
+.form {
+  width: 60%;
+  height: 80%;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: #fff;
+}
+form {
+  width: 100%;
+  height: 100%;
+  padding: 5%;
+  box-sizing: border-box;
+}
+.hidden {
+  display: none;
+}

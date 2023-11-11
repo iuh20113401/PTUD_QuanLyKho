@@ -1,0 +1,105 @@
+* {
+  box-sizing: border-box;
+}
+
+.content {
+  padding: 1%;
+  box-sizing: border-box;
+}
+
+.search {
+  display: flex;
+  width: 90%;
+  height: 10%;
+  padding: 1%;
+  flex-direction: row;
+}
+
+.search input {
+  width: 30%;
+  height: 100%;
+  border: 1px solid black;
+}
+
+.search button {
+  width: 8%;
+}
+
+.search i {
+  font-size: 20px;
+}
+
+.content__inner {
+  width: 99%;
+  height: 85%;
+  margin: 1% 0%;
+  border: 1px solid black;
+  overflow: scroll;
+}
+
+table {
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+  margin-bottom: 5%;
+}
+
+th {
+  padding: 15px;
+}
+
+tr {
+  border-bottom: 1px solid black;
+}
+
+td {
+  padding: 1% 1rem;
+}
+
+.chitiet {
+  padding: 3% 5%;
+}
+
+.chitiet h3 {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 2rem;
+}
+
+.chitiet p {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2fr 9fr;
+  margin-bottom: 1rem;
+  font-size: 20px;
+}
+
+.alert {
+  color: red;
+  font-weight: bold;
+  display: block !important;
+}
+
+.hidden {
+  display: none;
+}
+
+.chitiet .deMuc {
+  font-weight: bold;
+}
+
+.content__inner::-webkit-scrollbar {
+  display: none;
+}
+
+.chitiet input,
+select {
+  width: 90%;
+  height: 90%;
+  margin: auto;
+  border: 1px solid black;
+}
+
+.noMargin {
+  margin: 0 !important;
+}

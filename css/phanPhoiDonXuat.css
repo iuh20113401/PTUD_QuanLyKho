@@ -1,0 +1,22 @@
+.dsNguyenLieu {
+  width: 90%;
+  height: 90%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 2%;
+  position: absolute;
+}
+.content__chitietNL {
+  width: 100%;
+}
+.dsNguyenLieu .top {
+  display: flex;
+  justify-content: space-between;
+}
+.dsNguyenLieu > .bottomDs {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
