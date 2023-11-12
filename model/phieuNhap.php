@@ -1,120 +1,77 @@
 <?php
-    include_once("../model/ketnoi.php");
-     class PhieuNhap{
-        function layPhieuNhapKhoTheoKho($maKho){
-            $p= new KetNoi();
-            $db = $p->ketNoi($conn);
-            if(!$db){
-                return false;
-            }else{
-                $query = "CALL layPhieuNhapKhoTheoKho('',$maKho, 'Chờ nhập')";
-                $res = mysqli_query($conn,$query);
-                $p->dongKetNoi($conn);
-                if(!$res){
-                    return false;
-                }else{
-                    return $res;
-                }
-            }
-        }
-        function layPhieuNhapKhoTheoTaiKhoan($maTaiKhoan){
-            $p= new KetNoi();
-            $db = $p->ketNoi($conn);
-            if(!$db){
-                return false;
-            }else{
-                $query = "CALL layPhieuNhapKhoTheoKho($maTaiKhoan,'', 'Đã nhập kho')";
-                $res = mysqli_query($conn,$query);
-                $p->dongKetNoi($conn);
-                if(!$res){
-                    return false;
-                }else{
-                    return $res;
-                }
-            }
-        }
-       function lapPhieuNhap($maDon ,$maKho, $maTaiKhoan, $ngayLap, $ngayNhap,	$trangThai){
-            $p= new KetNoi();
-            $db = $p->ketNoi($conn);
-            if(!$db){
-                return false;
-            }else{
-                $ngayNhap = date("Y-m-d");
-                $maPhieu = rand(1,1000);
-                $query = "insert phieunhap values($maPhieu,$maDon ,$maKho, $maTaiKhoan, '$ngayLap', '$ngayNhap','$trangThai')";
-                $res = mysqli_query($conn,$query);
-                $p->dongKetNoi($conn);
-                if(!$res){
-                    return false;
-                }else{
-                    return $res;
-                }
-            }
-        }
-        function layChiTietPhieuNhap($maPhieu){
-            $p= new KetNoi();
-            $db = $p->ketNoi($conn);
-            if(!$db){
-                return false;
-            }else{
-                $query = "CALL layChiTietPhieuNhap($maPhieu)";
-                $res = mysqli_query($conn,$query);
-                $p->dongKetNoi($conn);
-                if(!$res){
-                    return false;
-                }else{
-                    return $res;
-                }
-            }
-        }
-        function layTrangThaiPhieuNhap($maDon){
-            $p= new KetNoi();
-            $db = $p->ketNoi($conn);
-            if(!$db){
-                return false;
-            }else{
-                $query = " SELECT DISTINCT pn.TrangThai FROM phieunhap as pn JOIN donyeucau as d on d.MaDon = pn.MaDon JOIN chitietdonyeucau as ctd on ctd.MaDon = $maDon";
-                $res = mysqli_query($conn,$query);
-                $p->dongKetNoi($conn);
-                if(!$res){
-                    return false;
-                }else{
-                    return $res;
-                }
-            }
-        }
-        function themChiTietNguyenLieu($maChiTiet, $maSanPham, $maPhieu, $maKho, $soLuongTon,$donVi, $gia, $ngaySanXuat, $ngayHetHan){
-             $p= new KetNoi();
-            $db = $p->ketNoi($conn);
-            if(!$db){
-                return false;
-            }else{
-                $query = "INSERT chitietsanpham values ($maChiTiet, $maSanPham, $maPhieu, $maKho, $soLuongTon, '$donVi', $gia, '$ngaySanXuat', '$ngayHetHan','Tồn kho')";
-                $res = mysqli_query($conn,$query);
-                $p->dongKetNoi($conn);
-                if(!$res){
-                    echo json_encode($query);
-                    return false;
-                }else{
-                    return $res;
-                }
-            }
-        }
-        function xacNhanNhapKho($maPhieu){
-            $p= new KetNoi();
-            $db = $p->ketNoi($conn);
-            if(!$db){
-                return false;
-            }else{
-                $query = "CALL xacNhanNhapKho($maPhieu)";
-                $res = mysqli_query($conn,$query);
-                $p->dongKetNoi($conn);
-                if(!$res){
-                    return false;
-                }else{
-                    return $res;
-                }
-            }
-        }
+
+include_once("../model/ketnoi.php");
+class PhieuNhap{
+    private $conn;
+
+    function __construct(){
+        $p = new KetNoi();
+          $p->ketNoi($this->conn);
     }
+
+    function layPhieuNhapKhoChoNhap($maTaiKhoan = null,$maKho = null){
+        if($maTaiKhoan != null){
+            $query = "CALL layPhieuNhapKhoTheoKho(:maTaiKhoan, '', 'Chờ nhập')";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":maTaiKhoan", $maTaiKhoan);
+        }
+        if($maKho != null){
+            $query = "CALL layPhieuNhapKhoTheoKho('', :maKho, 'Chờ nhập')";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":maKho", $maKho);
+        }
+        $stmt->execute();
+        $menuItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $menuItems ?: false;
+    }
+
+    function layPhieuNhapKhoDaNhap($maTaiKhoan = null, $maKho = null){
+        if($maTaiKhoan != null){
+            $query = "CALL layPhieuNhapKhoTheoKho(:maTaiKhoan, '', 'Đã nhập kho')";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":maTaiKhoan", $maTaiKhoan);
+        }
+        if($maKho != null){
+            $query = "CALL layPhieuNhapKhoTheoKho('', :maKho, 'Đã nhập kho')";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":maKho", $maKho);
+        }
+        $stmt->execute();
+        $menuItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $menuItems ?: false;
+    }
+
+    function lapPhieuNhap($maDon, $maKho, $maTaiKhoan, $ngayLap, $ngayNhap, $trangThai){
+        $ngayNhap = date("Y-m-d");
+        $maPhieu = rand(1,1000);
+        $stmt = $this->conn->prepare("INSERT INTO phieunhap VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$maPhieu, $maDon, $maKho, $maTaiKhoan, $ngayLap, $ngayNhap, $trangThai]);
+        return $stmt->rowCount() > 0;
+    }
+
+    function layChiTietPhieuNhap($maPhieu){
+        $stmt = $this->conn->prepare("CALL layChiTietPhieuNhap(?)");
+        $stmt->execute([$maPhieu]);
+        $menuItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $menuItems ?: false;
+    }
+
+    function layTrangThaiPhieuNhap($maDon){
+        $stmt = $this->conn->prepare("SELECT DISTINCT pn.TrangThai FROM phieunhap as pn JOIN donyeucau as d on d.MaDon = pn.MaDon WHERE d.MaDon = ?");
+        $stmt->execute([$maDon]);
+        $menuItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $menuItems ?: false;
+    }
+
+    function themChiTietNguyenLieu($maChiTiet, $maSanPham, $maPhieu, $maKho, $soLuongTon, $donVi, $gia, $ngaySanXuat, $ngayHetHan){
+        $stmt = $this->conn->prepare("INSERT INTO chitietsanpham VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0,0)");
+        return $stmt->execute([$maChiTiet, $maSanPham, $maPhieu, $maKho, $soLuongTon, $donVi, $gia, $ngaySanXuat, $ngayHetHan]);
+    }
+
+    function xacNhanNhapKho($maPhieu){
+        $stmt = $this->conn->prepare("CALL xacNhanNhapKho(?)");
+        $stmt->execute([$maPhieu]);
+        return $stmt->rowCount() > 0;
+    }
+}
 ?>

@@ -1,21 +1,19 @@
 <?php
+
     include_once("../model/ketnoi.php");
      class DonYeuCauCu{
+        private $conn;
+
+        function __construct(){
+            $p = new KetNoi();
+            $p->ketNoi( $this->conn );
+        }
+
         function layDonYeuCauCuTheoTaiKhoan($maTaiKhoan){
-            $p= new KetNoi();
-            $db = $p->ketNoi($conn);
-            if(!$db){
-                return false;
-            }else{
-                $query = "CALL layDonYeuCauTheoTaiKhoan($maTaiKhoan)";
-                $res = mysqli_query($conn,$query);
-                $p->dongKetNoi($conn);
-                if(!$res){
-                    return false;
-                }else{
-                    return $res;
-                }
-            }
+             $stmt = $this->conn->prepare("CALL layDonYeuCauTheoTaiKhoan(?)");
+            $stmt->execute([$maTaiKhoan]);
+            $menuItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $menuItems ?: false;
         }
       
     }

@@ -13,27 +13,52 @@
          }
         
          // cho chức năng xác nhận nhập kho
-        function layPhieuNhapKhoTheoKho($maKho){
+        function layPhieuNhapKhoChoNhapTheoKho($maKho){
             $p = new PhieuNhap();
-            $res = $p->layPhieuNhapKhoTheoKho($maKho);
+            $res = $p->layPhieuNhapKhoChoNhap(null,$maKho);
             if (!$res) {
                 return false;
             } else {
-                if (mysqli_num_rows($res) == 0) {
+                if (count($res) == 0) {
                     return 0;
                 } else {
                     return $res;
                 }
             }
         }
-        function layPhieuNhapKhoTheoTaiKhoan($maTaiKhoan){
-
+        function layPhieuNhapKhoDaNhapTheoKho($maKho){
             $p = new PhieuNhap();
-            $res = $p->layPhieuNhapKhoTheoTaiKhoan($maTaiKhoan);
+            $res = $p->layPhieuNhapKhoDaNhap(null,$maKho);
             if (!$res) {
                 return false;
             } else {
-                if (mysqli_num_rows($res) == 0) {
+                if (count($res) == 0) {
+                    return 0;
+                } else {
+                    return $res;
+                }
+            }
+        }
+        function layPhieuNhapKhoDaNhapTheoTaiKhoan($maTaiKhoan){
+            $p = new PhieuNhap();
+            $res = $p->layPhieuNhapKhoDaNhap($maTaiKhoan);
+            if (!$res) {
+                return false;
+            } else {
+                if (count($res) == 0) {
+                    return 0;
+                } else {
+                    return $res;
+                }
+            }
+        }
+        function layPhieuNhapKhoChoNhapTheoTaiKhoan($maTaiKhoan){
+            $p = new PhieuNhap();
+            $res = $p->layPhieuNhapKhoChoNhap($maTaiKhoan);
+            if (!$res) {
+                return false;
+            } else {
+                if (count($res) == 0) {
                     return 0;
                 } else {
                     return $res;
@@ -46,7 +71,7 @@
             if(!$res){
                 return false;
             }else{
-                 if (mysqli_num_rows($res) == 0) {
+                 if (count($res) == 0) {
                     return 0;
                 } else {
                     return $res;
@@ -68,7 +93,7 @@
             if(!$res){
                 return false;
             }else{
-                 if (mysqli_num_rows($res) == 0) {
+                 if (count($res) == 0) {
                     return 0;
                 } else {
                     return $res;

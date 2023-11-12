@@ -13,7 +13,7 @@ async function themTaiKhoan(loai, tenDangNhap, password) {
       pass: password,
     },
     success: function (response) {
-      console.log(response);
+      response;
       data = JSON.parse(response);
     },
   });
@@ -52,7 +52,7 @@ function init() {
       errorVT.textContent = "";
     }
     themOverLay(msnv, vaitro, vaitroValue);
-    console.log(msnv, vaitro, vaitroValue);
+    msnv, vaitro, vaitroValue;
   });
 }
 function themOverLay(msnv, vaitro, vaitroValue) {
@@ -75,7 +75,7 @@ function themOverLay(msnv, vaitro, vaitroValue) {
   btnXacNhan.addEventListener("click", async (e) => {
     divMessage.classList.remove("message__large");
     const data = await themTaiKhoan(vaitro, msnv, "password123");
-    console.log(data);
+    data;
     divMessage.innerHTML =
       "<h2 class='text__center'>Tạo tài khoản thành công</h2>";
     overlayDivEl.addEventListener("click", function hideOverLay(e) {

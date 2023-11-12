@@ -14,34 +14,69 @@
         function themChiTietPhieuXuat($maPhieu, $maChiTietSanPham, $soLuong){
                 $p = new PhieuXuat();
              $res = $p->themChiTietPhieuXuat($maPhieu, $maChiTietSanPham, $soLuong);
-             if (!$res) {
-                 return false;
-             } else {
-                 return true;
-             }
+             return $res;
         }
         // cho chức năng xác nhận xuất kho 
 
-        function layPhieuXuatKhoTheoKho($maKho){
+        function layPhieuXuatKhoChoXuatTheoKho($maKho){
             $p = new PhieuXuat();
-            $res = $p->layPhieuXuatKhoTheoKho($maKho);
+            $res = $p->layPhieuXuatKhoChoXuat(null,$maKho);
             if (!$res) {
                 return false;
             } else {
-                if (mysqli_num_rows($res) == 0) {
+                if (count($res) == 0) {
                     return 0;
                 } else {
                     return $res;
                 }
             }
         }
-        function layPhieuXuatKhoTheoTaiKhoan($maTaiKhoan){
+        function layPhieuXuatKhoDaXuatTheoKho($maKho){
             $p = new PhieuXuat();
-            $res = $p->layPhieuXuatKhoTheoTaiKhoan($maTaiKhoan);
+            $res = $p->layPhieuXuatKhoDaXuat(null,$maKho);
             if (!$res) {
                 return false;
             } else {
-                if (mysqli_num_rows($res) == 0) {
+                if (count($res) == 0) {
+                    return 0;
+                } else {
+                    return $res;
+                }
+            }
+        }
+        function layPhieuXuatKhoDaXuatTheoTaiKhoan($maTaiKhoan){
+            $p = new PhieuXuat();
+            $res = $p->layPhieuXuatKhoDaXuat($maTaiKhoan);
+            if (!$res) {
+                return false;
+            } else {
+                if (count($res) == 0) {
+                    return 0;
+                } else {
+                    return $res;
+                }
+            }
+        }
+        function layPhieuXuatKhoChoXuatTheoTaiKhoan($maTaiKhoan){
+            $p = new PhieuXuat();
+            $res = $p->layPhieuXuatKhoChoXuat($maTaiKhoan);
+            if (!$res) {
+                return false;
+            } else {
+                if (count($res) == 0) {
+                    return 0;
+                } else {
+                    return $res;
+                }
+            }
+        }
+        function layPhieuXuatKhoChoXuat($maTaiKhoan){
+            $p = new PhieuXuat();
+            $res = $p->layPhieuXuatKhoChoXuat($maTaiKhoan);
+            if (!$res) {
+                return false;
+            } else {
+                if (count($res) == 0) {
                     return 0;
                 } else {
                     return $res;
@@ -54,7 +89,7 @@
             if(!$res){
                 return false;
             }else{
-                 if (mysqli_num_rows($res) == 0) {
+                 if (count($res) == 0) {
                     return 0;
                 } else {
                     return $res;
@@ -77,7 +112,7 @@
             if(!$res){
                 return false;
             }else{
-                 if (mysqli_num_rows($res) == 0) {
+                 if (count($res) == 0) {
                     return 0;
                 } else {
                     return $res;

@@ -6,10 +6,11 @@ async function layDanhSachPhieuXuat() {
     url: "../ajax/xuatKho.php", // Đường dẫn đến tệp PHP
     type: "post", // Phương thức POST hoặc GET
     data: {
-      action: "layPhieuXuatKho",
+      action: "layPhieuXuatKhoChoXuat",
       maKho: 1,
     },
     success: function (response) {
+      console.log(response);
       data = JSON.parse(response);
     },
   });
@@ -32,7 +33,7 @@ async function layChiTietPhieuXuat(maPhieu) {
 }
 async function xacNhanXuatKho(phieu) {
   let data;
-  console.log(phieu);
+  phieu;
   await $.ajax({
     url: "../ajax/xuatKho.php", // Đường dẫn đến tệp PHP
     type: "post", // Phương thức POST hoặc GET
@@ -42,7 +43,7 @@ async function xacNhanXuatKho(phieu) {
       maDon: phieu.MaDon,
     },
     success: function (response) {
-      console.log(response);
+      response;
       data = JSON.parse(response);
     },
   });
@@ -64,9 +65,11 @@ function content() {
   let html = `        
         <div class="content">
          <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
-          <form class="search">
+         <form class="search">
+            <div class ='inputGroup'>
             <input type="text" name="search" id="search">
             <button type="button"><i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8;"></i></button>
+            </div>
           </form>
          <div class="content__inner">
          ${
@@ -127,10 +130,11 @@ function contentChiTiet(chiTiet) {
   let html = `<div class="content">
         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
         <form class="search">
-          <input type="text" name="search" id="search" />
-          <button type="button">
-            <i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8"></i>
-          </button>
+            <div class ='inputGroup'>
+            <input type="text" name="search" id="search">
+            <button type="button"><i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8;"></i></button>
+            </div>
+          </form>
         </form>
         <div class="content__inner chitiet">
           <h3>Đơn yêu cầu nhập nguyên liệu</h3>

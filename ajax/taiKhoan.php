@@ -1,4 +1,6 @@
 <?php
+session_start();
+
     include_once ("../controller/cTaiKhoan.php");
     if (isset($_POST["action"])) {
         $action = $_POST["action"];

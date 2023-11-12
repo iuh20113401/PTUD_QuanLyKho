@@ -1,4 +1,5 @@
 <?php
+session_start();
 require '../vendor/autoload.php'; // Đảm bảo rằng bạn đã include thư viện Dompdf
 
 use Dompdf\Dompdf;

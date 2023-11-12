@@ -51,11 +51,7 @@ label {
   width: 90%;
   margin: 5% auto;
 }
-.row {
-  flex-direction: row;
-  justify-content: flex-start;
-  margin: 2% 2%;
-}
+
 .inputInfo--flat label {
   width: 10%;
 }
@@ -63,8 +59,36 @@ label {
   display: flex;
   width: 100%;
   flex-direction: row;
-  flex-shrink: 0;
   align-items: center;
+}
+.inputInfo--flat > .label {
+  width: 15%;
+}
+.inputInfo--flat > .labelLarge {
+  width: 20%;
+}
+.inputInfo--flat > .inputLarge {
+  width: 60%;
+  height: 2rem;
+  font-size: 1rem;
+  padding: 1rem;
+}
+.inputInfo--flat > .select {
+  width: 60%;
+  height: 3rem;
+  font-size: 1rem;
+}
+
+.inputInfo--flat > .inputLargeX {
+  width: 80%;
+  height: 2rem;
+  font-size: 1rem;
+  padding: 1rem;
+}
+.textarea {
+  margin: auto;
+  width: 60%;
+  font-size: 20px;
 }
 .default {
   display: flex;
@@ -97,4 +121,75 @@ label {
 }
 .disabled {
   background-color: rgba(0, 0, 0, 0.4);
+}
+.search {
+  justify-content: space-between;
+  width: 100%;
+  height: 10%;
+  padding: 1%;
+  flex-direction: row;
+  display: flex;
+}
+.search > select {
+  width: 30%;
+  margin: 0;
+}
+.search > .inputGroup {
+  width: 30%;
+  display: flex;
+  flex-direction: row;
+}
+.search input {
+  width: 80%;
+  height: 100%;
+  border: 1px solid black;
+}
+.search button {
+  width: 15%;
+}
+.search i {
+  font-size: 20px;
+}
+.mt-1 {
+  margin-top: 1rem !important;
+}
+.mb-1 {
+  margin-bottom: 1rem !important;
+}
+input:read-only {
+  background-color: grey;
+  cursor: not-allowed;
+}
+input:disabled {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: black;
+  font-weight: bold;
+}
+.radioInput {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 20px;
+  vertical-align: middle;
+}
+.radioInput > input[type="radio"] {
+  cursor: default;
+  width: 5%;
+  height: 100%;
+  margin: 0;
+}
+.mulRadioInput {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 3fr 5fr 5fr;
+}
+.row.row-small > input {
+  width: 20%;
+}
+.bold {
+  font-weight: bold;
+  color: black;
+}
+select:disabled {
+  background-color: grey;
+  opacity: 1;
 }

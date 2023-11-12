@@ -7,8 +7,8 @@ async function layDanhSachPhieuNhap() {
     url: "../ajax/nhapKho.php", // Đường dẫn đến tệp PHP
     type: "post", // Phương thức POST hoặc GET
     data: {
-      action: "layPhieuNhapKho",
-      maKho: 1,
+      action: "layPhieuNhapKhoChoNhap",
+      maKho: 3,
     },
     success: function (response) {
       data = JSON.parse(response);
@@ -41,13 +41,14 @@ async function xacNhanNhapKho(phieu) {
       maPhieu: phieu.MaPhieu,
       maSanPham: phieu.NguyenLieu.map((nl) => nl.MaSanPham),
       maDon: phieu.MaDon,
-      maKho: 1,
+      maKho: phieu.MaKho,
       soLuong: phieu.NguyenLieu.map((nl) => nl.SoLuong),
       donVi: phieu.NguyenLieu.map((nl) => nl.DonVi),
       ngaySanXuat: phieu.NguyenLieu.map((nl) => nl.NgaySanXuat),
       ngayHetHan: phieu.NguyenLieu.map((nl) => nl.NgayHetHan),
     },
     success: function (response) {
+      response;
       console.log(response);
       data = JSON.parse(response);
     },
@@ -71,8 +72,10 @@ function content() {
         <div class="content">
          <a href="#"> <h3>Phân phối > Xác nhận nhập kho</h3></a>
           <form class="search">
+            <div class ='inputGroup'>
             <input type="text" name="search" id="search">
             <button type="button"><i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8;"></i></button>
+            </div>
           </form>
          <div class="content__inner">
          ${
@@ -131,15 +134,16 @@ function contentChiTiet(chiTiet) {
   let html = `<div class="content">
         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
         <form class="search">
-          <input type="text" name="search" id="search" />
-          <button type="button">
-            <i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8"></i>
-          </button>
-        </form>
+            <div class ='inputGroup'>
+            <input type="text" name="search" id="search">
+            <button type="button"><i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8;"></i></button>
+            </div>
+          </form>
         <div class="content__inner chitiet">
         <h3>Phiếu nhập nguyên liệu</h3>
         <p><span class="deMuc">Mã phiếu:</span>${chiTiet.MaPhieu}</p>
         <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaDon}</p>
+        <p><span class="deMuc">Mã kho:</span>${chiTiet.MaKho}</p>
           <p><span class="deMuc">Tên đơn:</span>${chiTiet.TenLoai}</p>
           <p><span class="deMuc">Người lập:</span>${chiTiet.MaTaiKhoan}</p>
           <p><span class="deMuc">Ngày lập:</span>${chiTiet.NgayLap}</p>
@@ -157,7 +161,6 @@ async function layPhieu(maPhieu) {
 async function renderChiTiet(maPhieu) {
   let chiTiet = await layPhieu(maPhieu);
   render(chiTiet);
-  console.log(chiTiet);
   const btnXacNhan = document.querySelector("#xacNhan");
   const btnQuayLai = document.querySelector("#quayLai");
   btnXacNhan.addEventListener("click", async (e) => {

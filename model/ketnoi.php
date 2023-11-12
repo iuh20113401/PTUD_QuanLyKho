@@ -1,18 +1,18 @@
 <?php
+
     class KetNoi{
         function ketNoi(&$conn){
-            $conn = mysqli_connect('localhost','root','');
-            mysqli_set_charset($conn,"utf8");
-            
-            if(!$conn){
-                echo "hello ket noi that bai";
-                return false;
+            if(isset($_SESSION["tenVaiTro"])){
+                $user = $_SESSION["tenVaiTro"];
             }else{
-                return mysqli_select_db($conn,"new_unity");
+                $user = "nguoidung";
             }
+            $conn = new PDO('mysql:host=localhost;dbname=new_unity', $user, '');
         }
         function dongKetNoi($conn){
-            mysqli_close($conn);
+            $conn = null;
+
+            return true;
         }
     }
 

@@ -1,6 +1,6 @@
 "use strick";
 import { menu, menuShow, highLightMenu } from "./menu.js";
-
+import taiKhoan from "./taiKhoan.js";
 async function layDanhSachTatCaDon() {
   let data;
   await $.ajax({
@@ -26,6 +26,7 @@ async function layChiTietNguyenLieu(maDon) {
       maDon: maDon,
     },
     success: function (response) {
+      response;
       data = JSON.parse(response);
     },
   });
@@ -67,6 +68,26 @@ async function capNhatDonYeuCau(chiTiet) {
   });
   return data;
 }
+async function lapBienBan(chitiet) {
+  let data;
+  await $.ajax({
+    url: "../ajax/bienBan.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "lapBienBan",
+      maBienBan: chitiet.maBienBan,
+      maDon: chitiet.maDon,
+      maTaiKhoan: chitiet.maTaiKhoan,
+      ngayLap: chitiet.ngayLap,
+      lyDo: chitiet.lyDo,
+    },
+    success: function (response) {
+      console.log(response);
+      data = JSON.parse(response) || 0;
+    },
+  });
+  return data;
+}
 let dsDon;
 async function render(
   chiTietNguyenLieu = null,
@@ -92,8 +113,10 @@ function content() {
        
          <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
           <form class="search">
+            <div class ='inputGroup'>
             <input type="text" name="search" id="search">
             <button type="button"><i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8;"></i></button>
+            </div>
           </form>
          <div class="content__inner">
           ${
@@ -149,8 +172,9 @@ async function contentChiTiet(
               <th>Ngày hết hạn</th>
               <th>Kho</th>
             </tr>
-            ${chiTiet.map((e) => {
-              return `<tr>
+            ${chiTiet
+              .map((e) => {
+                return `<tr>
               <td>${e.TenSanPham}</td>
               <td>${e.SoLuong}</td>
               <td>${e.DonVi}</td>
@@ -182,13 +206,16 @@ async function contentChiTiet(
                 
               </td>
             </tr>`;
-            })}
+              })
+              .join("")}
           </table>
           <p class="alert hidden"></p>
           <div class="buttons">
             ${
               newChiTiet
-                ? `<button class="btn primary" id = "lapPhieu">Lập phiếu</button>`
+                ? `<button class="btn primary" id = "lapPhieu">Lập phiếu</button>
+                
+                `
                 : `<button class="btn primary" id = "xacNhan">Xác nhận</button>`
             }
             <button class="btn secondary small" id = "quayLai">Hủy</button>
@@ -212,7 +239,7 @@ async function contentChiTiet(
               <td>${e.SoLuong}</td>
               <td>${e.DonVi}</td>
               ${
-                e.NgayHetHan
+                thanhPham
                   ? `<td>${e.NgaySanXuat}</td>
                   <td>${e.NgayHetHan}</td>`
                   : ""
@@ -223,19 +250,20 @@ async function contentChiTiet(
           </table>
           <div class="buttons">
             <button class="btn primary" id="phanPhoi">Phân phối đơn yêu càu</button>
+            <button class="btn btnXoa" id = "lapBienBan">Lập biên bản</button>
             <button class="btn secondary small" id = "quayLai">Quay lại</button>
           </div>`;
 
   let html = `<div class="content">
         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
-        <form class="search">
-          <input type="text" name="search" id="search" />
-          <button type="button">
-            <i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8"></i>
-          </button>
-        </form>
+       <form class="search">
+            <div class ='inputGroup'>
+            <input type="text" name="search" id="search">
+            <button type="button"><i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8;"></i></button>
+            </div>
+          </form>
         <div class="content__inner chitiet">
-          <h3>Đơn yêu cầu nhập nguyên liệu</h3>
+          <h3>${chiTiet[0].TenLoai} </h3>
           <p><span class="deMuc">Mã đơn:</span>${chiTiet[0].MaDon}</p>
           <p><span class="deMuc">Tên đơn:</span>${chiTiet[0].TenLoai}</p>
           <p><span class="deMuc">Người lập:</span>${chiTiet[0].MaTaiKhoan}</p>
@@ -248,6 +276,7 @@ async function contentChiTiet(
 }
 async function layDon(id) {
   const chiTiet = await layChiTietNguyenLieu(id);
+  chiTiet;
   return chiTiet;
 }
 
@@ -257,11 +286,90 @@ async function renderChiTiet(id) {
   else await render(id, false, null, true);
   const btnBack = document.querySelector("#quayLai");
   const btnPhanPhoi = document.querySelector("#phanPhoi");
+  const btnBienBan = document.querySelector("#lapBienBan");
   btnPhanPhoi.addEventListener("click", (e) => {
     renderPhanPhoi(id);
   });
   btnBack.addEventListener("click", (e) => {
     init();
+  });
+  btnBienBan.addEventListener("click", (e) => {
+    renderBienBan(chitiet[0]);
+  });
+}
+
+function contentBienBan(maBienBan, chitiet) {
+  console.log(chitiet.TenLoai);
+  let html = `<div class="formChonNL">
+      <div class="overlay"></div>
+      <div class="dsNguyenLieu floatBienBan">
+        <div class="top">
+          <button class="btn btnClose">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="contentBienBan">
+            <h3>Lập biên bản</h3>
+            <div class='inputInfo--flat mt-1'>
+                <label for='maBienBan'>Mã đơn:</label>
+                <input type='number' value =${maBienBan} readonly/>
+            </div>
+            <div class='inputInfo--flat mt-1'>
+                <label for='maDon'>Mã đơn:</label>
+                <input type='number' value =${chitiet.MaDon} readonly/>
+            </div>
+            <div class='inputInfo--flat mt-1'>
+                <label for='tenDon'>Tên đơn:</label>
+                <input type='text' value ="${
+                  chitiet.TenLoai
+                }" id="tenDon" readonly/>
+            </div>
+            <div class='inputInfo--flat mt-1'>
+                <label for='nguoiLap'>Người lập:</label>
+                <input type='number' value =${
+                  taiKhoan[3]
+                } id="nguoiLap" readonly/>
+            </div>
+            <div class='inputInfo--flat mt-1'>
+                <label for='ngayLap'>Ngày lập:</label>
+                <input type='date' value ='${new Date().toLocaleDateString(
+                  "en-CA"
+                )}' readonly/>
+            </div>
+            <div class='inputInfo--flat large mt-1'>
+                <label for='lyDo'>Lý do:</label>
+                <textarea name="" id="lyDo" cols="30" rows="10"></textarea>
+            </div>
+        </div>
+        <div class="bottomDs">
+        <h3></h3>
+          <button class="btn btnXoa center large  mt-1" id="xacNhan">Xác nhận</button>
+      </div>
+    </div>`;
+  return html;
+}
+function renderBienBan(chitiet) {
+  const maBienBan = Math.floor(Math.random() * 1000);
+  const html = contentBienBan(maBienBan, chitiet);
+  document.querySelector("body").insertAdjacentHTML("afterend", html);
+  let btnClose = document.querySelector(".btnClose");
+  btnClose.addEventListener("click", (e) => {
+    document.querySelector(".formChonNL").remove();
+  });
+  let btnXacNhan = document.querySelector("#xacNhan");
+  btnXacNhan.addEventListener("click", async (e) => {
+    const ttbb = {
+      maBienBan: maBienBan,
+      maDon: chitiet.MaDon,
+      ngayLap: new Date().toLocaleDateString("en-CA"),
+      maTaiKhoan: taiKhoan[2],
+      lyDo: document.querySelector("#lyDo").value,
+    };
+    let res = await lapBienBan(ttbb);
+    if (res) {
+      alert("Bạn đã lập biên bản thành công!");
+      window.location.reload();
+    }
   });
 }
 async function renderPhanPhoi(id) {

@@ -1,10 +1,21 @@
 <?php
+session_start();
+
     include_once ("../controller/cPhieuXuat.php");
     include_once ("../controller/cDonYeuCau.php");
     if (isset($_POST["action"])) {
         $action = $_POST["action"];
-        if ($action == "layPhieuXuatKho") {
+        if ($action == "layPhieuXuatKhoChoXuat") {
             $maKho = $_POST['maKho'];
+        }
+        if ($action == "layPhieuXuatKhoDaXuat") {
+            $maKho = $_POST['maKho'];
+        }
+        if ($action == "layPhieuXuatKhoChoXuatQuanLy") {
+            $maTaiKhoan = $_SESSION['maTaiKhoan'];
+        }
+        if ($action == "layPhieuXuatKhoDaXuatQuanLy") {
+            $maTaiKhoan = $_SESSION['maTaiKhoan'];
         }
         if($action == 'layChiTietPhieuXuat'){
             $maPhieu = $_POST['maPhieu'];
@@ -15,8 +26,17 @@
             $ngayXuat = date('Y-m-d');
         }
         switch ($action) { 
-            case "layPhieuXuatKho":
-                layPhieuXuatKhoTheoKho($maKho);
+            case "layPhieuXuatKhoChoXuat":
+                layPhieuXuatKhoChoXuatTheoKho($maKho);
+                break;
+            case "layPhieuXuatKhoDaXuat":
+                layPhieuXuatKhoDaXuatTheoKho($maKho);
+                break;
+            case "layPhieuXuatKhoChoXuatQuanLy":
+                layPhieuXuatKhoChoXuatTheoTaiKhoan($maTaiKhoan);
+                break;
+            case "layPhieuXuatKhoDaXuatQuanLy":
+                layPhieuXuatKhoDaXuatTheoTaiKhoan($maTaiKhoan);
                 break;
             case "layChiTietPhieuXuat":
                 layChiTietPhieuXuat($maPhieu);
@@ -27,24 +47,25 @@
         }
 
     }
-    function layPhieuXuatKhoTheoKho($maKho){
+    function layPhieuXuatKhoChoXuatTheoKho($maKho){
         $p = new ControlPhieuXuat(); 
-        $res = $p->layPhieuXuatKhoTheoKho($maKho);
-        if (!$res){
-            echo json_encode(false);
-        }else{
-            $restbl = [];
-            while($row = mysqli_fetch_assoc($res)){
-                if($row['soluongnguyenlieu'] == null){
-                    echo json_encode([]);
-                    return;
-                    break;
-                }
-            array_push($restbl,$row);
-            }
-            echo json_encode($restbl);
-        }
-    
+        $res = $p->layPhieuXuatKhoChoXuatTheoKho($maKho);
+        echo json_encode($res);
+    }
+    function layPhieuXuatKhoDaXuatTheoKho($maKho){
+        $p = new ControlPhieuXuat(); 
+        $res = $p->layPhieuXuatKhoDaXuatTheoKho($maKho);
+        echo json_encode($res);
+    }
+    function layPhieuXuatKhoDaXuatTheoTaiKhoan($maTaiKhoan){
+        $p = new ControlPhieuXuat(); 
+        $res = $p->layPhieuXuatKhoDaXuatTheoKho($maTaiKhoan);
+        echo json_encode($res);
+    }
+    function layPhieuXuatKhoChoXuatTheoTaiKhoan($maTaiKhoan){
+        $p = new ControlPhieuXuat(); 
+        $res = $p->layPhieuXuatKhoChoXuatTheoTaiKhoan($maTaiKhoan);
+        echo json_encode($res);
     }
     function layChiTietPhieuXuat($maPhieu){
         $p = new ControlPhieuXuat(); 
@@ -52,11 +73,7 @@
         if (!$res){
             echo json_encode(false);
         }else{
-            $restbl = [];
-            while($row = mysqli_fetch_assoc($res)){
-            array_push($restbl,$row);
-            }
-            echo json_encode($restbl);
+           echo json_encode($res);
         }
     }
     function xacNhanXuatKho($maDon,$maPhieu, $ngayXuat){
@@ -67,8 +84,8 @@
         }else{
             $res2 = $p->layTrangThaiPhieuXuat($maPhieu);
             if($res2){
-                $p2 = new ControllDonYeuCau();
-                $p2->capNhapTrangThaiDonYeuCau($maDon, "Đã xuất kho");
+                $p2 = new ControlDonYeuCau();
+                $p2->capNhatTrangThaiDonYeuCau($maDon, "Đã xuất kho");
             }
             echo json_encode(true);
         }
@@ -79,12 +96,8 @@
         if (!$res){
             return false;
         }else{
-            $restbl = [];
-            while($row = mysqli_fetch_assoc($res)){
-            array_push($restbl,$row);
-            }
-            if(count($restbl) == 1  and $restbl[0]['TrangThai'] == 'Đã nhập kho') 
-            return true;
+            if(count($res) == 1  and $res[0]['TrangThai'] == 'Đã xuất kho') 
+                return true;
             else return false;
         }
     }

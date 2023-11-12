@@ -1,4 +1,6 @@
 <?php
+session_start();
+
     include_once("../controller/cDonYeuCau.php");
     include_once("../controller/cPhieuNhap.php");
     include_once("../controller/cKho.php");
@@ -17,7 +19,8 @@
             $ngaySanXuat = $_POST['ngaySanXuat'];
             $ngayHetHan = $_POST['ngayHetHan'];
             $viTriKho = $_POST['viTriKho'];
-            $trangThai = $_POST['trangThai'];}
+            $trangThai = $_POST['trangThai'];
+        }
         switch($action){
             case "layTatCaDon":
                 layDonYeuCauDaDuyet();
@@ -34,35 +37,22 @@
         }
     }
     function layDonYeuCauDaDuyet(){
-        $p = new ControllDonYeuCau(); 
+        $p = new ControlDonYeuCau(); 
         $res = $p->layDonYeuCauDaDuyet();
         if(!$res){
             echo json_encode(false);
         }else{
-            $restbl = [];
-            while($row = mysqli_fetch_assoc($res)){
-            
-            if($row['soluongnguyenlieu'] == null )
-            { 
-                echo json_encode($restbl);
-                return;
-            }
-            array_push($restbl,$row);
-            }
-            echo json_encode($restbl);
+            echo json_encode($res);
         }
     }
     function layChiTietDonYeuCau($maDon){
-        $p = new ControllDonYeuCau(); 
+        $p = new ControlDonYeuCau(); 
         $res = $p->layChiTietDonYeuCau($maDon);
         if(!$res){
             echo json_encode(false);
         }else{
-            $restbl = [];
-            while($row = mysqli_fetch_assoc($res)){
-            array_push($restbl,$row);
-            }
-            echo json_encode($restbl);
+            
+            echo json_encode($res);
         }
     }
     function layKhoPhuHop($loai,$soLuong){
@@ -72,11 +62,7 @@
         if(!$res){
             echo json_encode(false);
         }else{
-            $restbl = [];
-            while($row = mysqli_fetch_assoc($res)){
-            array_push($restbl,$row);
-            }
-            echo json_encode($restbl);
+            echo json_encode($res);
         }
     }
     function capNhatDonYeuCau($maDon, $maSanPham, $ngaySanXuat, $ngayHetHan, $viTriKho, $trangThai, $maTaiKhoan){
@@ -85,16 +71,17 @@
             $res = capNhatChiTietDonYeuCau($maDon,$maSanPham[$i], $ngaySanXuat[$i], $ngayHetHan[$i], $viTriKho[$i]);
          }
          if(!$res) echo json_encode(false); 
-         for ($i=0; $i < count(array_unique($viTriKho)); $i++) { 
-           $res = lapPhieuNhap($maDon ,$viTriKho[$i], $maTaiKhoan,date("Y-m-d"), null, "Chờ nhập");
+         $uniqueArray = array_unique($viTriKho);
+         $uniqueArray = array_values($uniqueArray);
+         for ($i=0; $i < count($uniqueArray); $i++) { 
+           $res = lapPhieuNhap($maDon ,$uniqueArray[$i], $maTaiKhoan,date("Y-m-d"), null, "Chờ nhập");
          }
             if(!$res) echo json_encode(false); 
-
          $res = capNhapTrangThaiDonYeuCau($maDon, $trangThai);
          echo json_encode($res);
     }
     function capNhatChiTietDonYeuCau($maDon,$maSanPham, $ngaySanXuat, $ngayHetHan, $viTriKho){
-        $p = new ControllDonYeuCau(); 
+        $p = new ControlDonYeuCau(); 
         $res = $p->capNhatChiTietDonYeuCau($maDon,$maSanPham, $ngaySanXuat, $ngayHetHan, $viTriKho);
         if (!$res){
            echo json_encode(false);
@@ -103,8 +90,8 @@
         }
     }
     function capNhapTrangThaiDonYeuCau($maDon, $trangThai){
-        $p = new ControllDonYeuCau(); 
-        $res = $p->capNhapTrangThaiDonYeuCau($maDon, $trangThai);
+        $p = new ControlDonYeuCau(); 
+        $res = $p->capNhatTrangThaiDonYeuCau($maDon, $trangThai);
         if (!$res){
            echo json_encode(false);
         }else{

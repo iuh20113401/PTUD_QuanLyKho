@@ -1,13 +1,13 @@
 <?php
     include_once("../model/donYeuCauXuat.php");
-     class ControllDonYeuCauXuat{
+     class ControlDonYeuCauXuat{
         function layDonYeuCauXuatDaDuyet(){
             $p = new DonYeuCauXuat();
             $res = $p->layDonYeuCauXuatDaDuyet();
             if (!$res) {
                 return false;
             } else {
-                if (mysqli_num_rows($res) == 0) {
+                if (count($res) == 0) {
                     return 0;
                 } else {
                     return $res;
@@ -20,7 +20,7 @@
             if (!$res) {
                 return false;
             } else {
-                if (mysqli_num_rows($res) == 0) {
+                if (count($res) == 0) {
                     return 0;
                 } else {
                     return $res;
@@ -33,7 +33,7 @@
             if (!$res) {
                 return false;
             } else {
-                if (mysqli_num_rows($res) == 0) {
+                if (count($res) == 0) {
                     return 0;
                 } else {
                     return $res;

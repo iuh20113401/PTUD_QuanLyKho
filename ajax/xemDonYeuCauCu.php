@@ -1,4 +1,6 @@
 <?php
+session_start();
+
     include_once("../controller/cXemDonYeuCauCu.php");
     include_once("../controller/cDonYeuCau.php");
     include_once ("../controller/cPhieuXuat.php");
@@ -52,25 +54,17 @@
         if(!$res){
             echo json_encode(false);
         }else{
-            $restbl = [];
-            while($row = mysqli_fetch_assoc($res)){
-            array_push($restbl,$row);
-            }
-            echo json_encode($restbl);
+            echo json_encode($res);
         }
         
     }
     function layChiTietDonYeuCau($maDon){
-        $p = new ControllDonYeuCau(); 
+        $p = new ControlDonYeuCau(); 
         $res = $p->layChiTietDonYeuCau($maDon);
         if(!$res){
             echo json_encode(false);
         }else{
-            $restbl = [];
-            while($row = mysqli_fetch_assoc($res)){
-            array_push($restbl,$row);
-            }
-            echo json_encode($restbl);
+            echo json_encode($res);
         }
     }
     function layPhieuXuatKhoTheoTaiKhoan($maTaiKhoan){
@@ -79,16 +73,7 @@
         if (!$res){
             echo json_encode(false);
         }else{
-            $restbl = [];
-            while($row = mysqli_fetch_assoc($res)){
-                if($row['soluongnguyenlieu'] == null){
-                    echo json_encode([]);
-                    return;
-                    break;
-                }
-            array_push($restbl,$row);
-            }
-            echo json_encode($restbl);
+            echo json_encode($res);
         }
     
     }
@@ -98,29 +83,16 @@
         if (!$res){
             echo json_encode(false);
         }else{
-            $restbl = [];
-            while($row = mysqli_fetch_assoc($res)){
-            array_push($restbl,$row);
-            }
-            echo json_encode($restbl);
+            echo json_encode($res);
         }
     }
      function layPhieuNhapKhoTheoTaiKhoan($maTaiKhoan){
         $p = new ControlPhieuNhap(); 
-        $res = $p->layPhieuNhapKhoTheoTaiKhoan($maTaiKhoan);
+        $res = $p->layPhieuNhapKhoChoNhapTheoKho($maTaiKhoan);
         if (!$res){
             echo json_encode(false);
         }else{
-            $restbl = [];
-            while($row = mysqli_fetch_assoc($res)){
-                if($row['soluongnguyenlieu'] == null){
-                    echo json_encode([]);
-                    return;
-                    break;
-                }
-            array_push($restbl,$row);
-            }
-            echo json_encode($restbl);
+            echo json_encode($res);
         }
     
     }
@@ -130,11 +102,8 @@
         if (!$res){
             echo json_encode(false);
         }else{
-            $restbl = [];
-            while($row = mysqli_fetch_assoc($res)){
-            array_push($restbl,$row);
-            }
-            echo json_encode($restbl);
+
+            echo json_encode($res);
         }
     }
     ?>

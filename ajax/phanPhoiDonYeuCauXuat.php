@@ -1,4 +1,6 @@
 <?php
+session_start();
+
     include_once("../controller/cDonYeuCauXuat.php");
     include_once("../controller/cPhieuXuat.php");
     include_once("../controller/cDonYeuCau.php");
@@ -35,48 +37,31 @@
         }
     }
     function layDonYeuCauXuatDaDuyet(){
-        $p = new ControllDonYeuCauXuat(); 
+        $p = new ControlDonYeuCauXuat(); 
         $res = $p->layDonYeuCauXuatDaDuyet();
         if(!$res){
             echo json_encode(false);
         }else{
-            $restbl = [];
-            while($row = mysqli_fetch_assoc($res)){
-            
-            if($row['soluongnguyenlieu'] == null )
-            { 
-                echo json_encode($restbl);
-                return;
-            }
-            array_push($restbl,$row);
-            }
-            echo json_encode($restbl);
+
+            echo json_encode($res);
         }
     }
     function layChiTietDonYeuCau($maDon){
-        $p = new ControllDonYeuCauXuat(); 
+        $p = new ControlDonYeuCauXuat(); 
         $res = $p->layChiTietDonYeuCau($maDon);
         if(!$res){
             echo json_encode(false);
         }else{
-            $restbl = [];
-            while($row = mysqli_fetch_assoc($res)){
-            array_push($restbl,$row);
-            }
-            echo json_encode($restbl);
+            echo json_encode($res);
         }
     }
     function layDanhSachSanPham($maSanPham){
-        $p = new ControllDonYeuCauXuat(); 
+        $p = new ControlDonYeuCauXuat(); 
         $res = $p->layDanhSachSanPham($maSanPham);
         if(!$res){
             echo json_encode(false);
         }else{
-            $restbl = [];
-            while($row = mysqli_fetch_assoc($res)){
-            array_push($restbl,$row);
-            }
-            echo json_encode($restbl);
+            echo json_encode($res);
         }
     }
     function lapPhieuXuatKho($maDon, $maKho, $maTaiKhoan, $ngayLap,$trangThai,$maChiTietSanPham, $soLuong){
@@ -104,7 +89,7 @@
             echo json_encode(false);
             return;
         }
-        $res = capNhapTrangThaiDonYeuCau($maDon, "Đã phân phối");
+        $res = capNhatTrangThaiDonYeuCau($maDon, "Đã phân phối");
         echo json_encode($res);
     }
     function lapPhieuXuat($maPhieu,$maDon ,$maKho, $maTaiKhoan, $ngayLap, $ngayXuat,$trangThai){
@@ -125,9 +110,9 @@
                  return true;
              }
         }
-    function capNhapTrangThaiDonYeuCau($maDon, $trangThai){
-        $p = new ControllDonYeuCau(); 
-        $res = $p->capNhapTrangThaiDonYeuCau($maDon, $trangThai);
+    function capNhatTrangThaiDonYeuCau($maDon, $trangThai){
+        $p = new ControlDonYeuCau(); 
+        $res = $p->capNhatTrangThaiDonYeuCau($maDon, $trangThai);
         if (!$res){
            echo json_encode(false);
         }else{

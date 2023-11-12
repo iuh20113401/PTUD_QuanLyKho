@@ -1,0 +1,37 @@
+.content_inner {
+  margin: auto;
+  width: 95%;
+  height: 95%;
+  border: 1px solid black;
+}
+.content {
+  margin: 1%;
+  overflow: scroll;
+}
+.charts {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5rem;
+  padding-bottom: 3rem;
+}
+.pieChart {
+  width: 35% !important;
+  height: 45vh !important;
+}
+.barChart {
+  width: 50% !important;
+  height: 45vh !important;
+}
+.lineChart {
+  margin: auto;
+  width: 95% !important ;
+  height: 45vh !important;
+}
+.content::-webkit-scrollbar {
+  display: none;
+}
+.data {
+  display: flex;
+}

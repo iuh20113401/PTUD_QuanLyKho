@@ -41,6 +41,8 @@ async function layDanhSachSanPham(maSanPham) {
       maSanPham: maSanPham,
     },
     success: function (response) {
+      response;
+
       data = JSON.parse(response);
     },
   });
@@ -49,15 +51,13 @@ async function layDanhSachSanPham(maSanPham) {
 async function lapPhieuXuatKho(maDon) {
   let data;
   const dsNguyenLieu = dsDonXuat.map((dx) => dx.dsNguyenLieu);
-  console.log(
-    dsNguyenLieu,
+  dsNguyenLieu,
     dsNguyenLieu.map((nl) => nl.map((n) => n.Kho)),
     dsNguyenLieu.map((nl) => nl.map((n) => n.Kho)).join("/"),
     dsNguyenLieu
       .map((nl) => nl.map((n) => n.Kho))
       .join(",")
-      .split(",")
-  );
+      .split(",");
   await $.ajax({
     url: "../ajax/phanPhoiDonYeuCauXuat.php", // Đường dẫn đến tệp PHP
     type: "post", // Phương thức POST hoặc GET
@@ -78,7 +78,6 @@ async function lapPhieuXuatKho(maDon) {
         .split(","),
     },
     success: function (response) {
-      console.log(response);
       data = JSON.parse(response);
     },
   });
@@ -103,8 +102,10 @@ function content() {
         <div class="content">
          <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
           <form class="search">
+            <div class ='inputGroup'>
             <input type="text" name="search" id="search">
             <button type="button"><i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8;"></i></button>
+            </div>
           </form>
          <div class="content__inner">
             ${
@@ -193,15 +194,15 @@ function contentChiTiet(chiTiet, sua = false, newChiTiet = null) {
             <button class="btn secondary small" id = "quayLai">Quay lại</button>
           </div>`;
   let html = `<div class="content">
-        <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+        <a href="#"> <h3>Phân phối > Đơn yêu cầu xuất</h3></a>
         <form class="search">
-          <input type="text" name="search" id="search" />
-          <button type="button">
-            <i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8"></i>
-          </button>
-        </form>
+            <div class ='inputGroup'>
+            <input type="text" name="search" id="search">
+            <button type="button"><i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8;"></i></button>
+            </div>
+          </form>
         <div class="content__inner chitiet">
-          <h3>Đơn yêu cầu nhập nguyên liệu</h3>
+          <h3>${chiTiet.TenLoai}</h3>
           <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaDon}</p>
           <p><span class="deMuc">Tên đơn:</span>${chiTiet.TenLoai}</p>
           <p><span class="deMuc">Người lập:</span>${chiTiet.MaTaiKhoan}</p>
@@ -214,6 +215,7 @@ function contentChiTiet(chiTiet, sua = false, newChiTiet = null) {
 }
 async function chonChiTietNL(idNL, SoLuongCan) {
   let chiTietNL = await layNL(idNL);
+  chiTietNL;
   let dsNguyenLieu = chiTietNL
     .map((ct) => {
       let nl = dsDonXuat.filter((dx) => {
@@ -247,7 +249,7 @@ async function chonChiTietNL(idNL, SoLuongCan) {
     .join("");
   let html = `<div class="formChonNL">
       <div class="overlay"></div>
-      <div class="dsNguyenLieu">
+      <div class="dsNguyenLieu float">
         <div class="top">
           <h3>Danh sách chi tiết nguyên liệu</h3>
           <button class="btn btnClose">
@@ -308,11 +310,11 @@ function xacNhan(chiTiet) {
   let html = `<div class="content">
         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
         <form class="search">
-          <input type="text" name="search" id="search" />
-          <button type="button">
-            <i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8"></i>
-          </button>
-        </form>
+            <div class ='inputGroup'>
+            <input type="text" name="search" id="search">
+            <button type="button"><i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8;"></i></button>
+            </div>
+          </form>
         <div class="content__inner chitiet">
           <h3>Đơn yêu cầu nhập nguyên liệu</h3>
           <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaDon}</p>
@@ -478,8 +480,8 @@ async function renderXacNhanCuoi(id) {
   });
 }
 function showOverlay(id) {
-  init();
   xoaOverlay();
+  window.location.reload();
 }
 function themOverlay() {
   const overlayDivEl = document.querySelector(".overlayDiv");
