@@ -225,7 +225,7 @@
   margin-left: 20px;
  }
  .dia input{
-  margin-left: 33px;
+  margin-left: 36px;
  }
 .suc input{
   margin-left: 10px;
@@ -234,18 +234,20 @@
   margin-left: 15px;
 }
 .mo input{
-  margin-left: 44px;
+  margin-left: 45px;
 }
 .loai select{
   width: 40%;
   margin-left: 16px;
 }
-
+.ma1 input{
+    margin-left: 64px;
+  }
 .ten1 input{
   margin-left: 60px;
 }
 .DS input{
-  margin-left: 40px;
+  margin-left: 42px;
   height: 45px;
 }
 

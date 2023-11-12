@@ -236,6 +236,10 @@
 .mo input{
   margin-left: 44px;
 }
+.tt1 input{
+    margin-left: 20px;
+      width: 5%;
+  }
 .loai select{
   width: 40%;
   margin-left: 16px;
@@ -245,11 +249,32 @@
   margin-left: 60px;
 }
 .DS input{
-  margin-left: 40px;
+  margin-left: 31px;
   height: 45px;
+  width: 75%;
 }
 
+.ma2 input{
+    margin-left: 52px;
+    width: 75%;
+}
+.ten2 input{
+  margin-left: 47px;
+  width: 75%;
+}
 
+.dia2 input{
+    margin-left: 25px;
+    width: 75%;
+  }
+  .so2 input{
+    margin-left: 2px;
+    width: 75%;
+  }
+  .mo2 input{
+    margin-left: 34px;
+    width: 75%;
+  }
 .btn-screen2{
   margin-top: 80px;
   display: flex;

@@ -186,7 +186,7 @@
 
 .btn-kho{
   display: flex;
-  width: 125%;
+  width: 118%;
   gap: 1rem;
   
 } 
@@ -226,23 +226,41 @@
  }
  .dia input{
   margin-left: 33px;
+  width: 80%;
  }
-.suc input{
-  margin-left: 10px;
+.suc1 input{
+  margin-left: 11px;
+  width: 80%;
 }
-.so input{
+.so1 input{
   margin-left: 15px;
+  width: 80%;
 }
 .mo input{
-  margin-left: 44px;
+  margin-left: 45px;
+  width: 80%;
 }
 .loai select{
   width: 40%;
   margin-left: 16px;
 }
-
+.ma1 input{
+    width: 80%;
+    margin-left: 25px;
+  
+}   
 .ten1 input{
-  margin-left: 60px;
+    
+    margin-left: 21px;
+    width: 80%;
+} 
+
+.tt1 input{
+  margin-left: 20px;
+    width: 5%;
+} 
+
+.tinh select{
 }
 .DS input{
   margin-left: 40px;
