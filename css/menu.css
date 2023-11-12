@@ -7,12 +7,16 @@
   width: 100vw;
   height: 100vh;
   box-sizing: border-box;
+  overflow: hidden;
 }
 .menu {
   width: 20%;
   height: 100%;
   flex-shrink: 0;
   background: #000;
+}
+.menu::-webkit-scrollbar {
+  display: none;
 }
 .menu .image {
   width: 100%;
@@ -32,7 +36,9 @@
   gap: 14px;
   display: inline-flex;
 }
-
+ul > li:hover {
+  background-color: greenyellow;
+}
 .nav li {
   width: 100%;
   display: flex;
@@ -63,4 +69,30 @@
 .content {
   width: 80%;
   height: 100%;
+}
+.active {
+  color: green !important;
+}
+.show {
+  position: relative;
+}
+.show__inner {
+  width: 100%;
+  padding: 1%;
+  top: 0;
+  left: 100%;
+  position: absolute;
+  display: none;
+  background-color: black;
+}
+.show:hover > ul {
+  display: block;
+}
+.hover:hover {
+  background-color: gray;
+  color: white;
+  cursor: pointer;
+}
+.noDecoration {
+  text-decoration: none;
 }

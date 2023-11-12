@@ -1,198 +1,89 @@
 "use strick";
-import { menu, menuShow } from "./menu.js";
+import { menu, menuShow, highLightMenu } from "./menu.js";
 let dsDonXuat = [];
-const dsDon = [
-  {
-    MaDon: 1,
-    Loai: 3,
-    TenDon: "Đon yêu cầu xuất nguyên liệu",
-    MaTaiKhoan: 20113401,
-    NgayLap: "23/09/2023",
-    TinhTrang: "Chờ duyệt",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      { MaNguyenLieu: 1, Ten: "Bột mì", SoLuong: 20, DonVi: "KG" },
-      {
-        MaNguyenLieu: 2,
-        Ten: "Đường",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-    ],
-  },
-  {
-    MaDon: 2,
-    Loai: 4,
-    TenDon: "Đon yêu cầu xuất thành phẩm",
-    MaTaiKhoan: 20113401,
-    NgayLap: "23/09/2023",
-    TinhTrang: "Chờ duyệt",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        MaNguyenLieu: 3,
-        Ten: "Bánh đậu xanh",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-      {
-        MaNguyenLieu: 4,
-        Ten: "Bánh trà xanh",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-    ],
-  },
-  {
-    MaDon: 3,
-    Loai: 3,
-    TenDon: "Đon yêu cầu xuất nguyên liệu",
-    MaTaiKhoan: 20113401,
-    NgayLap: "23/09/2023",
-    TinhTrang: "Chờ duyệt",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        MaNguyenLieu: 1,
-        Ten: "Bột mì",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-      {
-        MaNguyenLieu: 2,
-        Ten: "Đường",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-    ],
-  },
-  {
-    MaDon: 4,
-    Loai: 4,
-    TenDon: "Đon yêu cầu xuất thành phẩm",
-    MaTaiKhoan: 20113401,
-    NgayLap: "23/09/2023",
-    TinhTrang: "Chờ duyệt",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        MaNguyenLieu: 3,
-        Ten: "Bánh đậu xanh",
-        SoLuong: 40,
-        DonVi: "KG",
-      },
-      {
-        MaNguyenLieu: 4,
-        Ten: "Bánh trà xanh",
-        SoLuong: 50,
-        DonVi: "KG",
-      },
-    ],
-  },
-  {
-    MaDon: 5,
-    Loai: 3,
-    TenDon: "Đon yêu cầu xuất nguyên liệu",
-    MaTaiKhoan: 20113401,
-    NgayLap: "23/09/2023",
-    TinhTrang: "Chờ duyệt",
-    SoLuongNguyenLieu: 2,
-    NguyenLieu: [
-      {
-        Ten: "Bột mì",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-      {
-        Ten: "Đường",
-        SoLuong: 20,
-        DonVi: "KG",
-      },
-    ],
-  },
-];
-const dsNguyenLieu = [
-  {
-    MaChiTiet: 1,
-    MaNguyenLieu: 1,
-    TenNguyenLieu: "Bột mì",
-    SoLuong: 50,
-    DonVi: "KG",
-    NgaySanXuat: "23/09/2023",
-    NgayHetHan: "23/11/2024",
-    Kho: 1,
-  },
-  {
-    MaChiTiet: 2,
-    MaNguyenLieu: 1,
-    TenNguyenLieu: "Bột mì",
-    SoLuong: 50,
-    DonVi: "KG",
-    NgaySanXuat: "23/09/2023",
-    NgayHetHan: "23/11/2024",
-    Kho: 2,
-  },
-  {
-    MaChiTiet: 3,
-    MaNguyenLieu: 2,
-    TenNguyenLieu: "Đường",
-    SoLuong: 50,
-    DonVi: "KG",
-    NgaySanXuat: "23/09/2023",
-    NgayHetHan: "23/11/2024",
-    Kho: 1,
-  },
-  {
-    MaChiTiet: 4,
-    MaNguyenLieu: 2,
-    TenNguyenLieu: "Đường",
-    SoLuong: 50,
-    DonVi: "KG",
-    NgaySanXuat: "23/09/2023",
-    NgayHetHan: "23/11/2024",
-    Kho: 2,
-  },
-  {
-    MaChiTiet: 5,
-    MaNguyenLieu: 3,
-    TenNguyenLieu: "Bánh đậu xanh",
-    SoLuong: 50,
-    DonVi: "KG",
-    NgaySanXuat: "23/09/2023",
-    NgayHetHan: "23/11/2024",
-    Kho: 1,
-  },
-  {
-    MaChiTiet: 6,
-    MaNguyenLieu: 3,
-    TenNguyenLieu: "Bánh đậu xanh",
-    SoLuong: 50,
-    DonVi: "KG",
-    NgaySanXuat: "23/09/2023",
-    NgayHetHan: "23/11/2024",
-    Kho: 2,
-  },
-  {
-    MaChiTiet: 7,
-    MaNguyenLieu: 4,
-    TenNguyenLieu: "Bánh trà xanh",
-    SoLuong: 50,
-    DonVi: "KG",
-    NgaySanXuat: "23/09/2023",
-    NgayHetHan: "23/11/2024",
-    Kho: 1,
-  },
-  {
-    MaChiTiet: 8,
-    MaNguyenLieu: 4,
-    TenNguyenLieu: "Bánh trà xanh",
-    SoLuong: 50,
-    DonVi: "KG",
-    NgaySanXuat: "23/09/2023",
-    NgayHetHan: "23/11/2024",
-    Kho: 2,
-  },
-];
+async function layDanhSachTatCaDon() {
+  let data;
+  await $.ajax({
+    url: "../ajax/phanPhoiDonYeuCauXuat.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layTatCaDon",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function layChiTietDonYeuCauXuat(maDon) {
+  let data;
+  await $.ajax({
+    url: "../ajax/phanPhoiDonYeuCauXuat.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layDon",
+      maDon: maDon,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+
+async function layDanhSachSanPham(maSanPham) {
+  let data;
+  await $.ajax({
+    url: "../ajax/phanPhoiDonYeuCauXuat.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layDanhSachSanPham",
+      maSanPham: maSanPham,
+    },
+    success: function (response) {
+      response;
+
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function lapPhieuXuatKho(maDon) {
+  let data;
+  const dsNguyenLieu = dsDonXuat.map((dx) => dx.dsNguyenLieu);
+  dsNguyenLieu,
+    dsNguyenLieu.map((nl) => nl.map((n) => n.Kho)),
+    dsNguyenLieu.map((nl) => nl.map((n) => n.Kho)).join("/"),
+    dsNguyenLieu
+      .map((nl) => nl.map((n) => n.Kho))
+      .join(",")
+      .split(",");
+  await $.ajax({
+    url: "../ajax/phanPhoiDonYeuCauXuat.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "lapPhieuXuatKho",
+      maDon: maDon,
+      MaChiTietSanPham: dsNguyenLieu
+        .map((nl) => nl.map((n) => n.MaChiTiet))
+        .join(",")
+        .split(","),
+      SoLuong: dsNguyenLieu
+        .map((nl) => nl.map((n) => n.SoLuong))
+        .join(",")
+        .split(","),
+      Kho: dsNguyenLieu
+        .map((nl) => nl.map((n) => n.Kho))
+        .join(",")
+        .split(","),
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+let dsDon = await layDanhSachTatCaDon();
 function render(chiTietNguyenLieu = null, sua = false, newChiTiet = null) {
   let html =
     chiTietNguyenLieu !== null
@@ -204,17 +95,22 @@ function render(chiTietNguyenLieu = null, sua = false, newChiTiet = null) {
   let container = document.querySelector(".container");
   container.innerHTML = html;
   menuShow();
+  highLightMenu();
 }
 function content() {
   let html = `        
         <div class="content">
          <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
           <form class="search">
+            <div class ='inputGroup'>
             <input type="text" name="search" id="search">
             <button type="button"><i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8;"></i></button>
+            </div>
           </form>
          <div class="content__inner">
-            <table>
+            ${
+              dsDon
+                ? `<table>
               <tr class="muc">
                 <th>Mã đơn</th>
                 <th>Tên đơn</th>
@@ -225,19 +121,21 @@ function content() {
               </tr>
               ${dsDon
                 .map((don) => {
-                  if (don.TinhTrang === "Chờ duyệt")
-                    return `<tr>
+                  return `<tr>
                 <td>${don.MaDon}</td>
-                <td>${don.TenDon}</td>
+                <td>${don.TenLoai}</td>
                 <td>${don.MaTaiKhoan}</td>
                 <td>${don.NgayLap}</td>
-                <td class="center">${don.SoLuongNguyenLieu}</td>
+                <td class="center">${don.soluongnguyenlieu}</td>
                 <td><button class="btn primary center large" id = ${don.MaDon}>Xem</button></td>
               </tr>`;
                 })
                 .join("")}
               
-            </table>
+            </table>`
+                : `<h3  class='khongDon'>Không có đơn yêu cầu nào!</h3>`
+            }
+            
          </div>
         </div>`;
   return html;
@@ -254,15 +152,15 @@ function contentChiTiet(chiTiet, sua = false, newChiTiet = null) {
             </tr>
             ${chiTiet.NguyenLieu.map((nl, i) => {
               const checked = dsDonXuat.some((dx) => {
-                return dx.MaNguyenLieu == nl.MaNguyenLieu;
+                return dx.MaSanPham == nl.MaSanPham;
               });
               return `<tr>
-              <td>${nl.Ten}</td>
+              <td>${nl.TenSanPham}</td>
               <td class = "SoLuongCan">${nl.SoLuong}</td>
               <td>${nl.DonVi}</td>
               <td><button class="btn secondary large chonNL" ${
                 checked ? "disabled" : ""
-              } id=${nl.MaNguyenLieu}>Chọn nguyên liệu</button></td>
+              } id=${nl.MaSanPham}>Chọn nguyên liệu</button></td>
                ${
                  newChiTiet
                    ? `<td><input type="checkbox" ${
@@ -285,7 +183,7 @@ function contentChiTiet(chiTiet, sua = false, newChiTiet = null) {
             </tr>
             ${chiTiet.NguyenLieu.map((e) => {
               return `<tr>
-              <td>${e.Ten}</td>
+              <td>${e.TenSanPham}</td>
               <td>${e.SoLuong}</td>
               <td>${e.DonVi}</td>
             </tr>`;
@@ -296,17 +194,17 @@ function contentChiTiet(chiTiet, sua = false, newChiTiet = null) {
             <button class="btn secondary small" id = "quayLai">Quay lại</button>
           </div>`;
   let html = `<div class="content">
-        <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+        <a href="#"> <h3>Phân phối > Đơn yêu cầu xuất</h3></a>
         <form class="search">
-          <input type="text" name="search" id="search" />
-          <button type="button">
-            <i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8"></i>
-          </button>
-        </form>
+            <div class ='inputGroup'>
+            <input type="text" name="search" id="search">
+            <button type="button"><i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8;"></i></button>
+            </div>
+          </form>
         <div class="content__inner chitiet">
-          <h3>Đơn yêu cầu nhập nguyên liệu</h3>
+          <h3>${chiTiet.TenLoai}</h3>
           <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaDon}</p>
-          <p><span class="deMuc">Tên đơn:</span>${chiTiet.TenDon}</p>
+          <p><span class="deMuc">Tên đơn:</span>${chiTiet.TenLoai}</p>
           <p><span class="deMuc">Người lập:</span>${chiTiet.MaTaiKhoan}</p>
           <p><span class="deMuc">Ngày lập:</span>${chiTiet.NgayLap}</p>
           <p><span class="deMuc">Danh sách yêu cầu:</span></p>
@@ -315,28 +213,28 @@ function contentChiTiet(chiTiet, sua = false, newChiTiet = null) {
       </div>`;
   return html;
 }
-function chonChiTietNL(idNL, SoLuongCan) {
-  let chiTietNL = layNL(idNL);
+async function chonChiTietNL(idNL, SoLuongCan) {
+  let chiTietNL = await layNL(idNL);
+  chiTietNL;
   let dsNguyenLieu = chiTietNL
     .map((ct) => {
       let nl = dsDonXuat.filter((dx) => {
-        return dx.MaNguyenLieu == ct.MaNguyenLieu;
+        return dx.MaSanPham == ct.MaSanPham;
       })[0]?.dsNguyenLieu;
       const ctNL = nl?.filter((c) => c.MaChiTiet == ct.MaChiTiet);
-      console.log(nl);
       return `<tr class ="nguyenlieu">
               <td>
                 <input type="checkbox" class="chon" id="chon" ${
                   ctNL?.length ? "checked" : ""
                 } />
               </td>
-              <td class = "MaChiTiet">${ct.MaChiTiet}</td>
-              <td >${ct.TenNguyenLieu}</td>
-              <td class = "soLuongTon">${ct.SoLuong}</td>
+              <td class = "MaChiTiet">${ct.MaChiTietSanPham}</td>
+              <td >${ct.TenSanPham}</td>
+              <td class = "soLuongTon">${ct.soluongton}</td>
               <td >${ct.DonVi}</td>
               <td >${ct.NgaySanXuat}</td>
               <td >${ct.NgayHetHan}</td>
-              <td >${ct.Kho}</td>
+              <td class ="kho">${ct.MaKho}</td>
               <td>
                 <input
                   type="number"
@@ -351,7 +249,7 @@ function chonChiTietNL(idNL, SoLuongCan) {
     .join("");
   let html = `<div class="formChonNL">
       <div class="overlay"></div>
-      <div class="dsNguyenLieu">
+      <div class="dsNguyenLieu float">
         <div class="top">
           <h3>Danh sách chi tiết nguyên liệu</h3>
           <button class="btn btnClose">
@@ -381,11 +279,8 @@ function chonChiTietNL(idNL, SoLuongCan) {
     </div>`;
   return html;
 }
-function xacNhan(id) {
-  let chiTiet = layDon(id);
-  console.log(id, chiTiet);
+function xacNhan(chiTiet) {
   const nguyenlieu = dsDonXuat.map((dx) => dx.dsNguyenLieu);
-  console.log(nguyenlieu);
   let dsNguyenLieuCuoi = `<table class="small">
             <tr>
               <th>Mã chi tiết nguyên liệu</th>
@@ -397,55 +292,52 @@ function xacNhan(id) {
             ${nguyenlieu
               .map((e) => {
                 return e.map((nguyenLieu) => {
-                  const NL = dsNguyenLieu.filter(
-                    (nl) => nl.MaChiTiet == nguyenLieu.MaChiTiet
-                  )[0];
                   return `<tr>
               <td>${nguyenLieu.MaChiTiet}</td>
-              <td>${NL.TenNguyenLieu}</td>
+              <td>${nguyenLieu.TenSanPham}</td>
               <td>${nguyenLieu.SoLuong}</td>
-              <td>${NL.DonVi}</td>
-              <td>${NL.Kho}</td>
+              <td>${nguyenLieu.DonVi}</td>
+              <td>${nguyenLieu.Kho}</td>
             </tr>`;
                 });
               })
               .join("")}
           </table>
           <div class="buttons">
-            <button class="btn primary" id="lapPhie">Lập phiếu xuất kho</button>
+            <button class="btn primary" id="lapPhieu">Lập phiếu xuất kho</button>
             <button class="btn secondary small" id = "quayLai">Quay lại</button>
           </div>`;
   let html = `<div class="content">
         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
         <form class="search">
-          <input type="text" name="search" id="search" />
-          <button type="button">
-            <i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8"></i>
-          </button>
-        </form>
+            <div class ='inputGroup'>
+            <input type="text" name="search" id="search">
+            <button type="button"><i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8;"></i></button>
+            </div>
+          </form>
         <div class="content__inner chitiet">
           <h3>Đơn yêu cầu nhập nguyên liệu</h3>
           <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaDon}</p>
-          <p><span class="deMuc">Tên đơn:</span>${chiTiet.TenDon}</p>
+          <p><span class="deMuc">Tên đơn:</span>${chiTiet.TenLoai}</p>
           <p><span class="deMuc">Người lập:</span>${chiTiet.MaTaiKhoan}</p>
           <p><span class="deMuc">Ngày lập:</span>${chiTiet.NgayLap}</p>
           <p><span class="deMuc">Danh sách yêu cầu:</span></p>
           ${dsNguyenLieuCuoi}
         </div>
       </div>`;
-  console.log(dsNguyenLieuCuoi);
   return html;
 }
-function layDon(id) {
+async function layDon(id) {
   const chiTiet = dsDon.filter((e) => e.MaDon == id)[0];
+  chiTiet.NguyenLieu = await layChiTietDonYeuCauXuat(id);
   return chiTiet;
 }
-function layNL(idNL) {
-  const chiTiet = dsNguyenLieu.filter((e) => e.MaNguyenLieu == idNL);
+async function layNL(idNL) {
+  const chiTiet = await layDanhSachSanPham(idNL);
   return chiTiet;
 }
-function renderChiTiet(id) {
-  let chiTiet = layDon(id);
+async function renderChiTiet(id) {
+  let chiTiet = await layDon(id);
   render(chiTiet, false, null);
   const btnBack = document.querySelector("#quayLai");
   const btnPhanPhoi = document.querySelector("#phanPhoi");
@@ -456,8 +348,8 @@ function renderChiTiet(id) {
     init();
   });
 }
-function renderChiTietPhanPhoi(id, chiTietNL = null) {
-  let chiTiet = layDon(id);
+async function renderChiTietPhanPhoi(id, chiTietNL = null) {
+  let chiTiet = await layDon(id);
   render(chiTiet, true, chiTietNL);
   const btnBack = document.querySelector("#quayLai");
   const daChon = document.querySelectorAll(".daChon");
@@ -501,14 +393,14 @@ function renderPhanPhoi(chiTiet, id) {
     );
   });
 }
-function renderChonNL(id, SoLuongCan, MaNguyenLieu) {
-  let html = chonChiTietNL(MaNguyenLieu, SoLuongCan);
+async function renderChonNL(id, SoLuongCan, MaSanPham) {
+  let html = await chonChiTietNL(MaSanPham, SoLuongCan);
+  const chiTiet = await layDanhSachSanPham(MaSanPham);
   document.querySelector("body").insertAdjacentHTML("beforeend", html);
   const chonNL = document.querySelector(".formChonNL");
   const NguyenLieu = chonNL.querySelectorAll(".nguyenlieu");
   let dsNguyenLieu =
-    dsDonXuat.filter((dx) => dx.MaNguyenLieu == MaNguyenLieu)[0]
-      ?.dsNguyenLieu ?? [];
+    dsDonXuat.filter((dx) => dx.MaSanPham == MaSanPham)[0]?.dsNguyenLieu ?? [];
   const btnClose = chonNL.querySelector(".btnClose");
   btnClose.addEventListener("click", (e) => {
     chonNL.remove();
@@ -517,6 +409,7 @@ function renderChonNL(id, SoLuongCan, MaNguyenLieu) {
     const soLuongTon = nl.querySelector(".soLuongTon").textContent;
     const soLuong = nl.querySelector(".soLuong");
     const MaChiTiet = nl.querySelector(".MaChiTiet");
+    const kho = nl.querySelector(".kho");
     nl.addEventListener("click", (e) => {
       if (e.target.className === "chon") {
         const inputSL = nl.querySelector(".soLuong");
@@ -524,19 +417,24 @@ function renderChonNL(id, SoLuongCan, MaNguyenLieu) {
           inputSL.classList.add("disabled");
           inputSL.setAttribute("disabled", true);
           dsNguyenLieu = dsNguyenLieu.filter(
-            (ds) => ds.MaChiTiet !== MaChiTiet.textContent
+            (ds) => ds.MaChiTietSanPham !== MaChiTiet.textContent
           );
           return;
         }
         inputSL.classList.remove("disabled");
         inputSL.removeAttribute("disabled");
-        dsNguyenLieu.push({
-          MaChiTiet: MaChiTiet.textContent,
-          SoLuong: soLuong.textContent,
-        });
+        dsNguyenLieu.filter((dx) => dx.MaChiTiet == MaChiTiet.textContent)
+          .length ||
+          dsNguyenLieu.push({
+            MaChiTiet: MaChiTiet.textContent,
+            MaSanPham: chiTiet[0].MaSanPham,
+            TenSanPham: chiTiet[0].TenSanPham,
+            SoLuong: soLuong.textContent,
+            DonVi: chiTiet[0].DonVi,
+            Kho: kho.textContent,
+          });
       } else return;
     });
-
     nl.querySelector(".soLuong").addEventListener("keyup", (e) => {
       if (e.target.value > +soLuongTon) {
         e.target.value = soLuongTon;
@@ -555,19 +453,45 @@ function renderChonNL(id, SoLuongCan, MaNguyenLieu) {
       return;
     }
     chonNL.remove();
-    dsDonXuat.filter((dx) => dx.MaNguyenLieu == MaNguyenLieu).length ||
-      dsDonXuat.push({ MaNguyenLieu, dsNguyenLieu });
+    dsDonXuat.filter((dx) => dx.MaSanPham == MaSanPham).length ||
+      dsDonXuat.push({ MaSanPham, dsNguyenLieu });
     renderChiTietPhanPhoi(id, dsNguyenLieu);
   });
 }
-function renderXacNhanCuoi(id) {
-  let html = xacNhan(id);
+async function renderXacNhanCuoi(id) {
+  let chiTiet = await layDon(id);
+  let html = xacNhan(chiTiet);
   html = `${menu()}
       ${html}
       `;
   let container = document.querySelector(".container");
   container.innerHTML = html;
   menuShow();
+  const btnLap = document.querySelector("#lapPhieu");
+  const btnQuayLai = document.querySelector("#quayLai");
+  btnLap.addEventListener("click", async (e) => {
+    await lapPhieuXuatKho(chiTiet.MaDon);
+    themOverlay();
+    const overlayDivEl = document.querySelector(".overlayDiv");
+    overlayDivEl.addEventListener("click", (e) => showOverlay(id));
+  });
+  btnQuayLai.addEventListener("click", (e) => {
+    renderChiTiet(id);
+  });
+}
+function showOverlay(id) {
+  xoaOverlay();
+  window.location.reload();
+}
+function themOverlay() {
+  const overlayDivEl = document.querySelector(".overlayDiv");
+  overlayDivEl.innerHTML = `<div class="overlay"></div>
+      <div class="message">Đã phân phối đơn thành công</div>`;
+}
+function xoaOverlay() {
+  const overlayDivEl = document.querySelector(".overlayDiv");
+  overlayDivEl.innerHTML = "";
+  overlayDivEl.removeEventListener("click", showOverlay);
 }
 function init() {
   render();
