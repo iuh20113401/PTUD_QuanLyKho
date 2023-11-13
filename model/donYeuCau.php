@@ -10,6 +10,7 @@ class DonYeuCau{
             $query = "SELECT DISTINCT d.MaDon, d.MaLoai,MaTaiKhoan, TenLoai,NgayLap, d.TrangThai,d.SoLuong as soluongnguyenlieu
             FROM donyeucau as d JOIN chitietdonyeucau as ctd on ctd.MaDon = d.MaDon JOIN loaidon as ld on d.MaLoai = ld.MaLoai ";
 <<<<<<< HEAD
+<<<<<<< HEAD
             if ($trangThai != null) {
                 // Nếu có trạng thái được chỉ định, thêm điều kiện vào câu truy vấn
                 $query .= " WHERE d.TrangThai = :trangThai";
@@ -27,6 +28,8 @@ class DonYeuCau{
             }
             if($maTaiKhoan != null){
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
             if ($trangThai !== null) {
                 // Nếu có trạng thái được chỉ định, thêm điều kiện vào câu truy vấn
                 $query .= " WHERE d.TrangThai = :trangThai";
@@ -44,7 +47,10 @@ class DonYeuCau{
                 $stmt->bindParam(":trangThai", $trangThai);
             }
             if($maTaiKhoan !== null){
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
                 $stmt->bindParam(":maTaiKhoan", $maTaiKhoan);
             }
             $stmt->execute();

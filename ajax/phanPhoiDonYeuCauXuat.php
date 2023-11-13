@@ -15,6 +15,7 @@ session_start();
         if($action === 'lapPhieuXuatKho'){
             $maDon = $_POST['maDon'];
 <<<<<<< HEAD
+<<<<<<< HEAD
             $maChiTietSanPham = explode(",",$_POST['MaChiTietSanPham']);
             $soLuong = explode(",",$_POST['SoLuong']);
             $maKho = explode(",",$_POST['Kho']);
@@ -23,6 +24,11 @@ session_start();
             $soLuong = $_POST['SoLuong'];
             $maKho = $_POST['Kho'];
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+            $maChiTietSanPham = $_POST['MaChiTietSanPham'];
+            $soLuong = $_POST['SoLuong'];
+            $maKho = $_POST['Kho'];
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
             $maTaiKhoan = 2;
             $ngayLap = date('Y-m-d');
             $trangThai = 'Chờ xuất';
@@ -73,17 +79,23 @@ session_start();
     function lapPhieuXuatKho($maDon, $maKho, $maTaiKhoan, $ngayLap,$trangThai,$maChiTietSanPham, $soLuong){
         $maPhieu = [];
 <<<<<<< HEAD
+<<<<<<< HEAD
         $uniqueArray = array_unique($maKho);
          $uniqueArray = array_values($uniqueArray);
         for($i = 0; $i < count($uniqueArray); $i++){
             array_push($maPhieu,rand(0,1000));
             $res = lapPhieuXuat($maPhieu[$i],$maDon ,$uniqueArray[$i], $maTaiKhoan, $ngayLap, null,$trangThai);
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
         echo json_encode($maKho);
         for($i = 0; $i < count(array_unique($maKho)); $i++){
             array_push($maPhieu,rand(0,1000));
             $res = lapPhieuXuat($maPhieu[$i],$maDon ,$maKho[$i], $maTaiKhoan, $ngayLap, null,$trangThai);
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
         }
         if(!$res){
             echo json_encode(false);
@@ -117,10 +129,13 @@ session_start();
          }
     function themChiTietPhieuXuat($maPhieu, $maChiTietSanPham, $soLuong){
 <<<<<<< HEAD
+<<<<<<< HEAD
             $p = new ControlPhieuXuat();
             $res = $p->themChiTietPhieuXuat($maPhieu, $maChiTietSanPham, $soLuong);
             return $res;
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
                 $p = new ControlPhieuXuat();
              $res = $p->themChiTietPhieuXuat($maPhieu, $maChiTietSanPham, $soLuong);
              if (!$res) {
@@ -128,20 +143,29 @@ session_start();
              } else {
                  return true;
              }
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
         }
     function capNhatTrangThaiDonYeuCau($maDon, $trangThai){
         $p = new ControlDonYeuCau(); 
         $res = $p->capNhatTrangThaiDonYeuCau($maDon, $trangThai);
 <<<<<<< HEAD
+<<<<<<< HEAD
         return $res;
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
         if (!$res){
            echo json_encode(false);
         }else{
            echo json_encode(true);
         }
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
     }
 
 ?>

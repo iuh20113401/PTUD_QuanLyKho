@@ -1,6 +1,7 @@
 "use strick";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 let dsDonXuat = [];
 async function layDanhSachTatCaDon() {
@@ -15,6 +16,8 @@ async function layChiTietDonYeuCauXuat(maDon) {
     action: "layDon",
     maDon: maDon,
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 let dsDonXuat = [];
 async function layDanhSachTatCaDon() {
   let data;
@@ -42,12 +45,16 @@ async function layChiTietDonYeuCauXuat(maDon) {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 
 async function layDanhSachSanPham(maSanPham) {
+<<<<<<< HEAD
 <<<<<<< HEAD
   const data = await getFetch("../ajax/phanPhoiDonYeuCauXuat.php", {
     action: "layDanhSachSanPham",
@@ -76,6 +83,8 @@ async function lapPhieuXuatKho(maDon) {
   });
 
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/phanPhoiDonYeuCauXuat.php", // Đường dẫn đến tệp PHP
@@ -125,7 +134,10 @@ async function lapPhieuXuatKho(maDon) {
       data = JSON.parse(response);
     },
   });
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   return data;
 }
 let dsDon = await layDanhSachTatCaDon();
@@ -146,10 +158,14 @@ function content() {
   let html = `        
         <div class="content">
 <<<<<<< HEAD
+<<<<<<< HEAD
          <a href="#"> <h3>Phân phối > Đơn yêu cầu xuất</h3></a>
 =======
          <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
           <form class="search">
             <div class ='inputGroup'>
             <input type="text" name="search" id="search">
@@ -358,10 +374,14 @@ function xacNhan(chiTiet) {
           </div>`;
   let html = `<div class="content">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <a href="#"> <h3>Phân phối > Đơn yêu cầu xuất</h3></a>
 =======
         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+        <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
         <form class="search">
             <div class ='inputGroup'>
             <input type="text" name="search" id="search">
@@ -370,10 +390,14 @@ function xacNhan(chiTiet) {
           </form>
         <div class="content__inner chitiet">
 <<<<<<< HEAD
+<<<<<<< HEAD
           <h3>Đơn yêu cầu xuất nguyên liệu</h3>
 =======
           <h3>Đơn yêu cầu nhập nguyên liệu</h3>
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+          <h3>Đơn yêu cầu nhập nguyên liệu</h3>
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
           <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaDon}</p>
           <p><span class="deMuc">Tên đơn:</span>${chiTiet.TenLoai}</p>
           <p><span class="deMuc">Người lập:</span>${chiTiet.MaTaiKhoan}</p>

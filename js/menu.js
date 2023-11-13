@@ -1,10 +1,13 @@
 "use strick";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 async function getSession() {
   let data = await getFetch("../ajax/session.php", {
     action: "getSession",
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 async function getSession() {
   let data;
   await $.ajax({
@@ -16,7 +19,10 @@ async function getSession() {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
@@ -288,6 +294,7 @@ async function checkAccessAndRedirect() {
   const userRole = await getSession();
   const currentPage = window.location.pathname.split("/").pop();
 <<<<<<< HEAD
+<<<<<<< HEAD
   if (!userRole) {
     window.location.href = `../index.html`;
     return;
@@ -296,6 +303,9 @@ async function checkAccessAndRedirect() {
 =======
   if (!rolePages[userRole]?.includes(currentPage)) {
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+  if (!rolePages[userRole]?.includes(currentPage)) {
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
     let href;
     switch (userRole) {
       case 1:

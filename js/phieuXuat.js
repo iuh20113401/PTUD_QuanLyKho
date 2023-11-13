@@ -1,10 +1,13 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { toExcel, toPDF, getFetch } from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 async function layPhieuXuatKhoChoXuatTheoTaiKhoan() {
   const data = await getFetch("../ajax/xuatKho.php", {
     action: "layPhieuXuatKhoChoXuatQuanLy",
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 import { toExcel, toPDF } from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 
@@ -19,15 +22,21 @@ async function layPhieuXuatKhoChoXuatTheoTaiKhoan() {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 async function layPhieuXuatKhoDaXuatTheoTaiKhoan() {
 <<<<<<< HEAD
+<<<<<<< HEAD
   const data = await getFetch("../ajax/xuatKho.php", {
     action: "layPhieuXuatKhoDaXuatQuanLy",
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/xuatKho.php", // Đường dẫn đến tệp PHP
@@ -38,11 +47,15 @@ async function layPhieuXuatKhoDaXuatTheoTaiKhoan() {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 async function layChiTietPhieuXuat(maPhieu) {
+<<<<<<< HEAD
 <<<<<<< HEAD
   const data = await getFetch("../ajax/xemDonYeuCauCu.php", {
     action: "layChiTietPhieuXuat",
@@ -52,6 +65,8 @@ async function layChiTietPhieuXuat(maPhieu) {
 }
 
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/xemDonYeuCauCu.php", // Đường dẫn đến tệp PHP
@@ -66,7 +81,10 @@ async function layChiTietPhieuXuat(maPhieu) {
   });
   return data;
 }
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 let dsPhieuXuat;
 
 function render(chiTietNguyenLieu = null, thanhPham) {
@@ -87,10 +105,14 @@ function contentPhieuXuat() {
   let html = `        
         <div class="content">
 <<<<<<< HEAD
+<<<<<<< HEAD
          <a href="#"> <h3>Phiếu xuất</h3></a>
 =======
          <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
           <form class="search">
           <select>
             <option value = 1 >Chờ xuất</option>
@@ -155,10 +177,14 @@ function contentChiTietPhieuXuat(chiTiet) {
            `;
   let html = `<div class="content">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <a href="#"> <h3>Phiếu xuấtp</h3></a>
 =======
         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+        <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
         <form class="search">
         <select>
             <option value = 1 >Chờ xuất</option>

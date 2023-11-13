@@ -1,5 +1,6 @@
 import render, { dsSanPham } from "./nguyenLieuNV.js";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 async function themNL(maSanPham, tenSanPham) {
   const data = await getFetch("../ajax/sanPham.php", {
@@ -8,6 +9,8 @@ async function themNL(maSanPham, tenSanPham) {
     tenSanPham,
     loai: "Nguyên liệu",
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 async function themNL(maSanPham, tenSanPham) {
   let data;
   await $.ajax({
@@ -22,17 +25,23 @@ async function themNL(maSanPham, tenSanPham) {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 async function capNhatSanPham(maSanPham, tenSanPham) {
+<<<<<<< HEAD
 <<<<<<< HEAD
   const data = await getFetch("../ajax/sanPham.php", {
     action: "capNhatSanPham",
     maSanPham,
     tenSanPham,
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   maSanPham, tenSanPham;
   let data;
   await $.ajax({
@@ -46,11 +55,15 @@ async function capNhatSanPham(maSanPham, tenSanPham) {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 async function xoaSanPham(maSanPham) {
+<<<<<<< HEAD
 <<<<<<< HEAD
   const data = await getFetch("../ajax/sanPham.php", {
     action: "xoaSanPham",
@@ -61,6 +74,8 @@ async function xoaSanPham(maSanPham) {
 }
 
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
@@ -76,7 +91,10 @@ async function xoaSanPham(maSanPham) {
   });
   return data;
 }
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 function themBtn() {
   const formSearch = document.querySelector(".search");
   let html = `<button type="button" id="themNL" class ="btn primary">Thêm nguyên liệu</button>`;
@@ -120,10 +138,14 @@ function contentThemNL() {
         </form>
         <div class="content__inner chitiet">
 <<<<<<< HEAD
+<<<<<<< HEAD
           <h3>Thêm nguyên liệu</h3>
 =======
           <h3>Thêm công thức</h3>
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+          <h3>Thêm công thức</h3>
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
           <form action="" class="form">
             <div class="inputInfo--flat mt-1">
               <label for="maNL" class="label" >Mã nguyên liệu</label>
@@ -211,10 +233,14 @@ function contentSua(chiTiet) {
         </form>
         <div class="content__inner chitiet">
 <<<<<<< HEAD
+<<<<<<< HEAD
           <h3>Thêm nguyên liệu</h3>
 =======
           <h3>Thêm công thức</h3>
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+          <h3>Thêm công thức</h3>
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
           <form action="" class="form">
             <div class="inputInfo--flat mt-1">
               <label for="maNL" class="label" >Mã nguyên liệu</label>

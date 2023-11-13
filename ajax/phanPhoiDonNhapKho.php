@@ -16,18 +16,24 @@ session_start();
         if($action === 'capNhatDonYeuCau'){
             $maDon = $_POST['maDon'];
 <<<<<<< HEAD
+<<<<<<< HEAD
             $maSanPham = explode(',', $_POST['maSanPham']);
             $ngaySanXuat =  explode(',',$_POST['ngaySanXuat']);
             $ngayHetHan =  explode(',',$_POST['ngayHetHan']);
             $viTriKho =  explode(',',$_POST['viTriKho']);
             $trangThai =  $_POST['trangThai'];
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
             $maSanPham = $_POST['maSanPham'];
             $ngaySanXuat = $_POST['ngaySanXuat'];
             $ngayHetHan = $_POST['ngayHetHan'];
             $viTriKho = $_POST['viTriKho'];
             $trangThai = $_POST['trangThai'];
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
         }
         switch($action){
             case "layTatCaDon":
@@ -110,14 +116,20 @@ session_start();
         $p = new ControlPhieuNhap(); 
         $res = $p->lapPhieuNhap($maDon ,$maKho, $maTaiKhoan, $ngayLap, $ngayNhap,	$trangThai);
 <<<<<<< HEAD
+<<<<<<< HEAD
         echo json_encode($res);
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
         if (!$res){
           return false;
         }else{
            return true;
         }
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
     }
 
 

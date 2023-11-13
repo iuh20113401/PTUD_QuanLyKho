@@ -1,5 +1,6 @@
 import { menu, menuShow, highLightMenu } from "./menu.js";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 async function layThongTinTaiKhoan() {
   const data = await getFetch("../ajax/session.php", {
@@ -45,6 +46,8 @@ switch (taiKhoan[0]) {
     break;
 }
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 
 async function layThongTinTaiKhoan() {
   let data;
@@ -75,7 +78,10 @@ async function dangXuat() {
   return data;
 }
 let taiKhoan = await layThongTinTaiKhoan();
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 async function render() {
   let html = contentToanBo();
 
@@ -92,8 +98,11 @@ async function render() {
 function contentToanBo() {
   let html = `<div class="content">
 <<<<<<< HEAD
+<<<<<<< HEAD
        <h3>Tài khoản</h3>
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
        <h3>Sản phẩm > <a href="nguyenLieu.html">Nguyên Liệu</a></h3>
         <form class="search">
             <div class ='inputGroup'>
@@ -101,11 +110,15 @@ function contentToanBo() {
             <button type="button"><i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8;"></i></button>
             </div>
           </form>
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
         <div class="content__inner chitiet">
           <h3>Thông tin tài khoản</h3>
           <div  class="inputInfo--flat mt-1">
             <label class="labelLarge" for= "maTK">Mã tài khoản</label>
+<<<<<<< HEAD
 <<<<<<< HEAD
             <input type="text" class="inputLargeX" name = "maTK" id ="maTK" value = '${taiKhoan[2]}' disabled/> 
           </div>
@@ -117,6 +130,8 @@ function contentToanBo() {
             <label class="labelLarge" for= "tenDN">Tên đăng nhập</label>
             <input type="text" class="inputLargeX" name = "tenDN" id ="tenDN" value = '${taiKhoan[3]}' disabled/> 
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
             <input type="text" class="inputLargeX" name = "maTK" id ="maTK" value = ${taiKhoan[2]} disabled/> 
           </div>
           <div  class="inputInfo--flat mt-1">
@@ -126,7 +141,10 @@ function contentToanBo() {
           <div  class="inputInfo--flat mt-1">
             <label class="labelLarge" for= "tenDN">Tên đăng nhập</label>
             <input type="text" class="inputLargeX" name = "tenDN" id ="tenDN" value = ${taiKhoan[3]} disabled/> 
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
           </div>
           <div  class="inputInfo--flat mt-1">
             <label class="labelLarge">Mật khẩu</label>
@@ -141,6 +159,7 @@ function contentToanBo() {
   return html;
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 function init() {
   render();
@@ -173,6 +192,8 @@ function init() {
     });
   });
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 function renderChiTiet() {
   const sanPham = document.querySelectorAll(".hover");
   sanPham.forEach((sp) => {
@@ -195,7 +216,10 @@ function init() {
     dangXuat();
     window.location.reload();
   });
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 }
 init();
 export default taiKhoan;

@@ -1,6 +1,7 @@
 "use strick";
 import { menu, menuShow } from "./menu.js";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 async function layToanBoThanhPham() {
   const data = await getFetch("../ajax/sanPham.php", {
@@ -26,6 +27,8 @@ async function themDonYeuCau(donYeuCau) {
 }
 
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 async function layToanBoThanhPham() {
   let data;
   await $.ajax({
@@ -64,7 +67,10 @@ async function themDonYeuCau(donYeuCau) {
   });
   return data;
 }
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 let dsSanPham = await layToanBoThanhPham();
 
 function render(dsNguyenLieu = null) {
@@ -79,6 +85,7 @@ function render(dsNguyenLieu = null) {
 function content(dsNguyenLieu = null) {
   let html = `<div class="content">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <h5>Lập đon yêu cầu > Nhập thành phẩm</h5>
         <form class="don">
           <h2 class = "tittle">Đơn yêu cầu nhập thành phẩm</h2>
@@ -87,6 +94,11 @@ function content(dsNguyenLieu = null) {
         <form class="don">
           <h2 class = "tittle">Đơn yêu cầu Xuất thành phẩm</h2>
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+        <h5>Lập đon yêu cầu > Xuất thành phẩm</h5>
+        <form class="don">
+          <h2 class = "tittle">Đơn yêu cầu Xuất thành phẩm</h2>
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
           <div name="taikhoan" class="inputInfo--flat mb-1">
             <label for="">Người lập: </label>
             <input
@@ -126,6 +138,7 @@ function content(dsNguyenLieu = null) {
     }, "");
     html2 = `<div class="content">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <h5>Lập đon yêu cầu > Nhập thành phẩm</h5>
         <form class="don">
           <h2 class="tittle">Đơn yêu cầu Nhập thành phẩm</h2>
@@ -134,6 +147,11 @@ function content(dsNguyenLieu = null) {
         <form class="don">
           <h2 class="tittle">Đơn yêu cầu xuất thành phẩm</h2>
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+        <h5>Lập đon yêu cầu > Xuất thành phẩm</h5>
+        <form class="don">
+          <h2 class="tittle">Đơn yêu cầu xuất thành phẩm</h2>
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
           <div name="maDon" class="inputInfo--flat">
             <label for="">Mã đơn: </label>
             <input

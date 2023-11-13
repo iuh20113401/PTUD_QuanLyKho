@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { toExcel, toPDF, getFetch } from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 
@@ -15,6 +16,8 @@ async function laySanPhamTheoTen(ten) {
     ten,
     loai: "Thành phẩm",
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 import { toExcel, toPDF } from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 
@@ -45,16 +48,22 @@ async function laySanPhamTheoTen(ten) {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 async function layChiTietSanPham(maSanPham) {
 <<<<<<< HEAD
+<<<<<<< HEAD
   const data = await getFetch("../ajax/sanPham.php", {
     action: "layChiTietSanPham",
     maSanPham,
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
@@ -67,7 +76,10 @@ async function layChiTietSanPham(maSanPham) {
       response;
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
@@ -117,12 +129,17 @@ function contentToanBo() {
               <th>Tên thành phẩm</th>
               <th>Số lượng tồn</th>
 <<<<<<< HEAD
+<<<<<<< HEAD
               <th>Số lượng chờ nhập</th>
               <th>Số lượng chò xuất</th>
 =======
               <th>Số lượng chờ xuất</th>
               <th>Số lượng chò nhập</th>
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+              <th>Số lượng chờ xuất</th>
+              <th>Số lượng chò nhập</th>
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
               <th>Đơn vị</th>
             </tr>
             ${chiTietSanPham}
@@ -187,10 +204,14 @@ function contentChitiet(dsChiTietSanPham) {
           </table>`
               : `<h3 class ="khongDon">Không có sản phẩm nào!</h3>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <a href="thanhPham.html" class="noDecoration"><button class = 'btn primary center'> Quay lại</button></a>
 =======
                 <a href="nguyenLieu.html" class="noDecoration"><button class = 'btn primary center'> Quay lại</button></a>
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+                <a href="nguyenLieu.html" class="noDecoration"><button class = 'btn primary center'> Quay lại</button></a>
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
               `
           }    
       </div>`;

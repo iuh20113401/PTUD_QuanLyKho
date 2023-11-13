@@ -1,11 +1,14 @@
 "use strick";
 import { menu, menuShow } from "./menu.js";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 async function layToanBoThanhPham() {
   const data = await getFetch("../ajax/sanPham.php", {
     action: "layToanBoThanhPham",
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 async function layToanBoThanhPham() {
   let data;
   await $.ajax({
@@ -17,11 +20,15 @@ async function layToanBoThanhPham() {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 async function themDonYeuCau(donYeuCau) {
+<<<<<<< HEAD
 <<<<<<< HEAD
   const data = await getFetch("../ajax/lapDonYeuCau.php", {
     action: "lapDonYeuCau",
@@ -37,6 +44,8 @@ async function themDonYeuCau(donYeuCau) {
 }
 
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/lapDonYeuCau.php", // Đường dẫn đến tệp PHP
@@ -57,7 +66,10 @@ async function themDonYeuCau(donYeuCau) {
   });
   return data;
 }
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 let dsSanPham = await layToanBoThanhPham();
 
 function render(dsNguyenLieu = null) {

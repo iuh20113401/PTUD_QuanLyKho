@@ -5,6 +5,7 @@ session_start();
     if(isset($_POST["action"])){
         $action = $_POST["action"];
 <<<<<<< HEAD
+<<<<<<< HEAD
         $trangThai = null;
         if($action == "layDonYeuCau"){
             if(isset($_POST["trangThai"]) && $_POST["trangThai"] != 'null'){
@@ -13,16 +14,25 @@ session_start();
         if($action == "layDonYeuCau"){
             if(isset($_POST["trangThai"]) && $_POST["trangThai"] != null){
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+        $trangThai =null;
+        if($action == "layDonYeuCau"){
+            if(isset($_POST["trangThai"]) && $_POST["trangThai"] != null){
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
                 $trangThai = $_POST["trangThai"];
             }
         }
         if($action == "layDonYeuCauTheoTaiKhoan"){
             $maTaiKhoan = $_SESSION['maTaiKhoan'];
 <<<<<<< HEAD
+<<<<<<< HEAD
             if(isset($_POST["trangThai"]) && $_POST["trangThai"] != 'null'){
 =======
             if(isset($_POST["trangThai"]) && $_POST["trangThai"] != null){
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+            if(isset($_POST["trangThai"]) && $_POST["trangThai"] != null){
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
                 $trangThai = $_POST["trangThai"];
             }
         }

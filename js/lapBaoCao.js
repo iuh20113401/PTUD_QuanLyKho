@@ -1,11 +1,14 @@
 import { MAVAITRO, menu, menuShow, highLightMenu } from "./menu.js";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { toExcel, toPDF, getFetch } from "./helper.js";
 
 async function nguyenLieu() {
   let data = await getFetch("../ajax/baoCao.php", {
     action: "nguyenLieu",
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 
 async function nguyenLieu() {
   let data;
@@ -18,15 +21,21 @@ async function nguyenLieu() {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 async function thanhPham() {
 <<<<<<< HEAD
+<<<<<<< HEAD
   let data = await getFetch("../ajax/baoCao.php", {
     action: "thanhPham",
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/baoCao.php", // Đường dẫn đến tệp PHP
@@ -38,7 +47,10 @@ async function thanhPham() {
       response;
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }

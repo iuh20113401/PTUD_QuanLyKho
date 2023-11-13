@@ -3,6 +3,7 @@ import { menu, menuShow, highLightMenu } from "./menu.js";
 import { toExcel, toPDF } from "./helper.js";
 async function layDanhSachDonYeuCauCu() {
 <<<<<<< HEAD
+<<<<<<< HEAD
   const data = await getFetch("../ajax/xemDonYeuCauCu.php", {
     action: "layDonYeuCauCuTheoTaiKhoan",
     maTaiKhoan: 1,
@@ -15,6 +16,8 @@ async function layChiTietNguyenLieu(maDon) {
     action: "layChiTietNguyenLieu",
     maDon: maDon,
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/xemDonYeuCauCu.php", // Đường dẫn đến tệp PHP
@@ -41,7 +44,10 @@ async function layChiTietNguyenLieu(maDon) {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }

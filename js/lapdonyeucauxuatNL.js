@@ -1,6 +1,7 @@
 "use strick";
 import { menu, menuShow } from "./menu.js";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 async function layCongThuc() {
   const data = await getFetch("../ajax/congThuc.php", {
@@ -40,6 +41,8 @@ async function themDonYeuCau(donYeuCau) {
 }
 
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 async function layCongThuc() {
   let data;
   await $.ajax({
@@ -104,7 +107,10 @@ async function themDonYeuCau(donYeuCau) {
   });
   return data;
 }
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 function render(dsNguyenLieu = null) {
   let html = dsNguyenLieu !== null ? content(dsNguyenLieu) : content();
   html = `${menu()}
@@ -167,6 +173,7 @@ function content(dsNguyenLieu = null) {
     }, "");
     html2 = `<div class="content">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <h5>Lập đon yêu cầu > Xuất nguyên liệu</h5>
         <form class="don">
           <h2 class="tittle">Đơn yêu cầu xuất nguyên liệu</h2>
@@ -175,6 +182,11 @@ function content(dsNguyenLieu = null) {
         <form class="don">
           <h2 class="tittle">Đơn yêu cầu nhập nguyên liệu</h2>
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+        <h5>Lập đon yêu cầu > Nhập nguyên liệu</h5>
+        <form class="don">
+          <h2 class="tittle">Đơn yêu cầu nhập nguyên liệu</h2>
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
           <div name="maDon" class="inputInfo--flat">
             <label for="">Mã đơn: </label>
             <input

@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { toExcel, toPDF, getFetch } from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 
@@ -18,6 +19,8 @@ async function layChiTietPhieuNhap(maPhieu) {
 }
 
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 import { toExcel, toPDF } from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 
@@ -64,7 +67,10 @@ async function layChiTietPhieuNhap(maPhieu) {
   });
   return data;
 }
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 let dsPhieuNhap;
 function render(chiTietNguyenLieu = null, thanhPham, loai = "Don") {
   let html;
@@ -86,10 +92,14 @@ function contentPhieuNhap() {
   let html = `        
         <div class="content">
 <<<<<<< HEAD
+<<<<<<< HEAD
          <a href="#"> <h3>Phiếu nhập</h3></a>
 =======
          <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
           <form class="search">
             <select class ='loai'>
               <option value ='1'>Chờ nhập</option>
@@ -152,10 +162,14 @@ function contentChiTietPhieuNhap(chiTiet) {
            `;
   let html = `<div class="content">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <a href="#"> <h3>PPhiếu nhập</h3></a>
 =======
         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+        <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
         <form class="search">
             <div class ='inputGroup'>
             <input type="text" name="search" id="search">

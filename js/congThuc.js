@@ -1,11 +1,14 @@
 "use strick";
 import { MAVAITRO, menu, menuShow, highLightMenu } from "./menu.js";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { getFetch, toPDF, toExcel } from "./helper.js";
 async function layCongThuc() {
   let data = await getFetch("../ajax/congThuc.php", {
     action: "layCongThuc",
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 async function layCongThuc() {
   let data;
   await $.ajax({
@@ -17,17 +20,23 @@ async function layCongThuc() {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 
 async function layChiTietCongThuc(maCongThuc) {
 <<<<<<< HEAD
+<<<<<<< HEAD
   let data = await getFetch("../ajax/congThuc.php", {
     action: "layChiTietCongThuc",
     maCongThuc,
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/congThuc.php", // Đường dẫn đến tệp PHP
@@ -39,15 +48,21 @@ async function layChiTietCongThuc(maCongThuc) {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 async function layToanBoNguyenLieu() {
 <<<<<<< HEAD
+<<<<<<< HEAD
   let data = await getFetch("../ajax/sanPham.php", {
     action: "layToanBoNguyenLieu",
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
@@ -58,7 +73,10 @@ async function layToanBoNguyenLieu() {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
@@ -71,6 +89,7 @@ async function themCT(
   donVi
 ) {
 <<<<<<< HEAD
+<<<<<<< HEAD
   let data = await getFetch("../ajax/sanPham.php", {
     action: "themCongThuc",
     maCongThuc,
@@ -80,6 +99,8 @@ async function themCT(
     soLuong,
     donVi,
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   maCongThuc, tenCongThuc, moTa, maSanPham;
   let data;
   await $.ajax({
@@ -98,7 +119,10 @@ async function themCT(
       response;
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }

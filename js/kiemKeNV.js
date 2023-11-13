@@ -1,12 +1,15 @@
 "use strick";
 import { MAVAITRO, menu, menuShow, highLightMenu } from "./menu.js";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { toExcel, toPDF, getFetch } from "./helper.js";
 
 async function layKho() {
   let data = await getFetch("../ajax/kho.php", {
     action: "layTatCaKho",
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 import { toExcel, toPDF } from "./helper.js";
 
 async function layKho() {
@@ -20,16 +23,22 @@ async function layKho() {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 async function laySanPhamTheoKho(kho) {
 <<<<<<< HEAD
+<<<<<<< HEAD
   let data = await getFetch("../ajax/sanPham.php", {
     action: "laySanPhamTheoKho",
     kho,
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
@@ -41,15 +50,21 @@ async function laySanPhamTheoKho(kho) {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 async function layThongTinTaiKhoan() {
 <<<<<<< HEAD
+<<<<<<< HEAD
   let data = await getFetch("../ajax/session.php", {
     action: "layThongTinTaiKhoan",
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/session.php", // Đường dẫn đến tệp PHP
@@ -60,15 +75,21 @@ async function layThongTinTaiKhoan() {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 async function layDonKiemKeTheoTaiKhoan() {
 <<<<<<< HEAD
+<<<<<<< HEAD
   let data = await getFetch("../ajax/kiemKe.php", {
     action: "layDonYeuCauTheoTaiKhoan",
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/kiemKe.php", // Đường dẫn đến tệp PHP
@@ -79,11 +100,15 @@ async function layDonKiemKeTheoTaiKhoan() {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 async function lapDonKiemKe(dataLap) {
+<<<<<<< HEAD
 <<<<<<< HEAD
   let data = await getFetch("../ajax/kiemKe.php", {
     action: "lapDonKiemKe",
@@ -95,6 +120,8 @@ async function lapDonKiemKe(dataLap) {
     tinhTrang: dataLap.tinhTrang,
     kho: dataLap.kho,
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/kiemKe.php", // Đường dẫn đến tệp PHP
@@ -112,17 +139,23 @@ async function lapDonKiemKe(dataLap) {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 async function laySanPham(don) {
+<<<<<<< HEAD
 <<<<<<< HEAD
   let data = await getFetch("../ajax/sanPham.php", {
     action: "layMotSoSanPhamTheoKho",
     kho: don.Kho,
     maSanPham: don.MoTa !== "" ? don.MoTa.split(",") : null,
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
@@ -135,17 +168,23 @@ async function laySanPham(don) {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 async function laySanPhamTheoDon(don) {
+<<<<<<< HEAD
 <<<<<<< HEAD
   let data = await getFetch("../ajax/sanPham.php", {
     action: "layDanhMucSanPhamTheoKho",
     kho: don.Kho,
     maSanPham: don.MoTa !== "" ? don.MoTa : null,
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
@@ -158,11 +197,15 @@ async function laySanPhamTheoDon(don) {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 async function themChiTietKiemKe(don) {
+<<<<<<< HEAD
 <<<<<<< HEAD
   let data = await getFetch("../ajax/kiemKe.php", {
     action: "themChiTietKiemKe",
@@ -172,6 +215,8 @@ async function themChiTietKiemKe(don) {
     moTa: don.moTa,
     maKiemKe: don.maKiemKe,
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/kiemKe.php", // Đường dẫn đến tệp PHP
@@ -188,18 +233,24 @@ async function themChiTietKiemKe(don) {
       console.log(response);
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 
 async function capNhatTrangThai(don, trangThai) {
 <<<<<<< HEAD
+<<<<<<< HEAD
   let data = await getFetch("../ajax/kiemKe.php", {
     action: "capNhatTrangThai",
     maDon: don.MaKiemKe,
     trangThai,
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/kiemKe.php", // Đường dẫn đến tệp PHP
@@ -213,17 +264,23 @@ async function capNhatTrangThai(don, trangThai) {
       console.log(response);
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 
 async function layChiTietDonKiemKeLoi(don) {
 <<<<<<< HEAD
+<<<<<<< HEAD
   let data = await getFetch("../ajax/kiemKe.php", {
     action: "layChiTietDonKiemKeLoi",
     maKiemKe: don.MaKiemKe,
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/kiemKe.php", // Đường dẫn đến tệp PHP
@@ -236,7 +293,10 @@ async function layChiTietDonKiemKeLoi(don) {
       console.log(response);
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }

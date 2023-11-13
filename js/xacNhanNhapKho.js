@@ -1,6 +1,7 @@
 "use strick";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 async function layDanhSachPhieuNhap() {
   const data = await getFetch("../ajax/nhapKho.php", {
@@ -19,6 +20,8 @@ async function layChiTietPhieuNhap(maPhieu) {
 }
 
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 
 async function layDanhSachPhieuNhap() {
   let data;
@@ -50,7 +53,10 @@ async function layChiTietPhieuNhap(maPhieu) {
   });
   return data;
 }
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 async function xacNhanNhapKho(phieu) {
   let data;
   await $.ajax({
@@ -91,10 +97,14 @@ function content() {
   let html = `        
         <div class="content">
 <<<<<<< HEAD
+<<<<<<< HEAD
          <a href="#"> <h3>Nhập kho</h3></a>
 =======
          <a href="#"> <h3>Phân phối > Xác nhận nhập kho</h3></a>
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+         <a href="#"> <h3>Phân phối > Xác nhận nhập kho</h3></a>
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
           <form class="search">
             <div class ='inputGroup'>
             <input type="text" name="search" id="search">
@@ -157,10 +167,14 @@ function contentChiTiet(chiTiet) {
           </div>`;
   let html = `<div class="content">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <a href="#"> <h3>Nhập kho</h3></a>
 =======
         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+        <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
         <form class="search">
             <div class ='inputGroup'>
             <input type="text" name="search" id="search">

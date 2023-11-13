@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { toExcel, toPDF, getFetch } from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 
@@ -27,6 +28,8 @@ async function layChiTietSanPham(maSanPham) {
 }
 
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 import { toExcel, toPDF } from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 
@@ -77,7 +80,10 @@ async function layChiTietSanPham(maSanPham) {
   });
   return data;
 }
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 let dsSanPham = await layToanBoNguyenLieu();
 async function render(load = null) {
   load ? (dsSanPham = await layToanBoNguyenLieu()) : null;
@@ -108,10 +114,14 @@ function contentToanBo() {
         })
         .join("")
 <<<<<<< HEAD
+<<<<<<< HEAD
     : `<h3 class ="khongDon">Không có nguyên liệu nào!</h3`;
 =======
     : `<h3 class ="khongDon">Không có đơn yêu cầu nào!</h3`;
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+    : `<h3 class ="khongDon">Không có đơn yêu cầu nào!</h3`;
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let html = `<div class="content">
        <h3>Sản phẩm > <a href="nguyenLieu.html">Nguyên Liệu</a></h3>
         <form class="search">

@@ -1,6 +1,7 @@
 "use strick";
 import { MAVAITRO, menu, menuShow, highLightMenu } from "./menu.js";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { toExcel, toPDF, getFetch } from "./helper.js";
 
 async function layDonYeuCau(trangThai = null) {
@@ -9,6 +10,8 @@ async function layDonYeuCau(trangThai = null) {
     action: "layDonYeuCau",
     trangThai: trangThai,
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
 import { toExcel, toPDF } from "./helper.js";
 
 async function layDonYeuCau(trangThai = null) {
@@ -25,17 +28,23 @@ async function layDonYeuCau(trangThai = null) {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 
 async function layChiTietDonYeuCau(maDon) {
 <<<<<<< HEAD
+<<<<<<< HEAD
   let data = await getFetch("../ajax/donYeuCau.php", {
     action: "layChiTietDonYeuCau",
     maDon: maDon,
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/donYeuCau.php", // Đường dẫn đến tệp PHP
@@ -47,17 +56,23 @@ async function layChiTietDonYeuCau(maDon) {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
 async function capNhatTrangThaiDonYeuCau(maDon, trangThai) {
+<<<<<<< HEAD
 <<<<<<< HEAD
   let data = await getFetch("../ajax/donYeuCau.php", {
     action: "capNhatTrangThaiDonYeuCau",
     maDon,
     trangThai,
 =======
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   let data;
   await $.ajax({
     url: "../ajax/donYeuCau.php", // Đường dẫn đến tệp PHP
@@ -70,7 +85,10 @@ async function capNhatTrangThaiDonYeuCau(maDon, trangThai) {
     success: function (response) {
       data = JSON.parse(response);
     },
+<<<<<<< HEAD
 >>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
+=======
+>>>>>>> 9b080c2a6249ad6774275c31feadc130497312ac
   });
   return data;
 }
