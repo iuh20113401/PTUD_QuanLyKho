@@ -14,9 +14,15 @@ session_start();
         }
         if($action === 'lapPhieuXuatKho'){
             $maDon = $_POST['maDon'];
+<<<<<<< HEAD
             $maChiTietSanPham = explode(",",$_POST['MaChiTietSanPham']);
             $soLuong = explode(",",$_POST['SoLuong']);
             $maKho = explode(",",$_POST['Kho']);
+=======
+            $maChiTietSanPham = $_POST['MaChiTietSanPham'];
+            $soLuong = $_POST['SoLuong'];
+            $maKho = $_POST['Kho'];
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
             $maTaiKhoan = 2;
             $ngayLap = date('Y-m-d');
             $trangThai = 'Chờ xuất';
@@ -66,11 +72,18 @@ session_start();
     }
     function lapPhieuXuatKho($maDon, $maKho, $maTaiKhoan, $ngayLap,$trangThai,$maChiTietSanPham, $soLuong){
         $maPhieu = [];
+<<<<<<< HEAD
         $uniqueArray = array_unique($maKho);
          $uniqueArray = array_values($uniqueArray);
         for($i = 0; $i < count($uniqueArray); $i++){
             array_push($maPhieu,rand(0,1000));
             $res = lapPhieuXuat($maPhieu[$i],$maDon ,$uniqueArray[$i], $maTaiKhoan, $ngayLap, null,$trangThai);
+=======
+        echo json_encode($maKho);
+        for($i = 0; $i < count(array_unique($maKho)); $i++){
+            array_push($maPhieu,rand(0,1000));
+            $res = lapPhieuXuat($maPhieu[$i],$maDon ,$maKho[$i], $maTaiKhoan, $ngayLap, null,$trangThai);
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         }
         if(!$res){
             echo json_encode(false);
@@ -103,14 +116,32 @@ session_start();
              }
          }
     function themChiTietPhieuXuat($maPhieu, $maChiTietSanPham, $soLuong){
+<<<<<<< HEAD
             $p = new ControlPhieuXuat();
             $res = $p->themChiTietPhieuXuat($maPhieu, $maChiTietSanPham, $soLuong);
             return $res;
+=======
+                $p = new ControlPhieuXuat();
+             $res = $p->themChiTietPhieuXuat($maPhieu, $maChiTietSanPham, $soLuong);
+             if (!$res) {
+                 return false;
+             } else {
+                 return true;
+             }
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         }
     function capNhatTrangThaiDonYeuCau($maDon, $trangThai){
         $p = new ControlDonYeuCau(); 
         $res = $p->capNhatTrangThaiDonYeuCau($maDon, $trangThai);
+<<<<<<< HEAD
         return $res;
+=======
+        if (!$res){
+           echo json_encode(false);
+        }else{
+           echo json_encode(true);
+        }
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
     }
 
 ?>

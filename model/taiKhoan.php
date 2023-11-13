@@ -18,6 +18,7 @@ class TaiKhoan{
         $result = $stmt->execute();
         return $result ?: false;
     }
+<<<<<<< HEAD
     function doiMatKhau($maTaiKhoan, $pass){
         $stmt = $this->conn->prepare("UPDATE taikhoan set matkhau = :pass WHERE mataikhoan = :maTaiKhoan");
         $stmt->bindParam(':maTaiKhoan', $maTaiKhoan, PDO::PARAM_INT);
@@ -25,6 +26,8 @@ class TaiKhoan{
         $result = $stmt->execute();
         return $result ?: false;
     }
+=======
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
 }
 
 ?>

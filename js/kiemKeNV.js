@@ -1,33 +1,90 @@
 "use strick";
 import { MAVAITRO, menu, menuShow, highLightMenu } from "./menu.js";
+<<<<<<< HEAD
 import { toExcel, toPDF, getFetch } from "./helper.js";
 
 async function layKho() {
   let data = await getFetch("../ajax/kho.php", {
     action: "layTatCaKho",
+=======
+import { toExcel, toPDF } from "./helper.js";
+
+async function layKho() {
+  let data;
+  await $.ajax({
+    url: "../ajax/kho.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layTatCaKho",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function laySanPhamTheoKho(kho) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/sanPham.php", {
     action: "laySanPhamTheoKho",
     kho,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "laySanPhamTheoKho",
+      kho,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function layThongTinTaiKhoan() {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/session.php", {
     action: "layThongTinTaiKhoan",
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/session.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layThongTinTaiKhoan",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function layDonKiemKeTheoTaiKhoan() {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/kiemKe.php", {
     action: "layDonYeuCauTheoTaiKhoan",
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/kiemKe.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layDonYeuCauTheoTaiKhoan",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function lapDonKiemKe(dataLap) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/kiemKe.php", {
     action: "lapDonKiemKe",
     maDon: dataLap.maDon,
@@ -37,26 +94,76 @@ async function lapDonKiemKe(dataLap) {
     moTa: dataLap.moTa,
     tinhTrang: dataLap.tinhTrang,
     kho: dataLap.kho,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/kiemKe.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "lapDonKiemKe",
+      maDon: dataLap.maDon,
+      ngayLap: new Date().toLocaleDateString("en-CA"),
+      loai: dataLap.loai,
+      maTaiKhoan: dataLap.maTaiKhoan,
+      moTa: dataLap.moTa,
+      tinhTrang: dataLap.tinhTrang,
+      kho: dataLap.kho,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function laySanPham(don) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/sanPham.php", {
     action: "layMotSoSanPhamTheoKho",
     kho: don.Kho,
     maSanPham: don.MoTa !== "" ? don.MoTa.split(",") : null,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layMotSoSanPhamTheoKho",
+      kho: don.Kho,
+      maSanPham: don.MoTa !== "" ? don.MoTa.split(",") : null,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function laySanPhamTheoDon(don) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/sanPham.php", {
     action: "layDanhMucSanPhamTheoKho",
     kho: don.Kho,
     maSanPham: don.MoTa !== "" ? don.MoTa : null,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layDanhMucSanPhamTheoKho",
+      kho: don.Kho,
+      maSanPham: don.MoTa !== "" ? don.MoTa : null,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function themChiTietKiemKe(don) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/kiemKe.php", {
     action: "themChiTietKiemKe",
     maChiTietSanPham: don.maChiTietSanPham,
@@ -64,23 +171,72 @@ async function themChiTietKiemKe(don) {
     soLuong: don.soLuong,
     moTa: don.moTa,
     maKiemKe: don.maKiemKe,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/kiemKe.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "themChiTietKiemKe",
+      maChiTietSanPham: don.maChiTietSanPham,
+      tinhTrang: don.tinhTrang,
+      soLuong: don.soLuong,
+      moTa: don.moTa,
+      maKiemKe: don.maKiemKe,
+    },
+    success: function (response) {
+      console.log(response);
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 
 async function capNhatTrangThai(don, trangThai) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/kiemKe.php", {
     action: "capNhatTrangThai",
     maDon: don.MaKiemKe,
     trangThai,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/kiemKe.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "capNhatTrangThai",
+      maDon: don.MaKiemKe,
+      trangThai,
+    },
+    success: function (response) {
+      console.log(response);
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 
 async function layChiTietDonKiemKeLoi(don) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/kiemKe.php", {
     action: "layChiTietDonKiemKeLoi",
     maKiemKe: don.MaKiemKe,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/kiemKe.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layChiTietDonKiemKeLoi",
+      maKiemKe: don.MaKiemKe,
+    },
+    success: function (response) {
+      console.log(response);
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }

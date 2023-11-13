@@ -15,11 +15,19 @@ session_start();
         }
         if($action === 'capNhatDonYeuCau'){
             $maDon = $_POST['maDon'];
+<<<<<<< HEAD
             $maSanPham = explode(',', $_POST['maSanPham']);
             $ngaySanXuat =  explode(',',$_POST['ngaySanXuat']);
             $ngayHetHan =  explode(',',$_POST['ngayHetHan']);
             $viTriKho =  explode(',',$_POST['viTriKho']);
             $trangThai =  $_POST['trangThai'];
+=======
+            $maSanPham = $_POST['maSanPham'];
+            $ngaySanXuat = $_POST['ngaySanXuat'];
+            $ngayHetHan = $_POST['ngayHetHan'];
+            $viTriKho = $_POST['viTriKho'];
+            $trangThai = $_POST['trangThai'];
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         }
         switch($action){
             case "layTatCaDon":
@@ -101,7 +109,15 @@ session_start();
     function lapPhieuNhap($maDon ,$maKho, $maTaiKhoan, $ngayLap, $ngayNhap,	$trangThai){
         $p = new ControlPhieuNhap(); 
         $res = $p->lapPhieuNhap($maDon ,$maKho, $maTaiKhoan, $ngayLap, $ngayNhap,	$trangThai);
+<<<<<<< HEAD
         echo json_encode($res);
+=======
+        if (!$res){
+          return false;
+        }else{
+           return true;
+        }
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
     }
 
 

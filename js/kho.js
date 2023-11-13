@@ -1,14 +1,32 @@
+<<<<<<< HEAD
 import { toExcel, toPDF, getFetch } from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 
 async function layToanBoKho() {
   let data = await getFetch("../ajax/kho.php", {
     action: "layTatCaKho",
+=======
+import { toExcel, toPDF } from "./helper.js";
+import { menu, menuShow, highLightMenu } from "./menu.js";
+
+async function layToanBoKho() {
+  let data;
+  await $.ajax({
+    url: "../ajax/kho.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layTatCaKho",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 
 async function themKho(chiTiet) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/kho.php", {
     action: "themKho",
     maKho: chiTiet.maKho,
@@ -17,10 +35,30 @@ async function themKho(chiTiet) {
     moTa: chiTiet.moTa,
     sucChua: chiTiet.sucChua,
     loai: chiTiet.loai,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/kho.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "themKho",
+      maKho: chiTiet.maKho,
+      tenKho: chiTiet.tenKho,
+      viTri: chiTiet.viTri,
+      moTa: chiTiet.moTa,
+      sucChua: chiTiet.sucChua,
+      loai: chiTiet.loai,
+    },
+    success: function (response) {
+      console.log(response);
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function suaKho(chiTiet) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/kho.php", {
     action: "capNhatKho",
     maKho: chiTiet.maKho,
@@ -29,14 +67,49 @@ async function suaKho(chiTiet) {
     moTa: chiTiet.moTa,
     sucChua: chiTiet.sucChua,
     loai: chiTiet.loai,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/kho.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "capNhatKho",
+      maKho: chiTiet.maKho,
+      tenKho: chiTiet.tenKho,
+      viTri: chiTiet.viTri,
+      moTa: chiTiet.moTa,
+      sucChua: chiTiet.sucChua,
+      loai: chiTiet.loai,
+    },
+    success: function (response) {
+      console.log(response);
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function xoaKho(chiTiet) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/kho.php", {
     action: "xoaKho",
     maKho: chiTiet.maKho,
     trangThai: chiTiet.trangThai,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/kho.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "xoaKho",
+      maKho: chiTiet.maKho,
+      trangThai: chiTiet.trangThai,
+    },
+    success: function (response) {
+      console.log(response);
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
@@ -132,6 +205,7 @@ function contentChitiet(chiTiet) {
             </div>
             <div class = 'inputInfo--flat mt-1'>
                 <label for="loai">Loại kho:</label>
+<<<<<<< HEAD
                 <select id='loai' class = 'bold selectDisabled' disabled  value = ${
                   chiTiet.Loai == "Nguyên liệu" ? 1 : 2
                 }>
@@ -141,6 +215,15 @@ function contentChitiet(chiTiet) {
                 <option value = '2'  ${
                   chiTiet.Loai != "Nguyên liệu" ? `selected` : ``
                 } >Thành phẩm</option>
+=======
+                <select id='loai' class = 'bold selectDisabled' disabled >
+                <option value = '1' ${
+                  chiTiet.loai == "Nguyên liệu" && `selected`
+                }>Nguyên liệu</option>
+                <option value = '2' ${
+                  chiTiet.loai == "Thành phẩm" && `selected`
+                }>Thành phẩm</option>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
             </select>
             </div>
             <div class = 'inputInfo--flat mt-1'>
@@ -161,6 +244,7 @@ function contentChitiet(chiTiet) {
                   chiTiet.MoTa
                 }</textarea>
             </div>
+<<<<<<< HEAD
             ${
               chiTiet.Loai == "Nguyên liệu" || chiTiet.Loai == "Thành phẩm"
                 ? `<div class='mt-1 buttons center'>
@@ -169,6 +253,12 @@ function contentChitiet(chiTiet) {
             </div>`
                 : ``
             }
+=======
+            <div class='mt-1 buttons center'>
+                <button class = 'btn primary center' id ='sua'>Sửa </button>
+                <button class = 'btn btnXoa center' id ='sua'>Xóa </button>
+            </div>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         </div>`;
   return html;
 }
@@ -241,10 +331,17 @@ function renderChiTiet(id) {
 async function actionXem() {
   const btnSua = document.querySelector("#sua");
   const btnXoa = document.querySelector("#xoa");
+<<<<<<< HEAD
   btnSua?.addEventListener("click", (e) => {
     renderSua();
   });
   btnXoa?.addEventListener("click", async (e) => {
+=======
+  btnSua.addEventListener("click", (e) => {
+    renderSua();
+  });
+  btnXoa.addEventListener("click", async (e) => {
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
     await renderXoa(document.querySelector("#maKho"));
   });
   goBack();

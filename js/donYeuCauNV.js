@@ -1,27 +1,74 @@
 "use strick";
 import { MAVAITRO, menu, menuShow, highLightMenu } from "./menu.js";
+<<<<<<< HEAD
 import { toExcel, toPDF, getFetch } from "./helper.js";
 
 async function layDonYeuCau(trangThai = null) {
   let data = await getFetch("../ajax/donYeuCau.php", {
     action: "layDonYeuCauTheoTaiKhoan",
     trangThai: trangThai ? trangThai : null,
+=======
+import { toExcel, toPDF } from "./helper.js";
+
+async function layDonYeuCau(trangThai = null) {
+  let data;
+  trangThai = trangThai === "Toàn bộ" ? null : trangThai;
+  await $.ajax({
+    url: "../ajax/donYeuCau.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layDonYeuCauTheoTaiKhoan",
+      trangThai: trangThai ? trangThai : null,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 
 async function layChiTietDonYeuCau(maDon) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/donYeuCau.php", {
     action: "layChiTietDonYeuCau",
     maDon: maDon,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/donYeuCau.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layChiTietDonYeuCau",
+      maDon: maDon,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function capNhatTrangThaiDonYeuCau(maDon, trangThai) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/donYeuCau.php", {
     action: "capNhatTrangThaiDonYeuCau",
     maDon,
     trangThai,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/donYeuCau.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "capNhatTrangThaiDonYeuCau",
+      maDon,
+      trangThai,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { toExcel, toPDF, getFetch } from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 
@@ -25,6 +26,58 @@ async function layChiTietSanPham(maSanPham) {
   return data;
 }
 
+=======
+import { toExcel, toPDF } from "./helper.js";
+import { menu, menuShow, highLightMenu } from "./menu.js";
+
+async function layToanBoNguyenLieu() {
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layToanBoNguyenLieu",
+    },
+    success: function (response) {
+      console.log(response);
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function laySanPhamTheoTen(ten) {
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "laySanPhamTheoTen",
+      ten,
+      loai: "Nguyên liệu",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function layChiTietSanPham(maSanPham) {
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layChiTietSanPham",
+      maSanPham,
+    },
+    success: function (response) {
+      response;
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
 let dsSanPham = await layToanBoNguyenLieu();
 async function render(load = null) {
   load ? (dsSanPham = await layToanBoNguyenLieu()) : null;
@@ -54,7 +107,11 @@ function contentToanBo() {
             </tr>`;
         })
         .join("")
+<<<<<<< HEAD
     : `<h3 class ="khongDon">Không có nguyên liệu nào!</h3`;
+=======
+    : `<h3 class ="khongDon">Không có đơn yêu cầu nào!</h3`;
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   let html = `<div class="content">
        <h3>Sản phẩm > <a href="nguyenLieu.html">Nguyên Liệu</a></h3>
         <form class="search">

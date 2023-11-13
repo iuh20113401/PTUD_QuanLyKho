@@ -1,5 +1,6 @@
 "use strick";
 import { menu, menuShow } from "./menu.js";
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 async function layToanBoThanhPham() {
   const data = await getFetch("../ajax/sanPham.php", {
@@ -24,6 +25,46 @@ async function themDonYeuCau(donYeuCau) {
   return data;
 }
 
+=======
+async function layToanBoThanhPham() {
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layToanBoThanhPham",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function themDonYeuCau(donYeuCau) {
+  let data;
+  await $.ajax({
+    url: "../ajax/lapDonYeuCau.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "lapDonYeuCauNhapTP",
+      maDon: donYeuCau.maDon,
+      maLoai: donYeuCau.maLoai,
+      ngayLap: donYeuCau.ngayLap,
+      trangThai: donYeuCau.trangThai,
+      maSanPham: donYeuCau.dsNguyenLieu.map((nl) => nl.ma),
+      soLuong: donYeuCau.dsNguyenLieu.map((nl) => nl.soluong),
+      donVi: donYeuCau.dsNguyenLieu.map((nl) => nl.donvi),
+      ngaySanXuat: donYeuCau.dsNguyenLieu.map((nl) => nl.ngaySanXuat),
+      ngayHetHan: donYeuCau.dsNguyenLieu.map((nl) => nl.ngayHetHan),
+    },
+    success: function (response) {
+      response;
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
 let dsSanPham = await layToanBoThanhPham();
 
 function render(dsNguyenLieu = null) {
@@ -37,9 +78,15 @@ function render(dsNguyenLieu = null) {
 }
 function content(dsNguyenLieu = null) {
   let html = `<div class="content">
+<<<<<<< HEAD
         <h5>Lập đon yêu cầu > Nhập thành phẩm</h5>
         <form class="don">
           <h2 class = "tittle">Đơn yêu cầu nhập thành phẩm</h2>
+=======
+        <h5>Lập đon yêu cầu > Xuất thành phẩm</h5>
+        <form class="don">
+          <h2 class = "tittle">Đơn yêu cầu Xuất thành phẩm</h2>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
           <div name="taikhoan" class="inputInfo--flat mb-1">
             <label for="">Người lập: </label>
             <input
@@ -78,9 +125,15 @@ function content(dsNguyenLieu = null) {
       return acc + html;
     }, "");
     html2 = `<div class="content">
+<<<<<<< HEAD
         <h5>Lập đon yêu cầu > Nhập thành phẩm</h5>
         <form class="don">
           <h2 class="tittle">Đơn yêu cầu Nhập thành phẩm</h2>
+=======
+        <h5>Lập đon yêu cầu > Xuất thành phẩm</h5>
+        <form class="don">
+          <h2 class="tittle">Đơn yêu cầu xuất thành phẩm</h2>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
           <div name="maDon" class="inputInfo--flat">
             <label for="">Mã đơn: </label>
             <input

@@ -1,23 +1,64 @@
 "use strick";
 import { MAVAITRO, menu, menuShow, highLightMenu } from "./menu.js";
+<<<<<<< HEAD
 import { getFetch, toPDF, toExcel } from "./helper.js";
 async function layCongThuc() {
   let data = await getFetch("../ajax/congThuc.php", {
     action: "layCongThuc",
+=======
+async function layCongThuc() {
+  let data;
+  await $.ajax({
+    url: "../ajax/congThuc.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layCongThuc",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 
 async function layChiTietCongThuc(maCongThuc) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/congThuc.php", {
     action: "layChiTietCongThuc",
     maCongThuc,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/congThuc.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layChiTietCongThuc",
+      maCongThuc,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function layToanBoNguyenLieu() {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/sanPham.php", {
     action: "layToanBoNguyenLieu",
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layToanBoNguyenLieu",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
@@ -29,6 +70,7 @@ async function themCT(
   soLuong,
   donVi
 ) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/sanPham.php", {
     action: "themCongThuc",
     maCongThuc,
@@ -37,6 +79,26 @@ async function themCT(
     maSanPham,
     soLuong,
     donVi,
+=======
+  maCongThuc, tenCongThuc, moTa, maSanPham;
+  let data;
+  await $.ajax({
+    url: "../ajax/congThuc.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "themCongThuc",
+      maCongThuc,
+      tenCongThuc,
+      moTa,
+      maSanPham,
+      soLuong,
+      donVi,
+    },
+    success: function (response) {
+      response;
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }

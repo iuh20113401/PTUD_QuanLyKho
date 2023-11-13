@@ -4,15 +4,25 @@ session_start();
     include_once("../controller/cDonYeuCau.php");
     if(isset($_POST["action"])){
         $action = $_POST["action"];
+<<<<<<< HEAD
         $trangThai = null;
         if($action == "layDonYeuCau"){
             if(isset($_POST["trangThai"]) && $_POST["trangThai"] != 'null'){
+=======
+        $trangThai =null;
+        if($action == "layDonYeuCau"){
+            if(isset($_POST["trangThai"]) && $_POST["trangThai"] != null){
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
                 $trangThai = $_POST["trangThai"];
             }
         }
         if($action == "layDonYeuCauTheoTaiKhoan"){
             $maTaiKhoan = $_SESSION['maTaiKhoan'];
+<<<<<<< HEAD
             if(isset($_POST["trangThai"]) && $_POST["trangThai"] != 'null'){
+=======
+            if(isset($_POST["trangThai"]) && $_POST["trangThai"] != null){
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
                 $trangThai = $_POST["trangThai"];
             }
         }

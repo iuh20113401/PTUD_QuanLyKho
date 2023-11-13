@@ -1,5 +1,6 @@
 "use strick";
 import { menu, menuShow, highLightMenu } from "./menu.js";
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 let dsDonXuat = [];
 async function layDanhSachTatCaDon() {
@@ -13,11 +14,41 @@ async function layChiTietDonYeuCauXuat(maDon) {
   const data = await getFetch("../ajax/phanPhoiDonYeuCauXuat.php", {
     action: "layDon",
     maDon: maDon,
+=======
+let dsDonXuat = [];
+async function layDanhSachTatCaDon() {
+  let data;
+  await $.ajax({
+    url: "../ajax/phanPhoiDonYeuCauXuat.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layTatCaDon",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function layChiTietDonYeuCauXuat(maDon) {
+  let data;
+  await $.ajax({
+    url: "../ajax/phanPhoiDonYeuCauXuat.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layDon",
+      maDon: maDon,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 
 async function layDanhSachSanPham(maSanPham) {
+<<<<<<< HEAD
   const data = await getFetch("../ajax/phanPhoiDonYeuCauXuat.php", {
     action: "layDanhSachSanPham",
     maSanPham: maSanPham,
@@ -44,6 +75,57 @@ async function lapPhieuXuatKho(maDon) {
       .split(","),
   });
 
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/phanPhoiDonYeuCauXuat.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layDanhSachSanPham",
+      maSanPham: maSanPham,
+    },
+    success: function (response) {
+      response;
+
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function lapPhieuXuatKho(maDon) {
+  let data;
+  const dsNguyenLieu = dsDonXuat.map((dx) => dx.dsNguyenLieu);
+  dsNguyenLieu,
+    dsNguyenLieu.map((nl) => nl.map((n) => n.Kho)),
+    dsNguyenLieu.map((nl) => nl.map((n) => n.Kho)).join("/"),
+    dsNguyenLieu
+      .map((nl) => nl.map((n) => n.Kho))
+      .join(",")
+      .split(",");
+  await $.ajax({
+    url: "../ajax/phanPhoiDonYeuCauXuat.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "lapPhieuXuatKho",
+      maDon: maDon,
+      MaChiTietSanPham: dsNguyenLieu
+        .map((nl) => nl.map((n) => n.MaChiTiet))
+        .join(",")
+        .split(","),
+      SoLuong: dsNguyenLieu
+        .map((nl) => nl.map((n) => n.SoLuong))
+        .join(",")
+        .split(","),
+      Kho: dsNguyenLieu
+        .map((nl) => nl.map((n) => n.Kho))
+        .join(",")
+        .split(","),
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   return data;
 }
 let dsDon = await layDanhSachTatCaDon();
@@ -63,7 +145,11 @@ function render(chiTietNguyenLieu = null, sua = false, newChiTiet = null) {
 function content() {
   let html = `        
         <div class="content">
+<<<<<<< HEAD
          <a href="#"> <h3>Phân phối > Đơn yêu cầu xuất</h3></a>
+=======
+         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
           <form class="search">
             <div class ='inputGroup'>
             <input type="text" name="search" id="search">
@@ -271,7 +357,11 @@ function xacNhan(chiTiet) {
             <button class="btn secondary small" id = "quayLai">Quay lại</button>
           </div>`;
   let html = `<div class="content">
+<<<<<<< HEAD
         <a href="#"> <h3>Phân phối > Đơn yêu cầu xuất</h3></a>
+=======
+        <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         <form class="search">
             <div class ='inputGroup'>
             <input type="text" name="search" id="search">
@@ -279,7 +369,11 @@ function xacNhan(chiTiet) {
             </div>
           </form>
         <div class="content__inner chitiet">
+<<<<<<< HEAD
           <h3>Đơn yêu cầu xuất nguyên liệu</h3>
+=======
+          <h3>Đơn yêu cầu nhập nguyên liệu</h3>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
           <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaDon}</p>
           <p><span class="deMuc">Tên đơn:</span>${chiTiet.TenLoai}</p>
           <p><span class="deMuc">Người lập:</span>${chiTiet.MaTaiKhoan}</p>

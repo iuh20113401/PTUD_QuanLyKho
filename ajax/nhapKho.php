@@ -24,12 +24,21 @@ session_start();
             $maDon = $_POST['maDon'];
             $maChiTiet = [rand(1, 1000), rand(1, 1000)];
             $maPhieu = $_POST['maPhieu'];
+<<<<<<< HEAD
             $maSanPham = explode(',', $_POST['maSanPham']);
             $maKho = $_POST['maKho'];
             $soLuong = explode(',',$_POST['soLuong']);
             $donVi = explode(',',$_POST['donVi']);
             $ngaySanXuat = explode(',',$_POST['ngaySanXuat']);
             $ngayHetHan = explode(',',$_POST['ngayHetHan']);
+=======
+            $maSanPham = $_POST['maSanPham'];
+            $maKho = $_POST['maKho'];
+            $soLuong = $_POST['soLuong'];
+            $donVi = $_POST['donVi'];
+            $ngaySanXuat = $_POST['ngaySanXuat'];
+            $ngayHetHan = $_POST['ngayHetHan'];
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         }
         switch ($action) { 
             case "layPhieuNhapKhoChoNhap":

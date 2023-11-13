@@ -1,5 +1,6 @@
 "use strict;";
 import { menu, menuShow, highLightMenu } from "./menu.js";
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 const dsTaiKhoan = [{ TenDangNhap: 20113401, MatKhau: "password123" }];
 async function themTaiKhoan(loai, tenDangNhap, password) {
@@ -8,6 +9,24 @@ async function themTaiKhoan(loai, tenDangNhap, password) {
     loai: loai,
     tenDangNhap: tenDangNhap,
     pass: password,
+=======
+const dsTaiKhoan = [{ TenDangNhap: 20113401, MatKhau: "password123" }];
+async function themTaiKhoan(loai, tenDangNhap, password) {
+  let data;
+  await $.ajax({
+    url: "../ajax/taiKhoan.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "themTaiKhoan",
+      loai: loai,
+      tenDangNhap: tenDangNhap,
+      pass: password,
+    },
+    success: function (response) {
+      response;
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }

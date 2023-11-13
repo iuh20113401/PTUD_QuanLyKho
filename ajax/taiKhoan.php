@@ -10,17 +10,23 @@ session_start();
             $tenDangNhap = $_POST['tenDangNhap'];
             $pass = $_POST['pass'];
         }
+<<<<<<< HEAD
         if ($action == 'doiMatKhau') {
             $maTaiKhoan = $_SESSION['maTaiKhoan'];
             $pass = $_POST['matKhau'];
         }
+=======
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         switch ($action) { 
             case "themTaiKhoan":
                 themTaiKhoan($maTaiKhoan,$loai, $tenDangNhap, $pass);
                 break;
+<<<<<<< HEAD
             case 'doiMatKhau':
                 doiMatKhau($maTaiKhoan, $pass);
                 break;
+=======
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         }
 
     }
@@ -34,6 +40,7 @@ session_start();
         }
     
     }
+<<<<<<< HEAD
     function doiMatKhau($maTaiKhoan, $pass){
         $p = new ControlTaiKhoan(); 
         $res = $p->doiMatKhau($maTaiKhoan, $pass);
@@ -44,6 +51,8 @@ session_start();
         }
     
     }
+=======
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   
 
 ?>

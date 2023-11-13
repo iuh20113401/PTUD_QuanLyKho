@@ -1,8 +1,22 @@
 "use strick";
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 async function getSession() {
   let data = await getFetch("../ajax/session.php", {
     action: "getSession",
+=======
+async function getSession() {
+  let data;
+  await $.ajax({
+    url: "../ajax/session.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "getSession",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
@@ -273,11 +287,15 @@ const rolePages = {
 async function checkAccessAndRedirect() {
   const userRole = await getSession();
   const currentPage = window.location.pathname.split("/").pop();
+<<<<<<< HEAD
   if (!userRole) {
     window.location.href = `../index.html`;
     return;
   }
   if (!rolePages[userRole].includes(currentPage)) {
+=======
+  if (!rolePages[userRole]?.includes(currentPage)) {
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
     let href;
     switch (userRole) {
       case 1:

@@ -1,5 +1,6 @@
 "use strick";
 import { menu, menuShow, highLightMenu } from "./menu.js";
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 async function layDanhSachPhieuXuat() {
   const data = await getFetch("../ajax/xuatKho.php", {
@@ -26,6 +27,57 @@ async function xacNhanXuatKho(phieu) {
   return data;
 }
 
+=======
+async function layDanhSachPhieuXuat() {
+  let data;
+  await $.ajax({
+    url: "../ajax/xuatKho.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layPhieuXuatKhoChoXuat",
+      maKho: 1,
+    },
+    success: function (response) {
+      console.log(response);
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function layChiTietPhieuXuat(maPhieu) {
+  let data;
+  await $.ajax({
+    url: "../ajax/xuatKho.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layChiTietPhieuXuat",
+      maPhieu: maPhieu,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function xacNhanXuatKho(phieu) {
+  let data;
+  phieu;
+  await $.ajax({
+    url: "../ajax/xuatKho.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "xacNhanXuatKho",
+      maPhieu: phieu.MaPhieu,
+      maDon: phieu.MaDon,
+    },
+    success: function (response) {
+      response;
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
 let dsPhieu;
 function render(chiTietNguyenLieu = null) {
   let html =
@@ -41,7 +93,11 @@ function render(chiTietNguyenLieu = null) {
 function content() {
   let html = `        
         <div class="content">
+<<<<<<< HEAD
          <a href="#"> <h3>Xuất kho</h3></a>
+=======
+         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
          <form class="search">
             <div class ='inputGroup'>
             <input type="text" name="search" id="search">
@@ -105,7 +161,11 @@ function contentChiTiet(chiTiet) {
             <button class="btn secondary small" id = "quayLai">Quay lại</button>
           </div>`;
   let html = `<div class="content">
+<<<<<<< HEAD
         <a href="#"> <h3>Xuất kho</h3></a>
+=======
+        <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         <form class="search">
             <div class ='inputGroup'>
             <input type="text" name="search" id="search">

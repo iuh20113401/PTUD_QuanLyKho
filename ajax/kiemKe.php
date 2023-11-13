@@ -35,10 +35,17 @@ session_start();
         }
         if($action == "themChiTietKiemKe"){
             $maKiemKe= $_POST['maKiemKe'];
+<<<<<<< HEAD
             $maChiTietSanPham= explode(',',$_POST['maChiTietSanPham']);
             $tinhTrang=  explode(',',$_POST['tinhTrang']);
             $soLuong=  explode(',',$_POST['soLuong']);
             $moTa=  explode(',',$_POST['moTa']);
+=======
+            $maChiTietSanPham= $_POST['maChiTietSanPham'];
+            $tinhTrang= $_POST['tinhTrang'];
+            $soLuong= $_POST['soLuong'];
+            $moTa= $_POST['moTa'];
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         }
         if($action == 'layChiTietDonKiemKeLoi'){
             $maDon = $_POST['maKiemKe'];

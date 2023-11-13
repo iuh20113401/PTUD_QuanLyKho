@@ -69,6 +69,7 @@
                  return $res;
              }
          }
+<<<<<<< HEAD
          function themSanPham($maSanPham,$tenSanPham,$loai, $donVi){
             $p = new SanPham();
             $res = $p->themSanPham($maSanPham, $tenSanPham, $loai, $donVi);
@@ -77,6 +78,16 @@
         function capNhatSanPham($maSanPham,$tenSanPham, $donVi ){
             $p = new SanPham();
                 $res = $p->capNhatSanPham($maSanPham,$tenSanPham, $donVi);
+=======
+         function themSanPham($maSanPham,$tenSanPham,$loai){
+            $p = new SanPham();
+            $res = $p->themSanPham($maSanPham, $tenSanPham, $loai);
+            return $res;
+        }
+        function capNhatSanPham($maSanPham,$tenSanPham){
+            $p = new SanPham();
+                $res = $p->capNhatSanPham($maSanPham,$tenSanPham);
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
                 return $res;
         }
         function xoaSanPham($maSanPham , $loai ){

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { toExcel, toPDF, getFetch } from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 
@@ -13,13 +14,60 @@ async function laySanPhamTheoTen(ten) {
     action: "laySanPhamTheoTen",
     ten,
     loai: "Thành phẩm",
+=======
+import { toExcel, toPDF } from "./helper.js";
+import { menu, menuShow, highLightMenu } from "./menu.js";
+
+async function layToanBoThanhPham() {
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layToanBoThanhPham",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function laySanPhamTheoTen(ten) {
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "laySanPhamTheoTen",
+      ten,
+      loai: "Thành phẩm",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function layChiTietSanPham(maSanPham) {
+<<<<<<< HEAD
   const data = await getFetch("../ajax/sanPham.php", {
     action: "layChiTietSanPham",
     maSanPham,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layChiTietSanPham",
+      maSanPham,
+    },
+    success: function (response) {
+      response;
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
@@ -68,8 +116,13 @@ function contentToanBo() {
               <th>Mã thành phẩm</th>
               <th>Tên thành phẩm</th>
               <th>Số lượng tồn</th>
+<<<<<<< HEAD
               <th>Số lượng chờ nhập</th>
               <th>Số lượng chò xuất</th>
+=======
+              <th>Số lượng chờ xuất</th>
+              <th>Số lượng chò nhập</th>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
               <th>Đơn vị</th>
             </tr>
             ${chiTietSanPham}
@@ -133,7 +186,11 @@ function contentChitiet(dsChiTietSanPham) {
             ${htmlDsChiTietSanPham}
           </table>`
               : `<h3 class ="khongDon">Không có sản phẩm nào!</h3>
+<<<<<<< HEAD
                 <a href="thanhPham.html" class="noDecoration"><button class = 'btn primary center'> Quay lại</button></a>
+=======
+                <a href="nguyenLieu.html" class="noDecoration"><button class = 'btn primary center'> Quay lại</button></a>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
               `
           }    
       </div>`;

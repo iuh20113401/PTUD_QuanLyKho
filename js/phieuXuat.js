@@ -1,18 +1,49 @@
+<<<<<<< HEAD
 import { toExcel, toPDF, getFetch } from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 async function layPhieuXuatKhoChoXuatTheoTaiKhoan() {
   const data = await getFetch("../ajax/xuatKho.php", {
     action: "layPhieuXuatKhoChoXuatQuanLy",
+=======
+import { toExcel, toPDF } from "./helper.js";
+import { menu, menuShow, highLightMenu } from "./menu.js";
+
+async function layPhieuXuatKhoChoXuatTheoTaiKhoan() {
+  let data;
+  await $.ajax({
+    url: "../ajax/xuatKho.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layPhieuXuatKhoChoXuatQuanLy",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function layPhieuXuatKhoDaXuatTheoTaiKhoan() {
+<<<<<<< HEAD
   const data = await getFetch("../ajax/xuatKho.php", {
     action: "layPhieuXuatKhoDaXuatQuanLy",
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/xuatKho.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layPhieuXuatKhoDaXuatQuanLy",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function layChiTietPhieuXuat(maPhieu) {
+<<<<<<< HEAD
   const data = await getFetch("../ajax/xemDonYeuCauCu.php", {
     action: "layChiTietPhieuXuat",
     maPhieu: maPhieu,
@@ -20,6 +51,22 @@ async function layChiTietPhieuXuat(maPhieu) {
   return data;
 }
 
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/xemDonYeuCauCu.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layChiTietPhieuXuat",
+      maPhieu: maPhieu,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
 let dsPhieuXuat;
 
 function render(chiTietNguyenLieu = null, thanhPham) {
@@ -39,7 +86,11 @@ function render(chiTietNguyenLieu = null, thanhPham) {
 function contentPhieuXuat() {
   let html = `        
         <div class="content">
+<<<<<<< HEAD
          <a href="#"> <h3>Phiếu xuất</h3></a>
+=======
+         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
           <form class="search">
           <select>
             <option value = 1 >Chờ xuất</option>
@@ -103,7 +154,11 @@ function contentChiTietPhieuXuat(chiTiet) {
           </table>
            `;
   let html = `<div class="content">
+<<<<<<< HEAD
         <a href="#"> <h3>Phiếu xuấtp</h3></a>
+=======
+        <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         <form class="search">
         <select>
             <option value = 1 >Chờ xuất</option>

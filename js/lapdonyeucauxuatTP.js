@@ -1,13 +1,28 @@
 "use strick";
 import { menu, menuShow } from "./menu.js";
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 async function layToanBoThanhPham() {
   const data = await getFetch("../ajax/sanPham.php", {
     action: "layToanBoThanhPham",
+=======
+async function layToanBoThanhPham() {
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layToanBoThanhPham",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function themDonYeuCau(donYeuCau) {
+<<<<<<< HEAD
   const data = await getFetch("../ajax/lapDonYeuCau.php", {
     action: "lapDonYeuCau",
     maDon: donYeuCau.maDon,
@@ -21,6 +36,28 @@ async function themDonYeuCau(donYeuCau) {
   return data;
 }
 
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/lapDonYeuCau.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "lapDonYeuCau",
+      maDon: donYeuCau.maDon,
+      maLoai: donYeuCau.maLoai,
+      ngayLap: donYeuCau.ngayLap,
+      trangThai: donYeuCau.trangThai,
+      maSanPham: donYeuCau.dsNguyenLieu.map((nl) => nl.ma),
+      soLuong: donYeuCau.dsNguyenLieu.map((nl) => nl.soluong),
+      donVi: donYeuCau.dsNguyenLieu.map((nl) => nl.donvi),
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
 let dsSanPham = await layToanBoThanhPham();
 
 function render(dsNguyenLieu = null) {

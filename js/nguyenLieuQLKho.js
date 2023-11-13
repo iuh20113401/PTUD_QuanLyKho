@@ -1,4 +1,5 @@
 import render, { dsSanPham } from "./nguyenLieuNV.js";
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 async function themNL(maSanPham, tenSanPham) {
   const data = await getFetch("../ajax/sanPham.php", {
@@ -6,18 +7,51 @@ async function themNL(maSanPham, tenSanPham) {
     maSanPham,
     tenSanPham,
     loai: "Nguyên liệu",
+=======
+async function themNL(maSanPham, tenSanPham) {
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "themSanPham",
+      maSanPham,
+      tenSanPham,
+      loai: "Nguyên liệu",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function capNhatSanPham(maSanPham, tenSanPham) {
+<<<<<<< HEAD
   const data = await getFetch("../ajax/sanPham.php", {
     action: "capNhatSanPham",
     maSanPham,
     tenSanPham,
+=======
+  maSanPham, tenSanPham;
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "capNhatSanPham",
+      maSanPham,
+      tenSanPham,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function xoaSanPham(maSanPham) {
+<<<<<<< HEAD
   const data = await getFetch("../ajax/sanPham.php", {
     action: "xoaSanPham",
     maSanPham,
@@ -26,6 +60,23 @@ async function xoaSanPham(maSanPham) {
   return data;
 }
 
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "xoaSanPham",
+      maSanPham,
+      loai: "Nguyên liệu đã xóa",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
 function themBtn() {
   const formSearch = document.querySelector(".search");
   let html = `<button type="button" id="themNL" class ="btn primary">Thêm nguyên liệu</button>`;
@@ -68,7 +119,11 @@ function contentThemNL() {
           <button class ="btn secondary">Quay lại</button>
         </form>
         <div class="content__inner chitiet">
+<<<<<<< HEAD
           <h3>Thêm nguyên liệu</h3>
+=======
+          <h3>Thêm công thức</h3>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
           <form action="" class="form">
             <div class="inputInfo--flat mt-1">
               <label for="maNL" class="label" >Mã nguyên liệu</label>
@@ -155,7 +210,11 @@ function contentSua(chiTiet) {
           <button class ="btn secondary">Quay lại</button>
         </form>
         <div class="content__inner chitiet">
+<<<<<<< HEAD
           <h3>Thêm nguyên liệu</h3>
+=======
+          <h3>Thêm công thức</h3>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
           <form action="" class="form">
             <div class="inputInfo--flat mt-1">
               <label for="maNL" class="label" >Mã nguyên liệu</label>

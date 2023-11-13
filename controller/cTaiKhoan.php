@@ -10,6 +10,7 @@
                  return true;
              }
          }
+<<<<<<< HEAD
         function doiMatKhau($maTaiKhoan, $pass){
              $p = new TaiKhoan();
              $res = $p->doiMatKhau($maTaiKhoan, $pass);
@@ -19,6 +20,8 @@
                  return true;
              }
          }
+=======
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
     }
 
     

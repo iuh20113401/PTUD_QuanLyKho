@@ -60,6 +60,7 @@ class SanPham{
         $stmt->execute([$maSanPham]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: false;
     }
+<<<<<<< HEAD
     function themSanPham($maSanPham,$tenSanPham,$loai, $donVi){
         $query = "INSERT sanpham value (:maSanPham, :tenSanPham, 0, :donVi, 0,0, :loai)";
             $stmt = $this->conn->prepare($query);
@@ -70,16 +71,34 @@ class SanPham{
             return  $stmt->execute();
     }
     function capNhatSanPham($maSanPham,$tenSanPham, $donVi){
+=======
+    function themSanPham($maSanPham,$tenSanPham,$loai){
+        $query = "INSERT sanpham value (:maSanPham, :tenSanPham, 0, 'KG', 0,0, :loai)";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':maSanPham', $maSanPham);
+            $stmt->bindParam(':tenSanPham', $tenSanPham);
+            $stmt->bindParam(':loai', $loai);
+            return  $stmt->execute();
+    }
+    function capNhatSanPham($maSanPham,$tenSanPham){
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         $p = new KetNoi();
         $p->ketNoi($conn);
         if(!$conn){
             return false;
         } else {
+<<<<<<< HEAD
             $query = "UPDATE sanpham SET tensanpham = :tenSanPham, donVi = :donVi WHERE maSanPham = :maSanPham";
             $stmt = $conn->prepare($query);
             $stmt->bindParam(':maSanPham', $maSanPham);
             $stmt->bindParam(':tenSanPham', $tenSanPham);
             $stmt->bindParam(':donVi', $donVi);
+=======
+            $query = "UPDATE sanpham SET tensanpham = :tenSanPham WHERE maSanPham = :maSanPham";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':maSanPham', $maSanPham);
+            $stmt->bindParam(':tenSanPham', $tenSanPham);
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
             return  $stmt->execute();
         }
     }

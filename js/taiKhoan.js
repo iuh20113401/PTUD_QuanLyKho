@@ -1,4 +1,5 @@
 import { menu, menuShow, highLightMenu } from "./menu.js";
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 async function layThongTinTaiKhoan() {
   const data = await getFetch("../ajax/session.php", {
@@ -43,6 +44,38 @@ switch (taiKhoan[0]) {
     taiKhoan[1] = "Bộ phận kiểm kê";
     break;
 }
+=======
+
+async function layThongTinTaiKhoan() {
+  let data;
+  await $.ajax({
+    url: "../ajax/session.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layThongTinTaiKhoan",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function dangXuat() {
+  let data;
+  await $.ajax({
+    url: "../ajax/session.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "dangXuat",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+let taiKhoan = await layThongTinTaiKhoan();
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
 async function render() {
   let html = contentToanBo();
 
@@ -58,11 +91,22 @@ async function render() {
 }
 function contentToanBo() {
   let html = `<div class="content">
+<<<<<<< HEAD
        <h3>Tài khoản</h3>
+=======
+       <h3>Sản phẩm > <a href="nguyenLieu.html">Nguyên Liệu</a></h3>
+        <form class="search">
+            <div class ='inputGroup'>
+            <input type="text" name="search" id="search">
+            <button type="button"><i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8;"></i></button>
+            </div>
+          </form>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         <div class="content__inner chitiet">
           <h3>Thông tin tài khoản</h3>
           <div  class="inputInfo--flat mt-1">
             <label class="labelLarge" for= "maTK">Mã tài khoản</label>
+<<<<<<< HEAD
             <input type="text" class="inputLargeX" name = "maTK" id ="maTK" value = '${taiKhoan[2]}' disabled/> 
           </div>
           <div  class="inputInfo--flat mt-1">
@@ -72,6 +116,17 @@ function contentToanBo() {
           <div  class="inputInfo--flat mt-1">
             <label class="labelLarge" for= "tenDN">Tên đăng nhập</label>
             <input type="text" class="inputLargeX" name = "tenDN" id ="tenDN" value = '${taiKhoan[3]}' disabled/> 
+=======
+            <input type="text" class="inputLargeX" name = "maTK" id ="maTK" value = ${taiKhoan[2]} disabled/> 
+          </div>
+          <div  class="inputInfo--flat mt-1">
+            <label class="labelLarge" for= "tenVT" >Vai trò</label>
+            <input type="text" class="inputLargeX" name = "tenVT" id ="tenVT" value = ${taiKhoan[1]} disabled/> 
+          </div>
+          <div  class="inputInfo--flat mt-1">
+            <label class="labelLarge" for= "tenDN">Tên đăng nhập</label>
+            <input type="text" class="inputLargeX" name = "tenDN" id ="tenDN" value = ${taiKhoan[3]} disabled/> 
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
           </div>
           <div  class="inputInfo--flat mt-1">
             <label class="labelLarge">Mật khẩu</label>
@@ -86,6 +141,7 @@ function contentToanBo() {
   return html;
 }
 
+<<<<<<< HEAD
 function init() {
   render();
   const btnDX = document.querySelector("#dangXuat");
@@ -116,6 +172,30 @@ function init() {
       }
     });
   });
+=======
+function renderChiTiet() {
+  const sanPham = document.querySelectorAll(".hover");
+  sanPham.forEach((sp) => {
+    sp.addEventListener("click", async (e) => {
+      if (e.target.id === "sua" || e.target.id === "xoa") return;
+      const dsChiTietSanPham = await layChiTietSanPham(sp.id);
+      document.querySelector(".content").innerHTML =
+        contentChitiet(dsChiTietSanPham);
+      const quayLai = document.querySelector("#quayLai");
+      quayLai.addEventListener("click", (e) => {
+        window.location.reload();
+      });
+    });
+  });
+}
+function init() {
+  render();
+  const btnDX = document.querySelector("#dangXuat");
+  btnDX.addEventListener("click", async (e) => {
+    dangXuat();
+    window.location.reload();
+  });
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
 }
 init();
 export default taiKhoan;

@@ -1,30 +1,76 @@
 "use strick";
 import { menu, menuShow, highLightMenu } from "./menu.js";
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 import taiKhoan from "./taiKhoan.js";
 async function layDanhSachTatCaDon() {
   let data = await getFetch("../ajax/phanPhoiDonNhapKho.php", {
     action: "layTatCaDon",
+=======
+import taiKhoan from "./taiKhoan.js";
+async function layDanhSachTatCaDon() {
+  let data;
+  await $.ajax({
+    url: "../ajax/phanPhoiDonNhapKho.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layTatCaDon",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 
 async function layChiTietNguyenLieu(maDon) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/phanPhoiDonNhapKho.php", {
     action: "layDon",
     maDon: maDon,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/phanPhoiDonNhapKho.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layDon",
+      maDon: maDon,
+    },
+    success: function (response) {
+      response;
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function layKhoPhuHop(loai, soLuong) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/phanPhoiDonNhapKho.php", {
     action: "layKho",
     loai: loai,
     soLuong: soLuong,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/phanPhoiDonNhapKho.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layKho",
+      loai: loai,
+      soLuong: soLuong,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function capNhatDonYeuCau(chiTiet) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/phanPhoiDonNhapKho.php", {
     action: "capNhatDonYeuCau",
     maDon: chiTiet[0].MaDon,
@@ -33,10 +79,29 @@ async function capNhatDonYeuCau(chiTiet) {
     ngayHetHan: chiTiet.map((ct) => ct.NgayHetHan),
     viTriKho: chiTiet.map((ct) => ct.kho),
     trangThai: "Đã phân phối",
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/phanPhoiDonNhapKho.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "capNhatDonYeuCau",
+      maDon: chiTiet[0].MaDon,
+      maSanPham: chiTiet.map((ct) => ct.MaSanPham),
+      ngaySanXuat: chiTiet.map((ct) => ct.NgaySanXuat),
+      ngayHetHan: chiTiet.map((ct) => ct.NgayHetHan),
+      viTriKho: chiTiet.map((ct) => ct.kho),
+      trangThai: "Đã phân phối",
+    },
+    success: function (response) {
+      data = JSON.parse(response) || 0;
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function lapBienBan(chitiet) {
+<<<<<<< HEAD
   let data = await getFetch("../ajax/bienBan.php", {
     action: "lapBienBan",
     maBienBan: chitiet.maBienBan,
@@ -44,6 +109,24 @@ async function lapBienBan(chitiet) {
     maTaiKhoan: chitiet.maTaiKhoan,
     ngayLap: chitiet.ngayLap,
     lyDo: chitiet.lyDo,
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/bienBan.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "lapBienBan",
+      maBienBan: chitiet.maBienBan,
+      maDon: chitiet.maDon,
+      maTaiKhoan: chitiet.maTaiKhoan,
+      ngayLap: chitiet.ngayLap,
+      lyDo: chitiet.lyDo,
+    },
+    success: function (response) {
+      console.log(response);
+      data = JSON.parse(response) || 0;
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }

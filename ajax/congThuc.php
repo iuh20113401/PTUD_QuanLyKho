@@ -14,17 +14,29 @@ session_start();
             $maCongThuc = $_POST["maCongThuc"];
             $tenCongThuc = $_POST["tenCongThuc"];
             $moTa = $_POST["moTa"];
+<<<<<<< HEAD
             $maSanPham = explode(',',$_POST["maSanPham"]);
             $soLuong = explode(',',$_POST["soLuong"]);
             $donVi = explode(',',$_POST["donVi"]);
+=======
+            $maSanPham = $_POST["maSanPham"];
+            $soLuong = $_POST["soLuong"];
+            $donVi = $_POST["donVi"];
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         }
         if($action === "capNhatCongThuc"){
             $maCongThuc = $_POST['maCongThuc'];
             $tenCongThuc = $_POST["tenCongThuc"];
             $moTa = $_POST["moTa"];
+<<<<<<< HEAD
             $maSanPham = explode(',',$_POST["maSanPham"]);
             $soLuong = explode(',',$_POST["soLuong"]);
             $donVi = explode(',',$_POST["donVi"]);
+=======
+            $maSanPham = $_POST["maSanPham"];
+            $soLuong = $_POST["soLuong"];
+            $donVi = $_POST["donVi"];
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         }
         if($action === "xoaCongThuc"){
             $maCongThuc = $_POST['maCongThuc'];

@@ -122,6 +122,7 @@ function xoaOverlay() {
   overlayDivEl.innerHTML = "";
   overlayDivEl.removeEventListener("click", showOverlay);
 }
+<<<<<<< HEAD
 async function getFetch(url, data) {
   const response = await fetch(url, {
     method: "POST",
@@ -138,3 +139,7 @@ async function getFetch(url, data) {
   return res;
 }
 export { toPDF, toExcel, getFetch };
+=======
+
+export { toPDF, toExcel };
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4

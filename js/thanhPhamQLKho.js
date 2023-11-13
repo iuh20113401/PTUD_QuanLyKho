@@ -1,4 +1,5 @@
 import render, { dsSanPham } from "./thanhPhamNV.js";
+<<<<<<< HEAD
 import { getFetch } from "./helper.js";
 async function themTP(maSanPham, tenSanPham, donVi) {
   const data = await getFetch("../ajax/sanPham.php", {
@@ -17,10 +18,43 @@ async function capNhatSanPham(maSanPham, tenSanPham, donVi) {
     maSanPham,
     tenSanPham,
     donVi,
+=======
+async function themTP(maSanPham, tenSanPham) {
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "themSanPham",
+      maSanPham,
+      tenSanPham,
+      loai: "Thành phẩm",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function capNhatSanPham(maSanPham, tenSanPham) {
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "capNhatSanPham",
+      maSanPham,
+      tenSanPham,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
   });
   return data;
 }
 async function xoaSanPham(maSanPham) {
+<<<<<<< HEAD
   const data = await getFetch("../ajax/sanPham.php", {
     action: "xoaSanPham",
     maSanPham,
@@ -29,6 +63,23 @@ async function xoaSanPham(maSanPham) {
   return data;
 }
 
+=======
+  let data;
+  await $.ajax({
+    url: "../ajax/sanPham.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "xoaSanPham",
+      maSanPham,
+      loai: "Thành phẩm đã xóa",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
 function themBtn() {
   const formSearch = document.querySelector(".search");
   let html = `<button type="button" id="themTP" class ="btn primary">Thêm thành phẩm</button>`;
@@ -45,9 +96,13 @@ function renderThemNL() {
   btnThemNL.addEventListener("click", async (e) => {
     const maSanPham = document.querySelector("#maTP").value;
     const tenSanPham = document.querySelector("#tenTP").value;
+<<<<<<< HEAD
     const donVi = document.querySelector("#donVi").value;
 
     let res = await themTP(maSanPham, tenSanPham, donVi);
+=======
+    let res = await themTP(maSanPham, tenSanPham);
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
     if (res) {
       let resConfirm = confirm("Bạn đã thêm thành công! Bạn có muốn tiếp tục");
       if (resConfirm) {
@@ -73,7 +128,11 @@ function contentThemNL() {
           <button class ="btn secondary">Quay lại</button>
         </form>
         <div class="content__inner chitiet">
+<<<<<<< HEAD
           <h3>Thêm thành phẩm</h3>
+=======
+          <h3>Thêm công thức</h3>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
           <form action="" class="form">
             <div class="inputInfo--flat mt-1">
               <label for="maTP" class="label" >Mã thành phẩm</label>
@@ -87,7 +146,11 @@ function contentThemNL() {
             </div>
             <div class="inputInfo--flat mt-1">
               <label for="moTa" class="label">Đơn vị</label>
+<<<<<<< HEAD
               <input type="text" name="donVi" id="donVi" class="inputLarge" value ="Cái"/>
+=======
+              <input type="text" name="donVi" id="donVi" class="inputLarge" value ="Cái" readonly/>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
             </div>
             
             <div class="buttons center mt-1">
@@ -133,8 +196,12 @@ function renderSua(id) {
   btnSuaNL.addEventListener("click", async (e) => {
     const maSanPham = document.querySelector("#maTP").value;
     const tenSanPham = document.querySelector("#tenTP").value;
+<<<<<<< HEAD
     const donVi = document.querySelector("#donVi").value;
     let res = await capNhatSanPham(maSanPham, tenSanPham, donVi);
+=======
+    let res = await capNhatSanPham(maSanPham, tenSanPham);
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
     if (res) {
       let resConfirm = confirm(
         "Bạn đã cập nhật thành công! Có muốn tiếp tục không?"
@@ -162,7 +229,11 @@ function contentSua(chiTiet) {
           <button class ="btn secondary">Quay lại</button>
         </form>
         <div class="content__inner chitiet">
+<<<<<<< HEAD
           <h3>Thêm thành phẩm</h3>
+=======
+          <h3>Thêm công thức</h3>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
           <form action="" class="form">
             <div class="inputInfo--flat mt-1">
               <label for="maTP" class="label" >Mã thành phẩm</label>
@@ -186,7 +257,11 @@ function contentSua(chiTiet) {
             </div>
             <div class="inputInfo--flat mt-1">
               <label for="moTa" class="label">Đơn vị</label>
+<<<<<<< HEAD
               <input type="text" name="donVi" id="donVi" class="inputLarge" value ="${chiTiet.DonVi}" />
+=======
+              <input type="text" name="donVi" id="donVi" class="inputLarge" value ="${chiTiet.DonVi}" readonly/>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
             </div>
             
             <div class="buttons center mt-1">

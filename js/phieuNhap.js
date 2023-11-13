@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { toExcel, toPDF, getFetch } from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 
@@ -16,6 +17,54 @@ async function layChiTietPhieuNhap(maPhieu) {
   return data;
 }
 
+=======
+import { toExcel, toPDF } from "./helper.js";
+import { menu, menuShow, highLightMenu } from "./menu.js";
+
+async function layPhieuNhapKhoDaNhap() {
+  let data;
+  await $.ajax({
+    url: "../ajax/nhapKho.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layPhieuNhapKhoDaNhapQuanLy",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function layPhieuNhapKhoChoNhap() {
+  let data;
+  await $.ajax({
+    url: "../ajax/nhapKho.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layPhieuNhapKhoChoNhapQuanLy",
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+async function layChiTietPhieuNhap(maPhieu) {
+  let data;
+  await $.ajax({
+    url: "../ajax/xemDonYeuCauCu.php", // Đường dẫn đến tệp PHP
+    type: "post", // Phương thức POST hoặc GET
+    data: {
+      action: "layChiTietPhieuNhap",
+      maPhieu: maPhieu,
+    },
+    success: function (response) {
+      data = JSON.parse(response);
+    },
+  });
+  return data;
+}
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
 let dsPhieuNhap;
 function render(chiTietNguyenLieu = null, thanhPham, loai = "Don") {
   let html;
@@ -36,7 +85,11 @@ function render(chiTietNguyenLieu = null, thanhPham, loai = "Don") {
 function contentPhieuNhap() {
   let html = `        
         <div class="content">
+<<<<<<< HEAD
          <a href="#"> <h3>Phiếu nhập</h3></a>
+=======
+         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
           <form class="search">
             <select class ='loai'>
               <option value ='1'>Chờ nhập</option>
@@ -98,7 +151,11 @@ function contentChiTietPhieuNhap(chiTiet) {
           </table>
            `;
   let html = `<div class="content">
+<<<<<<< HEAD
         <a href="#"> <h3>PPhiếu nhập</h3></a>
+=======
+        <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         <form class="search">
             <div class ='inputGroup'>
             <input type="text" name="search" id="search">

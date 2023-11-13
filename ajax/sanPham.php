@@ -19,18 +19,24 @@ session_start();
             $maSanPham = $_POST['maSanPham'];
             $tenSanPham = $_POST['tenSanPham'];
             $loai = $_POST['loai'];
+<<<<<<< HEAD
             $donVi = 'KG';
             if(isset($_POST['donVi'])){
                 $donVi = $_POST['donVi'];
             }
+=======
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
          }
          if($action === 'capNhatSanPham'){
             $maSanPham = $_POST['maSanPham'];
             $tenSanPham = $_POST['tenSanPham'];
+<<<<<<< HEAD
             $donVi = 'KG';
             if(isset($_POST['donVi'])){
                 $donVi = $_POST['donVi'];
             }
+=======
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
          }
          if($action === 'xoaSanPham'){
             $maSanPham = $_POST['maSanPham'];
@@ -77,10 +83,17 @@ session_start();
                 layChiTietSanPham($maSanPham);
                 break;
             case "themSanPham":
+<<<<<<< HEAD
                 themSanPham($maSanPham, $tenSanPham, $loai,$donVi);
                 break;
             case "capNhatSanPham":
                 capNhatSanPham($maSanPham, $tenSanPham, $donVi);
+=======
+                themSanPham($maSanPham, $tenSanPham, $loai);
+                break;
+            case "capNhatSanPham":
+                capNhatSanPham($maSanPham, $tenSanPham);
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
                 break;
             case 'xoaSanPham':
                 xoaSanPham($maSanPham,$loai );
@@ -136,18 +149,30 @@ session_start();
             echo json_encode($res);
         }
     }
+<<<<<<< HEAD
     function themSanPham($maSanPham, $tenSanPham,$loai,$donVi){
         $p = new ControlSanPham(); 
         $res = $p->themSanPham($maSanPham, $tenSanPham, $loai,$donVi);
+=======
+    function themSanPham($maSanPham, $tenSanPham,$loai){
+        $p = new ControlSanPham(); 
+        $res = $p->themSanPham($maSanPham, $tenSanPham, $loai);
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         if (!$res){
             echo json_encode(false);
         }else{
             echo json_encode($res);
         }
     }
+<<<<<<< HEAD
     function capNhatSanPham($maSanPham, $tenSanPham,$donVi){
         $p = new ControlSanPham(); 
         $res = $p->capNhatSanPham($maSanPham, $tenSanPham,$donVi);
+=======
+    function capNhatSanPham($maSanPham, $tenSanPham){
+        $p = new ControlSanPham(); 
+        $res = $p->capNhatSanPham($maSanPham, $tenSanPham);
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
         if (!$res){
             echo json_encode(false);
         }else{
@@ -159,4 +184,8 @@ session_start();
         $res = $p->xoaSanPham($maSanPham,$loai );
          echo json_encode($res);
     }
+<<<<<<< HEAD
 ?>
+=======
+    ?>
+>>>>>>> 500f2844852555753fbec2839fe359020e5fe6f4
