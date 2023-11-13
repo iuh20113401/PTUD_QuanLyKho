@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phân phối đơn yêu cầu nhập</title>
+    <link rel="stylesheet" href="../css/menu.css" />
+    <link rel="stylesheet" href="../css/overlay.css" />
+    <link rel="stylesheet" href="../css/form.css" />
+    <link rel="stylesheet" href="../css/button.css" />
+    <link rel="stylesheet" href="../css//phanPhoiDonYeuCau.css" />
+    <link rel="stylesheet" href="../css//capTaiKhoan.css" />
+    <link rel="stylesheet" href="../fontawesome-free-6.2.0-web/css/all.css" />
+    <script src="../js/code.jquery.com_jquery-3.7.1.min.js"></script>
+    <script defer type="module" src="../js/capTaiKhoan.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        <a href="#"> <h3>Phân phối > Cấp tài khoản</h3></a>
+        <div class="content__inner chitiet">
+          <h3>Cấp tài khoản nhân viên</h3>
+          <form action="#">
+            <div class="inputInfo inputInfo__center">
+              <label for="msnv">Mã số nhân viên</label>
+              <input
+                type="text"
+                class="noMargin largeInput"
+                name="msnv"
+                id="msnv"
+              />
+              <p class="loiMsnv alert"></p>
+            </div>
+            <div class="inputInfo inputInfo__center">
+              <label for="vaitro">Loại vai trò</label>
+              <select class="noMargin" name="vaitro" id="vaitro">
+                <option value="">Chọn loại vai trò</option>
+                <option value="1">Nhân viên kho</option>
+                <option value="2">Bộ phận bán hàng</option>
+                <option value="3">Bộ phận kiểm tra</option>
+                <option value="4">Bộ phận sản xuất</option>
+              </select>
+              <p class="loiVaiTro alert"></p>
+            </div>
+          </form>
+          <div class="buttons buttons__large">
+            <button class="btn primary center large" id="capTaiKhoan">
+              Tạo tài khoản
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="overlayDiv"></div>
+  </body>
+</html>

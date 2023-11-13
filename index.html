@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dang nhap</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./css/dangNhap.css" />
+    <script src="./js/code.jquery.com_jquery-3.7.1.min.js"></script>
+  </head>
+  <body>
+    <div class="DangNhap">
+      <div class="logoo">
+        <img src="./image/Unity-logo-black.png" alt="" />
+      </div>
+      <br /><br />
+      <div class="DangNhap1">
+        <form action="#" method="post">
+          <div class="form-group">
+            <label for="username">
+              <i class="fas fa-user"></i>
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              class="form-control"
+              placeholder="Tài khoản:"
+            />
+            <p class="textError hidden"></p>
+          </div>
+          <div class="form-group">
+            <label for="password">
+              <i class="fas fa-lock"></i>
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-control"
+              placeholder="Mật khẩu:"
+            />
+          </div>
+          <div class="submit">
+            <button type="button" class="btn btn-primary">Đăng nhập</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+  <script type="module" src="./dangNhap.js"></script>
+</html>

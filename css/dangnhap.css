@@ -1,0 +1,65 @@
+body {
+  background-image: url("../image/anh1.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  position: static;
+}
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  filter: blur(5px);
+}
+.DangNhap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.form-control {
+  border: 2px solid #ccc;
+  padding: 10px;
+  border-radius: 50px;
+  width: 80%;
+  font-size: 20px;
+}
+.form-control::placeholder {
+  color: #000;
+}
+.logoo img {
+  width: 100px;
+  height: 100px;
+  background-image: url(../image/anh1.jpg);
+  border-radius: 50px;
+  margin-left: 68px;
+}
+.submit button {
+  width: 100%;
+  font-size: 20px;
+  padding: 10px;
+  background-color: #000;
+  color: #fff;
+}
+
+.DangNhap1 {
+  text-align: center; /* Căn giữa nội dung trong phần DangNhap1 */
+}
+
+.form-group {
+  margin-bottom: 20px; /* Tạo khoảng cách giữa các khung đăng nhập */
+}
+.inputError {
+  border: 2px solid red;
+}
+.textError {
+  font-weight: bold;
+  color: red;
+}
+.hidden {
+  display: none;
+}

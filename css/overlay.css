@@ -1,0 +1,56 @@
+.overlay {
+  border: none;
+  outline: none;
+  width: 100vw;
+  height: auto;
+  min-height: 100vh;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  filter: invert(50%);
+  position: absolute;
+}
+.message {
+  width: 50vw;
+  height: 20vh;
+  font-size: 30px;
+  text-align: center;
+  margin: auto;
+  padding-top: 3rem;
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-radius: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+.message__lage {
+  width: 50vw;
+  height: fit-content;
+  font-size: 20px;
+  text-align: left;
+  background-color: white;
+  padding: 3rem;
+  line-height: 3rem;
+}
+.message__lage h3 {
+  text-align: center;
+}
+.message__lage p {
+  display: grid;
+  grid-template-columns: 3fr 6fr;
+}
+.message__lage p > span {
+  font-weight: bold;
+}
+.fa-spinner {
+  animation: spin 0.8s infinite ease-in-out;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

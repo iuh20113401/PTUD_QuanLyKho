@@ -1,0 +1,38 @@
+.content {
+  width: 80%;
+  height: 100%;
+}
+.content h5 {
+  margin: 2%;
+}
+.don {
+  margin: auto;
+  width: 90%;
+  height: 85%;
+  flex-shrink: 0;
+  border: 1px solid #000;
+  background: #fff;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  padding: 3% 7%;
+  box-sizing: border-box;
+  overflow: scroll;
+  position: relative;
+}
+.don .tittle {
+  text-align: center;
+  margin-bottom: 3%;
+}
+.warning {
+  color: red;
+  font-weight: bold;
+}
+table {
+  width: 90%;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+.row {
+  flex-direction: row;
+  justify-content: flex-start;
+  margin: 2% 2%;
+}

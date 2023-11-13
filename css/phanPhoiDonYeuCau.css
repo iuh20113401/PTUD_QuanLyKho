@@ -1,0 +1,163 @@
+* {
+  box-sizing: border-box;
+}
+.content {
+  padding: 1%;
+  box-sizing: border-box;
+}
+
+.content__inner {
+  width: 99%;
+  height: 75%;
+  margin: 1% 0%;
+  border: 1px solid black;
+  overflow: scroll;
+}
+table {
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+  margin-bottom: 5%;
+}
+th {
+  padding: 15px;
+}
+tr {
+  border-bottom: 1px solid black;
+}
+td {
+  padding: 1% 1rem;
+}
+.chitiet {
+  padding: 3% 5%;
+}
+.chitiet h3 {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 2rem;
+}
+.chitiet p {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2fr 9fr;
+  margin-bottom: 1rem;
+}
+.alert {
+  color: red;
+  font-weight: bold;
+  display: block !important;
+}
+.hidden {
+  display: none;
+}
+.chitiet .deMuc {
+  font-weight: bold;
+}
+.content__inner::-webkit-scrollbar {
+  display: none;
+}
+.chitiet input,
+select {
+  width: 90%;
+  height: 90%;
+  margin: auto;
+  border: 1px solid black;
+}
+.noMargin {
+  margin: 0 !important;
+}
+.khongDon {
+  width: 100%;
+  text-align: center;
+  padding: 5% 0%;
+}
+.row {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+}
+.row > select {
+  width: 25%;
+}
+.row > .selectSmall {
+  width: 10%;
+}
+.row > .input {
+  width: 30%;
+  height: 70%;
+  font-size: 15px;
+  padding: 8px;
+}
+
+.row__5 .input {
+  width: 20%;
+  margin: auto;
+}
+.float {
+  width: 95%;
+  height: 95%;
+  padding: 1rem;
+  border: 2px solid black;
+  border-radius: 20px;
+  background-color: white;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  box-sizing: border-box;
+}
+.float > .top {
+  display: flex;
+  justify-content: space-between;
+}
+.float > .bottomDs {
+  display: flex;
+  justify-content: space-between;
+}
+.float input {
+  cursor: default;
+}
+.floatBienBan {
+  width: 50%;
+  height: 95%;
+  padding: 1rem;
+  border: 2px solid black;
+  border-radius: 20px;
+  background-color: white;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  box-sizing: border-box;
+}
+.floatBienBan > .top {
+  display: flex;
+  justify-content: flex-end;
+}
+.floatBienBan > .contentBienBan h3 {
+  font-size: 30px;
+  text-align: center;
+}
+.floatBienBan > .contentBienBan .inputInfo--flat {
+  width: 100%;
+  height: 3rem;
+  font-size: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+.floatBienBan > .contentBienBan .inputInfo--flat label {
+  width: 100%;
+  font-size: 1.2rem;
+}
+.floatBienBan > .contentBienBan .inputInfo--flat input,
+.floatBienBan > .contentBienBan .inputInfo--flat textarea {
+  width: 90%;
+  height: 100%;
+}
+.floatBienBan > .bottomDs {
+  display: flex;
+  justify-content: space-between;
+}
+.floatBienBan > .contentBienBan .inputInfo--flat.large {
+  height: fit-content;
+}

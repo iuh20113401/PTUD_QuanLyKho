@@ -1,0 +1,73 @@
+.btn {
+  display: flex;
+  width: 30%;
+  height: 2em;
+  font-size: 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  text-align: center;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 14px */
+}
+.large {
+  width: 60%;
+}
+.center {
+  margin: auto;
+}
+
+.bottom {
+  position: static;
+  bottom: 5%;
+  left: 50%;
+  transform: translate(-50%);
+}
+.primary {
+  background: #000;
+  color: #fff;
+}
+.secondary {
+  border: 1px solid #b6b6b6;
+  background: #fff;
+}
+.btn:hover {
+  cursor: pointer;
+  filter: invert(30%);
+}
+.buttons {
+  width: 70%;
+  display: flex;
+  gap: 1rem;
+}
+.buttons__large {
+  width: 100%;
+}
+.btn.small {
+  width: 20%;
+}
+.primary {
+  background-color: #4e80ea;
+  border: 0;
+}
+.btnClose {
+  width: 5%;
+  height: 5%;
+  font-size: 20px;
+  background-color: transparent;
+  border: none;
+}
+.success {
+  background-color: green;
+  border: none;
+}
+.btnXoa {
+  background-color: red;
+  color: white;
+  border: none;
+}
