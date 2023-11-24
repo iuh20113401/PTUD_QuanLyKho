@@ -1,5 +1,7 @@
-"use strick";
+"use strict";
 import { getFetch } from "./helper.js";
+window.addEventListener("load", checkAccessAndRedirect);
+
 async function getSession() {
   let data = await getFetch("../ajax/session.php", {
     action: "getSession",
@@ -38,7 +40,7 @@ function menuShow() {
   const show = document.querySelectorAll(".show");
   show.forEach((e) =>
     e.addEventListener("click", (e) => {
-      const ul = e.target.closest("li").children;
+      const ul = e.target.closest("ul").children;
     })
   );
 }
@@ -51,63 +53,71 @@ function highLightMenu() {
   aPath.forEach((ap) => {
     const aURL = ap.href.split("/");
     if (aURL[aURL.length - 1] === pathUrl) {
+      const show = document.querySelectorAll(".show");
+      show.forEach((element) => {
+        element.querySelector("ul").classList.add("hiddenDiv");
+      });
       ap.classList.add("active");
-      ap.closest("ul").classList.remove("hidden");
+      const ulEl = ap.closest("ul");
+      ulEl.classList.remove("hiddenDiv");
+      if (ulEl.matches(".show__inner")) {
+        ulEl.style = "display: block !important";
+      }
     }
   });
 }
 function menuGD() {
   return `
   <div class ="menu">
-        <div class="image"></div>
+      <div class="image"></div>
         <div class="nav">
           <ul>
             <li><a href="baoCao.html">Trang chủ</a></li>
-            <li><a href="donYeuCau.html">Đơn yêu cầu</a></li>
-            <li><a href="lapdonyeucaunhapNL.html">Lập đơn yêu cầu nhập nguyên liệu</a></li>
-            <li><a href="bienBan.html">Biên bản</a></li>
-            <li><a href="kiemKe.html">Kiểm kê</a></li>
-            <li class="show">
-              <p>Sản phẩm <i class="fa-solid fa-angle-down"></i></p>
-              <ul class="show__inner">
+            <div class="show">
+              <li><p>Sản phẩm <i class="fa-solid fa-angle-down"></i></p></li>
+              <ul class= "show__inner hiddenDiv">
                 <li><a href="nguyenLieu.html">Nguyên liệu</a></li>
                 <li><a href="thanhPham.html">Thành phẩm</a></li>
+                <li><a href="canhBao.html">Sản phẩm hết hạn</a></li>
+                <li><a href="lapdonyeucaunhapNL.html">Lập đơn yêu cầu nhập nguyên liệu</a></li>
               </ul>
-            </li>
+            </div>
+            <li><a href="donYeuCau.html">Đơn yêu cầu</a></li>
+            <li><a href="bienBan.html">Biên bản</a></li>
+            <li><a href="kiemKe.html">Kiểm kê</a></li>
             <li><a href="congThuc.html">Công thức</a></li>
             <li><a href="kho.html">Kho</a></li>
             <li><a href="taiKhoan.html">Tài khoản</a></li>
           </ul>
-        </div>
-        </div>
+  </div>
+  </div>
       `;
 }
 function menuQLKho() {
   return `
     <div class ="menu">
-
         <div class="image"></div>
         <div class="nav">
           <ul>
-          <li class="show">
-              <p>Sản phẩm <i class="fa-solid fa-angle-down"></i></p>
-              <ul class="show__inner">
+          <div class="show">
+              <li><p>Sản phẩm <i class="fa-solid fa-angle-down"></i></p></li>
+              <ul class= "show__inner hiddenDiv">
                 <li><a href="nguyenLieu.html">Nguyên liệu</a></li>
                 <li><a href="thanhPham.html">Thành phẩm</a></li>
               </ul>
-            </li>
-            <li><a href="capTaiKhoan.html">Cấp tài khoản</a></li>
-            <li><a href="bienBan.html">Biên bản</a></li>
-            <li class="show">
-              <p>Phân phối <i class="fa-solid fa-angle-down"></i></p>
-              <ul class="show__inner">
+            </div>
+            <div class="show">
+              <li> <p>Phân phối <i class="fa-solid fa-angle-down"></i></p></li>
+              <ul class="show__inner hiddenDiv">
                 <li><a href="phanPhoiDonYeuCauNhap.html">Đơn yêu cầu nhập</a></li>
                 <li><a href="phanPhoiDonYeuCauXuat.html">Đơn yêu cầu xuất</a></li>
               </ul>
-            </li>
+            </div>
             <li><a href="phieuNhap.html">Phiếu nhập</a></li>
             <li><a href="phieuXuat.html">Phiếu xuất</a></li>
+            <li><a href="bienBan.html">Biên bản</a></li>
             <li><a href="kho.html">Kho</a></li>
+            <li><a href="capTaiKhoan.html">Cấp tài khoản</a></li>
             <li><a href="taiKhoan.html">Tài khoản</a></li>
           </ul>
         </div>
@@ -120,15 +130,16 @@ function menuNVKho() {
         <div class="image"></div>
         <div class="nav">
           <ul>
-          <li class="show">
-              <p>Sản phẩm <i class="fa-solid fa-angle-down"></i></p>
-              <ul class="show__inner">
+            <div class="show">
+              <li><p>Sản phẩm <i class="fa-solid fa-angle-down"></i></p></li>
+              <ul class= "show__inner hiddenDiv">
                 <li><a href="nguyenLieu.html">Nguyên liệu</a></li>
                 <li><a href="thanhPham.html">Thành phẩm</a></li>
               </ul>
-          </li>
+            </div>
             <li><a href="xacNhanNhapKho.html">Nhập kho</a></li>
             <li><a href="xacNhanXuatKho.html">Xuất kho</a></li>
+            <li><a href="tieuHuy.html">Tiêu hủy</a></li>
             <li><a href="taiKhoan.html">Tài khoản</a></li>
           </ul>
         </div>
@@ -141,15 +152,14 @@ function menuBPKK() {
         <div class="image"></div>
         <div class="nav">
           <ul>
-          <li class="show">
-              <p>Sản phẩm <i class="fa-solid fa-angle-down"></i></p>
-              <ul class="show__inner">
+          <div class="show">
+              <li><p>Sản phẩm <i class="fa-solid fa-angle-down"></i></p></li>
+              <ul class= "show__inner hiddenDiv">
                 <li><a href="nguyenLieu.html">Nguyên liệu</a></li>
                 <li><a href="thanhPham.html">Thành phẩm</a></li>
               </ul>
-          </li>
+            </div>
             <li><a href='kiemKe.html'>Biên bản kiểm kê</a></li>
-            <li><a href='donYeuCau.html'>Đơn yêu cầu</a></li>
             <li><a href="xacNhanNhapKho.html">Phiếu nhập</a></li>
             <li><a href="xacNhanXuatKho.html">Phiếu xuất</a></li>
             <li><a href="taiKhoan.html">Tài khoản</a></li>
@@ -164,21 +174,21 @@ function menuBPSX() {
         <div class="image"></div>
         <div class="nav">
           <ul>
-          <li class="show">
-              <p>Sản phẩm <i class="fa-solid fa-angle-down"></i></p>
-              <ul class="show__inner">
+          <div class="show">
+              <li><p>Sản phẩm <i class="fa-solid fa-angle-down"></i></p></li>
+              <ul class= "show__inner hiddenDiv">
                 <li><a href="nguyenLieu.html">Nguyên liệu</a></li>
                 <li><a href="thanhPham.html">Thành phẩm</a></li>
               </ul>
-          </li>
+            </div>
             <li><a href='donYeuCau.html'>Đơn yêu cầu</a></li>
-            <li class="show">
-              <p>Lập đơn yêu cầu <i class="fa-solid fa-angle-down"></i></p>
-              <ul class="show__inner">
+            <div class="show">
+              <li><p>Lập đơn yêu cầu <i class="fa-solid fa-angle-down"></i></p></li>
+              <ul class="show__inner hiddenDiv">
                 <li><a href="lapdonyeucauxuatNL.html">Xuất nguyên liệu</a></li>
                 <li><a href="lapdonyeucaunhapTP.html">Nhập thành phẩm</a></li>
               </ul>
-          </li>
+            </div>
             <li><a href="taiKhoan.html">Tài khoản</a></li>
           </ul>
         </div>
@@ -195,24 +205,24 @@ function menuBPBH() {
               <a href="thanhPham.html">Thành phẩm</a>
           </li>
             <li><a href='donYeuCau.html'>Đơn yêu cầu</a></li>
-            <li class="show">
-              <p>Lập đơn yêu cầu <i class="fa-solid fa-angle-down"></i></p>
-              <ul class="show__inner">
-                <li><a href="lapdonYeuCauXuatTP.html">Xuất thành phẩm</a></li>
+           <div class="show">
+              <li><p>Lập đơn yêu cầu <i class="fa-solid fa-angle-down"></i></p></li>
+              <ul class="show__inner hiddenDiv">
+                <li><a href="lapdonyeucauxuatTP.html">Xuất thành phẩm</a></li>
                 <li><a href="lapdonYeuCauTraHang.html">Trả hàng</a></li>
               </ul>
-          </li>
+            </div>
             <li><a href="taiKhoan.html">Tài khoản</a></li>
           </ul>
         </div>
         </div>
       `;
 }
-export { menu, MAVAITRO, menuShow, highLightMenu };
 // Role to accessible pages mapping
 const rolePages = {
   1: [
     "baoCao.html",
+    "canhBao.html",
     "donYeuCau.html",
     "lapdonyeucaunhapNL.html",
     "bienBan.html",
@@ -225,6 +235,7 @@ const rolePages = {
   ],
   2: [
     "nguyenLieu.html",
+    "canhBao.html",
     "thanhPham.html",
     "capTaiKhoan.html",
     "phanPhoiDonYeuCauNhap.html",
@@ -240,6 +251,7 @@ const rolePages = {
     "thanhPham.html",
     "xacNhanNhapKho.html",
     "xacNhanXuatKho.html",
+    "tieuHuy.html",
     "taiKhoan.html",
   ],
   4: [
@@ -253,7 +265,7 @@ const rolePages = {
   5: [
     "thanhPham.html",
     "donYeuCau.html",
-    "lapdonYeuCauXuatTP.html",
+    "lapdonyeucauxuatTP.html",
     "lapdonYeuCauTraHang.html",
     "taiKhoan.html",
   ],
@@ -305,4 +317,4 @@ async function checkAccessAndRedirect() {
     window.location.href = `${href}`;
   }
 }
-window.addEventListener("load", checkAccessAndRedirect);
+export { menu, MAVAITRO, menuShow, highLightMenu };

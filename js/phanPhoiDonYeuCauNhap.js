@@ -1,7 +1,6 @@
-"use strick";
+"use strict";
 import { menu, menuShow, highLightMenu } from "./menu.js";
-import { getFetch } from "./helper.js";
-import taiKhoan from "./taiKhoan.js";
+import { getFetch, modalThongBao, taiKhoan } from "./helper.js";
 async function layDanhSachTatCaDon() {
   let data = await getFetch("../ajax/phanPhoiDonNhapKho.php", {
     action: "layTatCaDon",
@@ -33,9 +32,11 @@ async function capNhatDonYeuCau(chiTiet) {
     ngayHetHan: chiTiet.map((ct) => ct.NgayHetHan),
     viTriKho: chiTiet.map((ct) => ct.kho),
     trangThai: "Đã phân phối",
+    soLuong: chiTiet.map((ct) => ct.SoLuong),
   });
   return data;
 }
+
 async function lapBienBan(chitiet) {
   let data = await getFetch("../ajax/bienBan.php", {
     action: "lapBienBan",
@@ -118,10 +119,6 @@ async function contentChiTiet(
   thanhPham = false
 ) {
   let chiTiet = newChiTiet ? newChiTiet : await layDon(id);
-  let toanBoKho = await layKhoPhuHop(
-    chiTiet[0].MaLoai == "1" ? "Nguyên liệu" : "Thành phẩm",
-    0
-  );
   let dsNguyenLieu = sua
     ? `<table class="small"><tr>
               <th>Tên nguyên liệu</th>
@@ -134,8 +131,8 @@ async function contentChiTiet(
             ${chiTiet
               .map((e) => {
                 return `<tr>
-              <td>${e.TenSanPham}</td>
-              <td>${e.SoLuong}</td>
+              <td id =  ${e.MaSanPham}>${e.TenSanPham}</td>
+              <td class='soluong'>${e.SoLuong}</td>
               <td>${e.DonVi}</td>
               <td>
                 ${
@@ -153,14 +150,7 @@ async function contentChiTiet(
               ${
                 e.kho
                   ? e.kho
-                  : `<select class="kho" name="kho" id="kho">
-                    <option value="">Chọn kho nguyên liệu</option>
-                    ${toanBoKho
-                      .map((k) => {
-                        return `<option value=${k.MaKho}>${k.TenKho}</option>`;
-                      })
-                      .join("")}
-                  </select>`
+                  : `<button class ='btn secondary large full center chonKho' >Chọn kho</button>`
               }
                 
               </td>
@@ -222,10 +212,10 @@ async function contentChiTiet(
             </div>
           </form>
         <div class="content__inner chitiet">
-          <h3>${chiTiet[0].TenLoai} </h3>
+          <h3 id=${chiTiet[0].MaLoai}>${chiTiet[0].TenLoai} </h3>
           <p><span class="deMuc">Mã đơn:</span>${chiTiet[0].MaDon}</p>
           <p><span class="deMuc">Tên đơn:</span>${chiTiet[0].TenLoai}</p>
-          <p><span class="deMuc">Người lập:</span>${chiTiet[0].MaTaiKhoan}</p>
+          <p><span class="deMuc">Người lập:</span>${chiTiet[0].TenDangNhap}</p>
           <p><span class="deMuc">Ngày lập:</span>${chiTiet[0].NgayLap}</p>
           <p><span class="deMuc">Danh sách yêu cầu:</span></p>
           ${dsNguyenLieu}
@@ -258,7 +248,6 @@ async function renderChiTiet(id) {
 }
 
 function contentBienBan(maBienBan, chitiet) {
-  console.log(chitiet.TenLoai);
   let html = `<div class="formChonNL">
       <div class="overlay"></div>
       <div class="dsNguyenLieu floatBienBan">
@@ -326,27 +315,138 @@ function renderBienBan(chitiet) {
     };
     let res = await lapBienBan(ttbb);
     if (res) {
-      alert("Bạn đã lập biên bản thành công!");
+      await modalThongBao("Đã lập biên bản thành công", true);
       window.location.reload();
+    } else {
+      await modalThongBao("Lập biên bản thất bại!", false);
     }
   });
 }
 async function renderPhanPhoi(id) {
   await render(id, true);
+  let dsKho = [];
   const btnBack = document.querySelector("#quayLai");
   btnBack.addEventListener("click", (e) => {
     renderChiTiet(id);
   });
   const btnXacNhan = document.querySelector("#xacNhan");
   btnXacNhan.addEventListener("click", (e) => {
-    renderPhieuNhap(id);
+    renderPhieuNhap(id, dsKho);
   });
+  document.querySelector("body").addEventListener("click", async (e) => {
+    if (e.target.matches(".chonKho")) {
+      const soluongcan = e.target.closest("tr").children[1].textContent;
+      const maSanPham = e.target.closest("tr").children[0].id;
+      await renderChonKho(maSanPham, dsKho, soluongcan);
+    }
+  });
+}
+function removeForm() {
+  const form = document.querySelector(".formChonNL");
+  form.remove();
+}
+async function renderChonKho(maSanPham, dsKho, soluongcan) {
+  let loai = document.querySelector(".content__inner").querySelector("h3").id;
+  const html_2 = await contentChonKho(null, loai, soluongcan);
+  document.querySelector("body").insertAdjacentHTML("beforeend", html_2);
+  document.body.addEventListener("change", function (e) {
+    if (e.target.classList.contains("chon")) {
+      const row = e.target.closest("tr");
+      const inputSoLuong = row.querySelector(".soLuong");
+      inputSoLuong.disabled = !e.target.checked;
+    }
+  });
+  // Kiểm tra và xác nhận số lượng khi nhấn nút "Xác nhận"
+  const form = document.querySelector(".formChonNL");
+  form.querySelector(".btnClose").addEventListener("click", removeForm);
+  form.querySelector("#xacNhan").addEventListener("click", function () {
+    const checkboxes = document.querySelectorAll(".chon:checked");
+    let tongSoLuong = 0;
+    let danhSachKho = [];
+
+    checkboxes.forEach(function (checkbox) {
+      const row = checkbox.closest("tr");
+      const soLuong = parseInt(row.querySelector(".soLuong").value) || 0;
+      tongSoLuong += soLuong;
+      danhSachKho.push({
+        maSanPham,
+        maKho: row.cells[1].innerText,
+        soLuong: soLuong,
+      });
+    });
+
+    const soLuongCan = parseInt(
+      document.querySelector(".bottomDs h3").innerText.match(/\d+/)[0]
+    );
+
+    if (tongSoLuong === soLuongCan) {
+      removeForm();
+      dsKho.push(...danhSachKho);
+      return danhSachKho;
+    } else {
+      alert("Vui lòng nhập đủ số lượng cần!");
+    }
+  });
+}
+async function contentChonKho(dsKho = null, loai, SoLuongCan) {
+  let kho = await layKhoPhuHop(loai == 1 ? "Nguyên liệu" : "Thành phẩm", 1);
+  kho = kho.sort((a, b) => a.SucChuaDaDung - b.SucChuaDaDung);
+  let newDsKho = kho.map((k) => {
+    return `<tr>
+    <td>
+    <input type="checkbox" class="chon" id="chon" />
+    </td>
+    <td>${k.MaKho}</td>
+    <td>${k.TenKho}</td>
+    <td>${k.ViTri}</td>
+    <td>${k.SucChua}</td>
+    <td>${k.SucChuaDaDung}</td>
+    <td>
+    <input
+      type="number"
+      class="soLuong "
+      placeholder="Nhập số lượng bạn muốn"
+      value = ""
+      disabled
+    /></td>
+    </tr>
+    `;
+  });
+  let html = `<div class="formChonNL">
+      <div class="overlay"></div>
+      <div class="dsNguyenLieu float">
+        <div class="top">
+          <h3>Danh sách các kho</h3>
+          <button class="btn btnClose">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="content__inner">
+          <table>
+            <tr>
+              <th><input type="checkbox" /></th>
+              <th>Mã kho</th>
+              <th>Tên kho</th>
+              <th>Vị trí</th>
+              <th>Sức chứa</th>
+              <th>Sức chứa đã dùng</th>
+              <th>Số lượng muốn xuất</th>
+            </tr>
+            ${newDsKho}
+          </table>
+        </div>
+        <div class="bottomDs">
+        <h3>Số lượng cần nhập là: ${SoLuongCan}</h3>
+          <button class="btn primary" id="xacNhan">Xác nhận</button>
+      </div>
+    </div>`;
+  return html;
 }
 function alertMessage(message) {
   const alert = document.querySelector(".alert");
   alert.textContent = message;
 }
-async function renderPhieuNhap(id) {
+async function renderPhieuNhap(id, dsKho = null) {
   let chiTiet = await layDon(id);
   const NgayHetHan = [];
   document
@@ -358,13 +458,18 @@ async function renderPhieuNhap(id) {
     .forEach((e) => NgaySanXuat.push(e.value));
   const kho = [];
   document.querySelectorAll(".kho").forEach((e) => kho.push(e.value));
-  if (NgayHetHan.some((e) => e === "") || NgaySanXuat.some((e) => e === "")) {
+  if (
+    !(
+      NgayHetHan.every((e) => e > new Date().toISOString()) &&
+      NgaySanXuat.every((e) => e < new Date().toISOString())
+    )
+  ) {
     alertMessage("Vui lòng chọn đầy đủ ngày hết hạn và ngày sản xuất");
     return;
   } else {
     alertMessage("");
   }
-  if (kho.some((e) => e === "")) {
+  if (!dsKho.length) {
     alertMessage("Vui lòng chọn đầy đủ kho");
     return;
   } else {
@@ -372,28 +477,39 @@ async function renderPhieuNhap(id) {
   }
   let newChiTiet = [...chiTiet];
   newChiTiet = newChiTiet.map((e, i) => {
-    return {
-      ...e,
-      NgaySanXuat: NgaySanXuat[i] || e.NgaySanXuat,
-      NgayHetHan: NgayHetHan[i] || e.NgayHetHan,
-      kho: kho[i],
-    };
+    let newKho = dsKho.filter((tt) => +tt.maSanPham == e.MaSanPham);
+    return newKho.map((k, index) => {
+      return {
+        ...e,
+        kho: k.maKho,
+        maSanPham: k.maSanPham,
+        DonVi: e.DonVi,
+        SoLuong: k.soLuong,
+        NgaySanXuat: NgaySanXuat[i] || e.NgaySanXuat,
+        NgayHetHan: NgayHetHan[i] || e.NgayHetHan,
+      };
+    });
   });
+  newChiTiet = [].concat(...newChiTiet);
   await render(id, true, newChiTiet);
   const btnLapPhieu = document.querySelector("#lapPhieu");
   const btnBack = document.querySelector("#quayLai");
   btnLapPhieu.addEventListener("click", async (e) => {
-    await capNhatDonYeuCau(newChiTiet);
-    themOverlay();
-    const overlayDivEl = document.querySelector(".overlayDiv");
-    overlayDivEl.addEventListener("click", (e) => showOverlay(id));
+    let res = await capNhatDonYeuCau(newChiTiet);
+    if (res) {
+      await modalThongBao("Phân phối đơn yêu cầu thành công!", true);
+      window.location.reload();
+    } else {
+      modalThongBao("Phân phối đơn yêu cầu thất bại!", false);
+    }
   });
   btnBack.addEventListener("click", (e) => {
+    window.location.reload();
     renderChiTiet(id);
   });
 }
 function showOverlay(id) {
-  init();
+  window.location.reload();
   xoaOverlay();
 }
 function themOverlay() {

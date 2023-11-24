@@ -62,9 +62,9 @@
                return true;
             }
         }
-        function capNhatTrangThaiDonYeuCau($maDon, $trangThai){
+        function capNhatTrangThaiDonYeuCau($maDon, $trangThai, $loai){
             $p = new DonYeuCau();
-            $res = $p->capNhatTrangThaiDonYeuCau($maDon, $trangThai);
+            $res = $p->capNhatTrangThaiDonYeuCau($maDon, $trangThai, $loai);
             if (!$res) {
                 return false;
             } else {

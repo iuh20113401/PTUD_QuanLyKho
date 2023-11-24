@@ -193,3 +193,6 @@ select:disabled {
   background-color: grey;
   opacity: 1;
 }
+.small_10 {
+  width: 10% !important;
+}

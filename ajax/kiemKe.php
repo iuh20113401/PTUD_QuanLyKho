@@ -78,7 +78,6 @@ session_start();
         $p = new ControlKiemKe(); 
         $res =  $p->capNhatTrangThai($maDon, $trangThai);
         echo json_encode($res);
-        return;
     }
     function layChiTietDonKiemKeLoi($maDon){
         $p = new ControlKiemKe(); 

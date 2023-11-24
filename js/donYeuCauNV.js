@@ -1,4 +1,4 @@
-"use strick";
+"use strict";
 import { MAVAITRO, menu, menuShow, highLightMenu } from "./menu.js";
 import { toExcel, toPDF, getFetch } from "./helper.js";
 
@@ -17,11 +17,12 @@ async function layChiTietDonYeuCau(maDon) {
   });
   return data;
 }
-async function capNhatTrangThaiDonYeuCau(maDon, trangThai) {
+async function capNhatTrangThaiDonYeuCau(maDon, trangThai, maLoai) {
   let data = await getFetch("../ajax/donYeuCau.php", {
     action: "capNhatTrangThaiDonYeuCau",
     maDon,
     trangThai,
+    maLoai,
   });
   return data;
 }
@@ -174,40 +175,14 @@ async function layDon(id) {
   const chiTiet = await layChiTietDonYeuCau(id);
   return chiTiet;
 }
-function themBtnDuyet() {
-  let html = `<button class="btn primary " id = "duyet">Duyệt đơn</button>
-  <button class="btn btnXoa " id = "khongDuyet">Không duyệt</button>
-  `;
-  document.querySelector(".buttons").insertAdjacentHTML("afterbegin", html);
-  const btnDuyet = document.querySelector("#duyet");
-  const btnKhongDuyet = document.querySelector("#khongDuyet");
-  const maDon = document.querySelector(".maDon").id;
-  btnDuyet.addEventListener("click", async (e) => {
-    let res = await capNhatTrangThaiDonYeuCau(maDon, "Đã duyệt");
-    if (res) {
-      let confirmRes = confirm("Bạn đã duyệt đơn thành công!");
-      if (!confirmRes || confirmRes) {
-        dsDon = await layDonYeuCau(goBack());
-        init(dsDon, goBack());
-      }
-    }
-  });
-  btnKhongDuyet.addEventListener("click", async (e) => {
-    let res = await capNhatTrangThaiDonYeuCau(maDon, "Đã hủy");
-    let confirmRes = confirm("Bạn đã không duyệt đơn thành công!");
-    if (!confirmRes || confirmRes) {
-      dsDon = await layDonYeuCau(goBack());
-      init(dsDon, goBack());
-    }
-  });
-}
 async function renderChiTiet(id) {
   let chitiet = await layDon(id);
   render(chitiet);
   if (chitiet[0].TrangThai == "Chờ duyệt" && MAVAITRO == 1) {
-    themBtnDuyet();
+    themBtnDuyet(chitiet[0].MaLoai);
   }
-
+  toExcel(chitiet[0].TenLoai);
+  toPDF(chitiet[0].TenLoai);
   const btnBack = document.querySelector("#quayLai");
   btnBack.addEventListener("click", (e) => {
     init(dsDon, goBack());

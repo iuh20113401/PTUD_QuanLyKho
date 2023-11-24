@@ -1,6 +1,6 @@
-"use strick";
-import { menu, menuShow } from "./menu.js";
-import { getFetch } from "./helper.js";
+"use strict";
+import { menu, menuShow, highLightMenu } from "./menu.js";
+import { getFetch, modalThongBao, thongBaoLoi } from "./helper.js";
 async function layCongThuc() {
   const data = await getFetch("../ajax/congThuc.php", {
     action: "layCongThuc",
@@ -46,6 +46,7 @@ function render(dsNguyenLieu = null) {
   let container = document.querySelector(".container");
   container.innerHTML = html;
   menuShow();
+  highLightMenu();
 }
 function content(dsNguyenLieu = null) {
   let html = `<div class="content">
@@ -156,42 +157,54 @@ function content(dsNguyenLieu = null) {
 function init() {
   render();
   submitLapDon();
-  let congthuc = document.querySelector("#congthuc");
-  let nguyenlieu = document.querySelector("#nguyenlieu");
   let inputCongThuc = document.querySelector(".inputCongThuc");
   let inputNguyenLIeu = document.querySelector(".inputNguyenLieu");
-  congthuc.addEventListener("click", async (e) => {
-    if (e.target.checked) {
-      const themCongThucInput = await themInput();
-      const buttonThemNguyenLieu = buttonThem();
-      const nguyenlieus = inputCongThuc.querySelector(".nguyenlieus");
-      nguyenlieus.innerHTML = themCongThucInput;
-      nguyenlieus.insertAdjacentHTML("beforeend", buttonThemNguyenLieu);
-      const buttonThemNl = inputCongThuc.querySelector(".themNL");
-      buttonThemNl.addEventListener("click", (e) => {
-        e.target.insertAdjacentHTML("beforebegin", themCongThucInput);
-      });
-    } else {
-      inputCongThuc.querySelector(".nguyenlieus").innerHTML = "";
+  document.body.addEventListener("click", async (e) => {
+    if (e.target.matches("#congthuc")) {
+      if (e.target.checked) {
+        const themCongThucInput = await themInput();
+        const buttonThemNguyenLieu = buttonThem();
+        const nguyenlieus = inputCongThuc.querySelector(".nguyenlieus");
+        nguyenlieus.innerHTML = themCongThucInput;
+        nguyenlieus.insertAdjacentHTML("beforeend", buttonThemNguyenLieu);
+        const buttonThemNl = inputCongThuc.querySelector(".themNL");
+        buttonThemNl.addEventListener("click", (e) => {
+          e.target.insertAdjacentHTML("beforebegin", themCongThucInput);
+        });
+      } else {
+        inputCongThuc.querySelector(".nguyenlieus").innerHTML = "";
+      }
+    } else if (e.target.matches("#nguyenlieu")) {
+      if (e.target.checked) {
+        const themCongThucInput = await themInput("nguyenlieu");
+        const buttonThemNguyenLieu = buttonThem();
+        const nguyenlieus = inputNguyenLIeu.querySelector(".nguyenlieus");
+        nguyenlieus.innerHTML = themCongThucInput;
+        nguyenlieus.insertAdjacentHTML("beforeend", buttonThemNguyenLieu);
+        const buttonThemNl = inputNguyenLIeu.querySelector(".themNL");
+        buttonThemNl.addEventListener("click", (e) => {
+          e.target.insertAdjacentHTML("beforebegin", themCongThucInput);
+        });
+      } else {
+        inputNguyenLIeu.querySelector(".nguyenlieus").innerHTML = "";
+      }
     }
-  });
-  nguyenlieu.addEventListener("click", async (e) => {
-    if (e.target.checked) {
-      const themCongThucInput = await themInput("nguyenlieu");
-      const buttonThemNguyenLieu = buttonThem();
-      const nguyenlieus = inputNguyenLIeu.querySelector(".nguyenlieus");
-      nguyenlieus.innerHTML = themCongThucInput;
-      nguyenlieus.insertAdjacentHTML("beforeend", buttonThemNguyenLieu);
-      const buttonThemNl = inputNguyenLIeu.querySelector(".themNL");
-      buttonThemNl.addEventListener("click", (e) => {
-        e.target.insertAdjacentHTML("beforebegin", themCongThucInput);
-      });
-    } else {
-      inputNguyenLIeu.querySelector(".nguyenlieus").innerHTML = "";
-    }
+    // Thêm các xử lý sự kiện khác ở đây
   });
 }
-function renderDsNguyenLieu(dsNguyenLieu) {
+async function renderDsNguyenLieu(dsNguyenLieu) {
+  let nguyenLieu = await layToanBoNguyenLieu();
+  let res = dsNguyenLieu
+    .map((nl) => {
+      let old = nguyenLieu.filter((nls) => nls.MaSanPham === nl.ma)[0];
+      console.log(old);
+      return +old?.SoLuongTon - +old?.SoLuongChoXuat >= nl.soluong;
+    })
+    .some((nl) => nl == false);
+  if (res === true) {
+    thongBaoLoi("Hiện tại không đủ số lượng để xuất");
+    return;
+  }
   render(dsNguyenLieu);
   const btnHuy = document.querySelector("#Huy");
   const btnXacNhan = document.querySelector("#xacNhan");
@@ -210,7 +223,7 @@ function renderDsNguyenLieu(dsNguyenLieu) {
     };
     const res = await themDonYeuCau(donYeuCau);
     if (res) {
-      let newRes = confirm("Đã thêm thành công");
+      let newRes = await modalThongBao("Lập đơn yêu cầu thành công!", true);
       if (newRes || !newRes) {
         window.location.reload();
       }
@@ -267,6 +280,22 @@ function buttonThem() {
   return `<button type="button" class="btn secondary themNL" >Thêm</button>`;
 }
 
+function layDuLieu(element) {
+  const [ma, ten] = element.children[0].value.split("/");
+  const soluong = element.children[1].value;
+  const donvi = element.children[2].value;
+  return { ma, ten, soluong, donvi };
+}
+
+function isValidNguyenLieu({ ten, soluong }) {
+  let res =
+    ten !== "default" &&
+    soluong !== "" &&
+    !isNaN(soluong) &&
+    parseInt(soluong) >= 0;
+  return res;
+}
+
 function submitLapDon() {
   const lapDonNNL = document.querySelector("#lapDonNNL");
   lapDonNNL.addEventListener("click", async (e) => {
@@ -275,16 +304,13 @@ function submitLapDon() {
     const chonNguyenLieu = document.querySelectorAll(".dsNguyenLieu");
     const chonCongThuc = document.querySelectorAll(".dsCongThuc");
     chonNguyenLieu.forEach((nguyenLieu, i) => {
-      const ma = nguyenLieu.children[0].value.split("/")[0];
-      const ten = nguyenLieu.children[0].value.split("/")[1];
-      const soluong = nguyenLieu.children[1].value;
-      const donvi = nguyenLieu.children[2].value;
-      if (ten != "default" && soluong != "") {
+      const { ma, ten, soluong, donVi } = layDuLieu(nguyenLieu);
+      if (isValidNguyenLieu({ ten, soluong })) {
         dsNguyenLieu.push({
           ma: +ma,
           ten,
           soluong: +soluong,
-          donvi,
+          donVi,
         });
       } else {
         let warning = document.querySelector(".warning");
@@ -328,7 +354,7 @@ function submitLapDon() {
         donvi: newds[0].donvi,
       };
     });
-    renderDsNguyenLieu(newDs);
+    await renderDsNguyenLieu(newDs);
   });
 }
 init();

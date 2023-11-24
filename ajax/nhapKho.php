@@ -21,8 +21,7 @@ session_start();
             $maPhieu = $_POST['maPhieu'];
         }
         if($action == 'xacNhanNhapKho'){
-            $maDon = $_POST['maDon'];
-            $maChiTiet = [rand(1, 1000), rand(1, 1000)];
+            $maDon = $_POST['maDon'];            
             $maPhieu = $_POST['maPhieu'];
             $maSanPham = explode(',', $_POST['maSanPham']);
             $maKho = $_POST['maKho'];
@@ -48,7 +47,7 @@ session_start();
                 layChiTietPhieuNhap($maPhieu);
                 break;
             case "xacNhanNhapKho":
-                themChiTietNguyenLieu($maDon,$maChiTiet,$maSanPham,$maPhieu,$maKho,$soLuong,$donVi,20000,$ngaySanXuat,$ngayHetHan);  
+                themChiTietNguyenLieu($maDon,$maSanPham,$maPhieu,$maKho,$soLuong,$donVi,20000,$ngaySanXuat,$ngayHetHan);  
                 break;
         }
 
@@ -101,10 +100,11 @@ session_start();
             echo json_encode($res);
         }
     }
-    function  themChiTietNguyenLieu($maDon,$maChiTiet, $maSanPham, $maPhieu, $maKho, $soLuongTon,$donVi, $gia, $ngaySanXuat, $ngayHetHan){
+    function  themChiTietNguyenLieu($maDon, $maSanPham, $maPhieu, $maKho, $soLuongTon,$donVi, $gia, $ngaySanXuat, $ngayHetHan){
         $p = new ControlPhieuNhap();
         for ($i=0; $i < count($maSanPham) ; $i++) { 
-            $res = $p->themChiTietNguyenLieu($maChiTiet[$i], $maSanPham[$i], $maPhieu, $maKho, $soLuongTon[$i],$donVi[$i], $gia, $ngaySanXuat[$i], $ngayHetHan[$i]);
+            $maChiTiet = rand(1,1000);
+            $res = $p->themChiTietNguyenLieu($maChiTiet, $maSanPham[$i], $maPhieu, $maKho, $soLuongTon[$i],$donVi[$i], $gia, $ngaySanXuat[$i], $ngayHetHan[$i]);
         }
         if(!$res){
             echo json_encode($res);
@@ -115,7 +115,7 @@ session_start();
             $res2 = layTrangThaiPhieuNhap($maDon);
             if($res2){
                 $p2 = new ControlDonYeuCau();
-                $p2->capNhatTrangThaiDonYeuCau($maDon, "Đã nhập kho");
+                $p2->capNhatTrangThaiDonYeuCau($maDon, "Đã nhập kho",null);
             }
            
         }

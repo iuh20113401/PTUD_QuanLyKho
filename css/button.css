@@ -18,6 +18,9 @@
 .large {
   width: 60%;
 }
+.large.full {
+  width: 100% !important;
+}
 .center {
   margin: auto;
 }
@@ -70,4 +73,7 @@
   background-color: red;
   color: white;
   border: none;
+}
+.btnSuperSmall {
+  width: 5%;
 }

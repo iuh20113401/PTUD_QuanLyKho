@@ -1,4 +1,4 @@
-import { toExcel, toPDF, getFetch } from "./helper.js";
+import { toExcel, toPDF, getFetch, taiKhoan } from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 async function layPhieuXuatKhoChoXuatTheoTaiKhoan() {
   const data = await getFetch("../ajax/xuatKho.php", {

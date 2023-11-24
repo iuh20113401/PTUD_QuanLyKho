@@ -1,6 +1,6 @@
-"use strick";
+"use strict";
 import { menu, menuShow, highLightMenu } from "./menu.js";
-import { getFetch } from "./helper.js";
+import { getFetch, modalThongBao, thongBaoLoi } from "./helper.js";
 let dsDonXuat = [];
 async function layDanhSachTatCaDon() {
   const data = await getFetch("../ajax/phanPhoiDonYeuCauXuat.php", {
@@ -87,7 +87,7 @@ function content() {
                   return `<tr>
                 <td>${don.MaDon}</td>
                 <td>${don.TenLoai}</td>
-                <td>${don.MaTaiKhoan}</td>
+                <td>${don.TenDangNhap}</td>
                 <td>${don.NgayLap}</td>
                 <td class="center">${don.soluongnguyenlieu}</td>
                 <td><button class="btn primary center large" id = ${don.MaDon}>Xem</button></td>
@@ -125,7 +125,7 @@ function contentChiTiet(chiTiet, sua = false, newChiTiet = null) {
                 checked ? "disabled" : ""
               } id=${nl.MaSanPham}>Chọn nguyên liệu</button></td>
                ${
-                 newChiTiet
+                 dsDonXuat
                    ? `<td><input type="checkbox" ${
                        checked ? "checked" : ""
                      } class ="daChon"/></td>`
@@ -168,7 +168,7 @@ function contentChiTiet(chiTiet, sua = false, newChiTiet = null) {
           <h3>${chiTiet.TenLoai}</h3>
           <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaDon}</p>
           <p><span class="deMuc">Tên đơn:</span>${chiTiet.TenLoai}</p>
-          <p><span class="deMuc">Người lập:</span>${chiTiet.MaTaiKhoan}</p>
+          <p><span class="deMuc">Người lập:</span>${chiTiet.TenDangNhap}</p>
           <p><span class="deMuc">Ngày lập:</span>${chiTiet.NgayLap}</p>
           <p><span class="deMuc">Danh sách yêu cầu:</span></p>
           ${dsNguyenLieu}
@@ -178,13 +178,12 @@ function contentChiTiet(chiTiet, sua = false, newChiTiet = null) {
 }
 async function chonChiTietNL(idNL, SoLuongCan) {
   let chiTietNL = await layNL(idNL);
-  chiTietNL;
   let dsNguyenLieu = chiTietNL
     .map((ct) => {
       let nl = dsDonXuat.filter((dx) => {
-        return dx.MaSanPham == ct.MaSanPham;
+        return +dx.MaSanPham == +ct.MaSanPham;
       })[0]?.dsNguyenLieu;
-      const ctNL = nl?.filter((c) => c.MaChiTiet == ct.MaChiTiet);
+      const ctNL = nl?.filter((c) => c.MaChiTiet == +ct.MaChiTietSanPham);
       return `<tr class ="nguyenlieu">
               <td>
                 <input type="checkbox" class="chon" id="chon" ${
@@ -282,7 +281,7 @@ function xacNhan(chiTiet) {
           <h3>Đơn yêu cầu xuất nguyên liệu</h3>
           <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaDon}</p>
           <p><span class="deMuc">Tên đơn:</span>${chiTiet.TenLoai}</p>
-          <p><span class="deMuc">Người lập:</span>${chiTiet.MaTaiKhoan}</p>
+          <p><span class="deMuc">Người lập:</span>${chiTiet.TenDangNhap}</p>
           <p><span class="deMuc">Ngày lập:</span>${chiTiet.NgayLap}</p>
           <p><span class="deMuc">Danh sách yêu cầu:</span></p>
           ${dsNguyenLieuCuoi}
@@ -297,6 +296,7 @@ async function layDon(id) {
 }
 async function layNL(idNL) {
   const chiTiet = await layDanhSachSanPham(idNL);
+  chiTiet.filter((sp) => sp.NgayHetHan > new Date());
   return chiTiet;
 }
 async function renderChiTiet(id) {
@@ -320,7 +320,7 @@ async function renderChiTietPhanPhoi(id, chiTietNL = null) {
   const SoLuongCan = document.querySelectorAll(".SoLuongCan");
   daChon.forEach((dc) => {
     dc.addEventListener("click", (e) => {
-      if (dc.checked === false)
+      if (dc.checked == false)
         dc.closest("tr").querySelector(".chonNL").removeAttribute("disabled");
       else
         dc.closest("tr")
@@ -329,6 +329,7 @@ async function renderChiTietPhanPhoi(id, chiTietNL = null) {
     });
   });
   btnBack.addEventListener("click", (e) => {
+    dsDonXuat = [];
     renderChiTiet(id);
   });
 
@@ -343,7 +344,7 @@ async function renderChiTietPhanPhoi(id, chiTietNL = null) {
   });
 }
 function renderPhanPhoi(chiTiet, id) {
-  render(chiTiet, true);
+  render(chiTiet, true, id);
   const btnBack = document.querySelector("#quayLai");
   const btnChonNL = document.querySelectorAll(".chonNL");
   const SoLuongCan = document.querySelectorAll(".SoLuongCan");
@@ -412,7 +413,7 @@ async function renderChonNL(id, SoLuongCan, MaSanPham) {
   xacNhan.addEventListener("click", (e) => {
     const soLuongNhap = dsNguyenLieu.reduce((acc, ds) => acc + +ds.SoLuong, 0);
     if (soLuongNhap !== +SoLuongCan) {
-      alert("Vui lòng chọn đúng số lượng yêu cầu");
+      thongBaoLoi("Vui lòng nhập đúng số lượng yêu cầu!");
       return;
     }
     chonNL.remove();
@@ -433,12 +434,17 @@ async function renderXacNhanCuoi(id) {
   const btnLap = document.querySelector("#lapPhieu");
   const btnQuayLai = document.querySelector("#quayLai");
   btnLap.addEventListener("click", async (e) => {
-    await lapPhieuXuatKho(chiTiet.MaDon);
-    themOverlay();
-    const overlayDivEl = document.querySelector(".overlayDiv");
-    overlayDivEl.addEventListener("click", (e) => showOverlay(id));
+    let res = await lapPhieuXuatKho(chiTiet.MaDon);
+    if (res) {
+      await modalThongBao("Phân phối đơn yêu cầu thành công!", true);
+      window.location.reload();
+    } else {
+      await modalThongBao("Phân phổi đơn thất bại!", false);
+    }
   });
   btnQuayLai.addEventListener("click", (e) => {
+    dsDonXuat = [];
+
     renderChiTiet(id);
   });
 }

@@ -1,4 +1,5 @@
 import { exportEcxel } from "./exportEcxcel.js";
+
 function toExcel(title) {
   $("#excel").click((e) => {
     function excel() {
@@ -100,6 +101,7 @@ function toPDF(title) {
         title: title,
       },
       success: function (response) {
+        console.log(response);
         xoaOverlay();
       },
     });
@@ -133,8 +135,131 @@ async function getFetch(url, data) {
   if (!response.ok) {
     throw new Error("Lỗi mạng hoặc lỗi máy chủ");
   }
-
   let res = await response.json();
   return res;
 }
-export { toPDF, toExcel, getFetch };
+async function layThongTinTaiKhoan() {
+  const data = await getFetch("../ajax/session.php", {
+    action: "layThongTinTaiKhoan",
+  });
+  return data;
+}
+function thongBaoLoi(message) {
+  let html = `<div id="notificationContainer" class="notification-container">
+  </div>`;
+  document.querySelector("body").insertAdjacentHTML("beforeend", html);
+  showErrorNotification(message);
+}
+async function modalXacNhan(message) {
+  let html = `
+  <div id="fixedNotificationContainer" class="fixed-notification-container">
+      <div class="fixed-notification">
+        <button class="close-btn">&times;</button>
+        <div class="notification-message mt-1"></div>
+        <button class="confirm-btn mt-1">Xác nhận</button>
+      </div>
+    </div>
+  `;
+  document.querySelector("body").insertAdjacentHTML("beforeend", html);
+  return new Promise((resolve, reject) => {
+    const container = document.getElementById("fixedNotificationContainer");
+    const closeBtn = container.querySelector(".close-btn");
+    const confirmBtn = container.querySelector(".confirm-btn");
+
+    closeBtn.onclick = () => {
+      container.style.display = "none";
+      reject(false);
+    };
+
+    confirmBtn.onclick = () => {
+      container.style.display = "none";
+      resolve(true);
+    };
+
+    showFixedNotification(message);
+  });
+}
+function showErrorNotification(message) {
+  const notificationContainer = document.getElementById(
+    "notificationContainer"
+  );
+  const notification = document.createElement("div");
+  notification.classList.add("notification");
+  notification.innerText = message;
+
+  // Hiển thị thông báo
+  notificationContainer.appendChild(notification);
+  notification.style.display = "block";
+
+  // Ẩn thông báo sau 3 giây
+  setTimeout(() => {
+    notification.style.display = "none";
+    notificationContainer.removeChild(notification);
+  }, 3000);
+}
+async function showFixedNotification(message) {
+  const container = document.getElementById("fixedNotificationContainer");
+  const messageSpan = container.querySelector(".notification-message");
+  messageSpan.textContent = message;
+
+  container.style.display = "flex";
+}
+async function modalThongBao(message, isSuccess) {
+  let html = `<div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="modalMessage"></p>
+      </div>
+    </div>`;
+  document.querySelector("body").insertAdjacentHTML("beforeend", html);
+  showModal(message, isSuccess);
+  return new Promise((resolve, reject) => {
+    let span = document.getElementsByClassName("close")[0];
+    let modal = document.getElementById("myModal");
+
+    span.onclick = function () {
+      modal.style.display = "none";
+      resolve(true);
+    };
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+        resolve(true);
+      }
+    };
+  });
+}
+function showModal(message, isSuccess) {
+  let modal = document.getElementById("myModal");
+  let span = document.getElementsByClassName("close")[0];
+  let messageElement = document.getElementById("modalMessage");
+
+  messageElement.innerHTML = message;
+  if (isSuccess) {
+    messageElement.classList.add("successTB");
+    messageElement.classList.remove("error");
+  } else {
+    messageElement.classList.add("error");
+    messageElement.classList.remove("successTB");
+  }
+
+  modal.style.display = "block";
+}
+function xoaHang() {
+  document.querySelector(".content").addEventListener("click", (e) => {
+    if (e.target.matches(".xoaHang")) {
+      e.target.closest(".row").remove();
+    }
+  });
+}
+let taiKhoan = await layThongTinTaiKhoan();
+export {
+  toPDF,
+  toExcel,
+  getFetch,
+  taiKhoan,
+  thongBaoLoi,
+  modalXacNhan,
+  modalThongBao,
+  xoaHang,
+};

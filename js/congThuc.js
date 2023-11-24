@@ -1,6 +1,13 @@
-"use strick";
+"use strict";
 import { MAVAITRO, menu, menuShow, highLightMenu } from "./menu.js";
-import { getFetch, toPDF, toExcel } from "./helper.js";
+import {
+  getFetch,
+  toPDF,
+  toExcel,
+  thongBaoLoi,
+  modalThongBao,
+  xoaHang,
+} from "./helper.js";
 async function layCongThuc() {
   let data = await getFetch("../ajax/congThuc.php", {
     action: "layCongThuc",
@@ -11,6 +18,13 @@ async function layCongThuc() {
 async function layChiTietCongThuc(maCongThuc) {
   let data = await getFetch("../ajax/congThuc.php", {
     action: "layChiTietCongThuc",
+    maCongThuc,
+  });
+  return data;
+}
+async function xoaCongThuc(maCongThuc) {
+  let data = await getFetch("../ajax/congThuc.php", {
+    action: "xoaCongThuc",
     maCongThuc,
   });
   return data;
@@ -29,7 +43,7 @@ async function themCT(
   soLuong,
   donVi
 ) {
-  let data = await getFetch("../ajax/sanPham.php", {
+  let data = await getFetch("../ajax/congThuc.php", {
     action: "themCongThuc",
     maCongThuc,
     tenCongThuc,
@@ -38,8 +52,10 @@ async function themCT(
     soLuong,
     donVi,
   });
+  console.log(data);
   return data;
 }
+
 let dsCongThuc = (await layCongThuc()) || null;
 async function render(chiTietNguyenLieu = null) {
   let html =
@@ -66,7 +82,7 @@ function content() {
               <td>
                 <div class="buttons">
                   <button class="btn large primary" id="xem">Xem</button>
-                  <button class="btn large btnXoa" id="xoa">Xóa</button>
+                  <button class="btn large btnXoa xoa" id =${ct.MaCongThuc}>Xóa</button>
                 </div>
               </td>
             </tr>`;
@@ -110,6 +126,8 @@ function content() {
 async function renderChiTiet(maCongThuc) {
   let chiTiet = await layChiTietCongThuc(maCongThuc);
   render(chiTiet);
+  const btnBack = document.querySelector("#quayLai");
+  btnBack.addEventListener("click", init);
 }
 function contentChiTiet(chiTiet) {
   let congThuc = `<table class="small"><tr>
@@ -144,6 +162,7 @@ function contentChiTiet(chiTiet) {
           <p><span class="deMuc">Mô tả:</span>${chiTiet[0].MoTa}</p>
           <p><span class="deMuc">Danh sách nguyên liệu:</span></p>
           ${congThuc}
+          <button type='button' class = "btn secondary large center" id = 'quayLai'>Quay lại</button>
         </div>
       </div>`;
   return html;
@@ -206,6 +225,7 @@ function contentThemCongThuc(dsNguyenLieu) {
                   <option value="g">gam</option>
                   <option value="kg">KG</option>
                 </select>
+                <button class = 'btn btnXoa btnSuperSmall xoaHang' type ='button'>X</button>
               </div>
               <button type="button" id='themNL' class="btn secondary mt-1">
                 Thêm nguyên liệu
@@ -237,6 +257,7 @@ function themNL(dsNguyenLieu) {
                   <option value="g">gam</option>
                   <option value="kg">KG</option>
                 </select>
+                <button class = 'btn btnXoa btnSuperSmall xoaHang' type ='button'>X</button>
               </div>`;
   document.querySelector("#themNL").insertAdjacentHTML("beforebegin", html);
 }
@@ -270,6 +291,17 @@ async function renderThemChiTiet() {
         dsSoLuong.push(soLuong[i].value);
       }
     });
+    const check =
+      maCT.value != "" &&
+      tenCT.value != "" &&
+      moTa.value != "" &&
+      maSanPham.length &&
+      dsSoLuong.length &&
+      dsDonvi.length;
+    if (!check) {
+      thongBaoLoi("Vui lòng nhập đầy đủ thông tin");
+      return;
+    }
     let res = await themCT(
       maCT.value,
       tenCT.value,
@@ -279,12 +311,12 @@ async function renderThemChiTiet() {
       dsDonvi
     );
     if (res) {
-      let newRes = confirm("Đã thêm thành công");
-      if (newRes || !newRes) {
-        window.location.reload();
-      }
+      await modalThongBao("Đã thêm công thức thành công!", true);
+      window.location.reload();
     }
+    await modalThongBao("Thêm công thức thất bại!", false);
   });
+  xoaHang();
 }
 function init() {
   render();
@@ -298,6 +330,18 @@ function init() {
   });
   btnThem.addEventListener("click", (e) => {
     renderThemChiTiet();
+  });
+  document.querySelector(".content").addEventListener("click", async (e) => {
+    if (e.target.matches(".xoa")) {
+      let res = await xoaCongThuc(e.target.id);
+      if (res) {
+        modalThongBao("Xóa công thức thành cồng!", true);
+        window.location.reload();
+      } else {
+        modalThongBao("Xóa công thức thất bại!", false);
+        window.location.reload();
+      }
+    }
   });
 }
 init();

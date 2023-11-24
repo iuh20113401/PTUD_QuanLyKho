@@ -61,6 +61,10 @@ session_start();
                 return;
             }
         }
+        if($trangThai == 'Đã duyệt'){
+            $p = new ControlDonYeuCau();
+            $res = $p -> capNhatTrangThaiDonYeuCau($maDon,$trangThai, $maLoai);
+        }
         echo json_encode(true);
     }
     function xuLyThemDonYeuCauNhapTP($maDon, $maLoai, $maTaiKhoan, $ngayLap, $trangThai,$ngaySanXuat, $ngayHetHan, $maSanPham,$soLuong,$donVi){

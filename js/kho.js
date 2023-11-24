@@ -1,4 +1,11 @@
-import { toExcel, toPDF, getFetch } from "./helper.js";
+import {
+  toExcel,
+  toPDF,
+  getFetch,
+  modalXacNhan,
+  modalThongBao,
+  thongBaoLoi,
+} from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 
 async function layToanBoKho() {
@@ -38,11 +45,27 @@ async function xoaKho(chiTiet) {
     maKho: chiTiet.maKho,
     trangThai: chiTiet.trangThai,
   });
+  console.log(data, chiTiet);
   return data;
 }
-let dsKho;
+async function laySanPhamTheoKho(maKho) {
+  let data = await getFetch("../ajax/sanPham.php", {
+    action: "laySanPhamTheoKho",
+    kho: maKho,
+  });
+  return data;
+}
+async function capNhatKhoMoi(dsMa, dsKho) {
+  let data = await getFetch("../ajax/sanPham.php", {
+    action: "capNhatDanhSachKhoMoi",
+    dsMa,
+    dsKho,
+  });
+  return data;
+}
+let dsKho = await layToanBoKho();
+let dsKhoSuDung;
 async function render(load = null) {
-  load ? (dsKho = await layToanBoNguyenLieu()) : null;
   let html = contentToanBo();
   html = `${menu()}
       ${html}
@@ -53,8 +76,8 @@ async function render(load = null) {
   highLightMenu();
 }
 function contentToanBo() {
-  let chiTietSanPham = dsKho
-    ? dsKho
+  let chiTietSanPham = dsKhoSuDung
+    ? dsKhoSuDung
         .map((k) => {
           return `<tr class='' id="${k.MaKho}">
               <td>${k.MaKho}</td>
@@ -72,9 +95,26 @@ function contentToanBo() {
         })
         .join("")
     : `<h3 class ="khongDon">Không có đơn yêu cầu nào!</h3`;
+  let loai =
+    dsKho?.length == dsKhoSuDung?.length ? "all" : dsKhoSuDung[0]?.Loai || null;
   let html = `<div class="content">
        <h3><a href="kho.html">Kho</a></h3>
         <form class="search">
+            <select id='loai' class = 'select'>
+            <option value='all' >Tất cả</option>
+              <option ${
+                loai == "Nguyên liệu" ? "selected" : ""
+              } value='Nguyên liệu'>Nguyên liệu</option>
+              <option ${
+                loai == "Thành phẩm" ? "selected" : ""
+              } value='Thành phẩm'>Thành phẩm</option>
+              <option ${
+                loai == "Nguyên liệu đã hủy" ? "selected" : ""
+              } value='Nguyên liệu đã hủy'>Nguyên liệu đã hủy</option>
+              <option ${
+                loai == "Thành phẩm đã hủy" ? "selected" : ""
+              } value='Thành phẩm đã hủy'>Thành phẩm đã hủy</option>
+            </select>
             <div class ='inputGroup'>
             <input type="text" name="search" id="search">
             <button type="button"><i class="fa-solid fa-magnifying-glass" style="color: #1e5cc8;"></i></button>
@@ -296,6 +336,10 @@ async function renderSua() {
     }
   });
 }
+function kiemTraDuLieuNhap(ttk) {
+  return Object.values(ttk).every((value) => value.trim() !== "");
+}
+
 async function renderThem() {
   let html = contentThemKho();
   document.querySelector(".content").innerHTML = html;
@@ -308,6 +352,7 @@ async function renderThem() {
     const moTa = document.querySelector("#moTa").value;
     const sucChua = document.querySelector("#sucChua").value;
     const loai = document.querySelector("#loai").value;
+
     const ttk = {
       maKho,
       tenKho,
@@ -316,6 +361,12 @@ async function renderThem() {
       sucChua,
       loai: loai == 1 ? "Nguyên liệu" : "Thành phẩm",
     };
+
+    if (!kiemTraDuLieuNhap(ttk)) {
+      alert("Vui lòng nhập đủ tất cả thông tin!");
+      return;
+    }
+
     let res = await themKho(ttk);
     if (res) {
       alert("Thêm kho thành công!");
@@ -323,33 +374,209 @@ async function renderThem() {
     }
   });
 }
+
 function goBack() {
   const quayLai = document.querySelector("#quayLai");
   quayLai.addEventListener("click", async (e) => {
-    await init(dsKho);
+    await init(dsKhoSuDung);
   });
 }
 async function renderXoa(id) {
   const chiTiet = dsKho.filter((kho) => kho.MaKho == id)[0];
-  console.log(id);
-  if (+chiTiet.SucChuaDaDung > 0) {
-    alert("Kho này còn hàng không thể xóa");
+  let checkSoLuong = dsKho.reduce((acc, kho) => {
+    if (chiTiet.Loai == kho.Loai && kho.MaKho != id) {
+      return (acc += +kho.SucChua - +kho.SucChuaDaDung);
+    } else {
+      return acc;
+    }
+  }, 0);
+  if (chiTiet.SucChuaDaDung > checkSoLuong) {
+    await modalXacNhan(
+      "Hiện tại không có kho có đủ số lượng để chuyển sản phẩm?"
+    );
     return;
   }
+  if (+chiTiet.SucChuaDaDung > 0) {
+    let res = await modalXacNhan(
+      "Hiện tại kho này đang còn sản phẩm, bạn có chắc muốn xóa kho này không?"
+    );
+    if (res) {
+      let danhSachSanPham = await laySanPhamTheoKho(chiTiet.MaKho);
+      hienThiDanhSachSanPham(danhSachSanPham, chiTiet.Loai, chiTiet.MaKho);
+      return;
+    }
+  }
+  // Tiếp tục với xóa kho nếu không còn sản phẩm
   const res = confirm("Bạn có chắc muốn xóa kho này!");
   if (res) {
-    const ttk = {
-      maKho: id,
-      trangThai:
-        chiTiet.Loai == "Nguyên liệu"
-          ? "Nguyên liệu đã hủy"
-          : "Thành phẩm đã hủy",
-    };
-    let res2 = await xoaKho(ttk);
+    let res2 = await xoaKho({ maKho: id, trangThai: "Kho đã hủy" });
+    // Kiểm tra và thông báo
   }
 }
+// Hàm hiển thị danh sách sản phẩm
+function hienThiDanhSachSanPham(danhSach, loai, maKho) {
+  document.body.insertAdjacentHTML("beforeend", chonKho(danhSach, loai, maKho));
+  const btnClose = document.querySelector(".btnClose");
+  btnClose.addEventListener("click", (e) => {
+    btnClose.closest(".formChonNL").remove();
+  });
+  document.querySelectorAll(".khoMoi").forEach((selectBox) => {
+    selectBox.addEventListener("change", function () {
+      capNhatSucChuaKho(this);
+    });
+  });
+  const btnXacNhan = document.querySelector("#xacNhan");
+  btnXacNhan.addEventListener("click", async (e) => {
+    let [dsMa, dsKhoMoi] = kiemTraTruocKhiXacNhan();
+    if (!dsMa) {
+      thongBaoLoi("Vui lòng chọn đầy đủ kho");
+      return;
+    }
+    let isDay = dsKho.every((kho) => kho.SucChua - kho.SucChuaDaDung >= 0);
+    if (!isDay) {
+      thongBaoLoi("Vui lòng chọn đúng sức chứa của kho");
+      return;
+    }
+    let res = await capNhatKhoMoi(dsMa, dsKhoMoi);
+    const ttk = {
+      maKho,
+      trangThai: "Kho đã hủy",
+    };
+    let res2 = await xoaKho(ttk);
+    console.log(res, res2, ttk);
+    if (res && res2) {
+      await modalThongBao("Xóa kho thành công!", true);
+      window.location.reload();
+    } else {
+      await modalThongBao("Xóa kho thất bại", false);
+      window.location.reload();
+    }
+  });
+}
+function capNhatSucChuaKho(selectBox) {
+  let maKhoMoi = selectBox.value;
+  let maKhoCu = selectBox.getAttribute("data-kho-cu");
+  let soLuongTon = Number(
+    selectBox.closest(".nguyenlieu").querySelector(".soLuongTon").textContent
+  );
+
+  if (maKhoCu) {
+    // Giảm sức chứa đã dùng của kho cũ
+    let khoCu = dsKho.find((kho) => kho.MaKho === +maKhoCu);
+    khoCu.SucChuaDaDung -= soLuongTon;
+  }
+  // Tăng sức chứa đã dùng của kho mới
+  let khoMoi = dsKho.find((kho) => kho.MaKho === +maKhoMoi);
+  khoMoi.SucChuaDaDung += soLuongTon;
+  capNhatDanhSachSelectBox();
+  // Cập nhật kho cũ
+  selectBox.setAttribute("data-kho-cu", maKhoMoi);
+}
+function capNhatDanhSachSelectBox() {
+  document.querySelectorAll(".khoMoi").forEach((selectBox) => {
+    let soLuongTonHienTai = Number(
+      selectBox.closest(".nguyenlieu").querySelector(".soLuongTon").textContent
+    );
+    let maKhoHienTai = selectBox.value;
+    let [maKho, loaiHienTai] = document.querySelector(".maKho").id.split("/");
+    let danhSachKhoCapNhat = danhSachKhoPhuHop(
+      soLuongTonHienTai,
+      loaiHienTai,
+      +maKho
+    );
+
+    selectBox.innerHTML =
+      `<option value =''>Chọn kho mới</option>` +
+      danhSachKhoCapNhat
+        .map(
+          (kho) =>
+            `
+          <option value='${kho.MaKho}' ${
+              kho.MaKho === +maKhoHienTai ? "selected" : ""
+            }>${kho.TenKho} ${kho.SucChuaDaDung} / ${kho.SucChua}</option>`
+        )
+        .join("");
+  });
+}
+
+function danhSachKhoPhuHop(soLuongTon, loai, maKho) {
+  return dsKho.filter(
+    (kho) =>
+      kho.Loai == loai &&
+      kho.SucChua - kho.SucChuaDaDung >= +soLuongTon &&
+      kho.MaKho != maKho
+  );
+}
+function kiemTraTruocKhiXacNhan() {
+  let coLoi = false;
+  let dsMa = [];
+  let dsKho = [];
+  document.querySelectorAll(".nguyenlieu").forEach((nl) => {
+    let maKhoDuocChon = nl.querySelector(".khoMoi").value;
+    let MaChiTietSanPham = nl.children[0].textContent;
+    if (!maKhoDuocChon) {
+      coLoi = true;
+      return;
+    }
+    dsMa.push(MaChiTietSanPham);
+    dsKho.push(maKhoDuocChon);
+  });
+  return coLoi ? [false, false] : [dsMa, dsKho];
+}
+
+function chonKho(danhSachNL, loai, maKho) {
+  danhSachNL = danhSachNL.filter((nl) => nl.SoLuongTon > 0);
+  let dsNguyenLieu = danhSachNL
+    .map((nl) => {
+      let danhSachKho = danhSachKhoPhuHop(nl.SoLuongTon, loai, maKho);
+      return `<tr class ="nguyenlieu">
+              <td>${nl.MaChiTietSanPham}</td>
+              <td>${nl.TenSanPham}</td>
+              <td class = 'soLuongTon'>${nl.SoLuongTon}</td>
+              <td>${nl.DonVi}</td>
+              <td>
+                <select class='khoMoi'>
+                <option value =''>Chọn kho mới</option>
+                  ${danhSachKho
+                    .map((kho) => {
+                      return `<option value='${kho.MaKho}'>${kho.TenKho} ${kho.SucChuaDaDung} / ${kho.SucChua}</option>`;
+                    })
+                    .join("")}
+                
+                </select>  
+              </td>
+            </tr>`;
+    })
+    .join("");
+  let html = `<div class="formChonNL">
+      <div class="overlay"></div>
+      <div class="dsNguyenLieu float">
+        <div class="top">
+          <h3 class ="maKho" id ="${maKho}/${loai}">Danh sách sản phẩm trong kho ${maKho}</h3>
+          <button class="btn btnClose">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="content__inner">
+          <table>
+            <tr>
+              <th>Mã chi tiết sản phẩm</th>
+              <th>Tên sản phẩm</th>
+              <th>Số lượng tồn</th>
+              <th>Đơn vị</th>
+              <th>Kho mới</th>
+            </tr>
+            ${dsNguyenLieu}
+          </table>
+        </div>
+        <div class="bottomDs">
+          <button class="btn primary center" id="xacNhan">Xác nhận</button>
+      </div>
+    </div>`;
+  return html;
+}
 async function init(dsKhoMoi = null) {
-  dsKho = dsKhoMoi ? dsKhoMoi : await layToanBoKho();
+  dsKhoSuDung = dsKhoMoi ? dsKhoMoi : dsKho;
   render();
   const btnXem = document.querySelectorAll(".xem");
   btnXem.forEach((xem) => {
@@ -366,6 +593,17 @@ async function init(dsKhoMoi = null) {
     xoa.addEventListener("click", async (e) => {
       await renderXoa(xoa.id);
     });
+  });
+  function locDanhSachKho(loaiKho) {
+    // Lọc danh sách kho dựa trên loại kho được chọn
+    return dsKho.filter((kho) => loaiKho === "all" || kho.Loai == loaiKho);
+  }
+
+  // Thêm sự kiện onChange cho select lọc kho
+  document.getElementById("loai").addEventListener("change", function () {
+    const loaiKhoDuocChon = this.value;
+    dsKhoSuDung = locDanhSachKho(loaiKhoDuocChon);
+    init(dsKhoSuDung);
   });
 }
 await init();

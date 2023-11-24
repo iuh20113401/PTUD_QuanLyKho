@@ -28,7 +28,7 @@
             
             $p = new KetNoi();
             $p->ketNoi($conn);
-            $stmt = $conn->prepare("SELECT ctsp.MaChiTietSanPham,sp.MaSanPham, sp.TenSanPham, ctsp.soluongton - ctsp.soluongchoxuat as soluongton, ctsp.DonVi, ctsp.NgaySanXuat, ctsp.NgayHetHan,ctsp.MaKho FROM chitietsanpham as ctsp join sanpham as sp on sp.MaSanPham = ctsp.MaSanPham where sp.masanpham = :sanPham");
+            $stmt = $conn->prepare("SELECT ctsp.MaChiTietSanPham,sp.MaSanPham, sp.TenSanPham, ctsp.soluongton - ctsp.soluongchoxuat as soluongton, ctsp.DonVi, ctsp.NgaySanXuat, ctsp.NgayHetHan,ctsp.MaKho FROM chitietsanpham as ctsp join sanpham as sp on sp.MaSanPham = ctsp.MaSanPham where sp.masanpham = :sanPham and ctsp.tinhTrang = 0 and ctsp.SoLuongTon > 0");
             $stmt->bindParam(':sanPham', $maSanPham, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: false;

@@ -51,7 +51,7 @@ class Kho{
     }
     function xoaKho($maKho,$loai){
         $query = 'UPDATE kho 
-        SET  loai = :loai
+        SET  loai = :loai, sucChuaDaDung = 0
         where maKho = :maKho';
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':maKho', $maKho);

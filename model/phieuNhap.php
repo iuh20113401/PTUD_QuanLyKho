@@ -41,12 +41,19 @@ class PhieuNhap{
         return $menuItems ?: false;
     }
 
-    function lapPhieuNhap($maDon, $maKho, $maTaiKhoan, $ngayLap, $ngayNhap, $trangThai){
-        $ngayNhap = date("Y-m-d");
-        $maPhieu = rand(1,1000);
-        $stmt = $this->conn->prepare("INSERT INTO phieunhap VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$maPhieu, $maDon, $maKho, $maTaiKhoan, $ngayLap, $ngayNhap, $trangThai]);
-        return $stmt->rowCount() > 0;
+    function lapPhieuNhap($maPhieu, $maDon,$maKho, $maTaiKhoan, $ngayLap, $trangThai){
+        $stmt = $this->conn->prepare("INSERT INTO phieunhap VALUES (?, ?,?, ?, ?, ?)");
+        return  $stmt->execute([$maPhieu, $maDon,$maKho, $maTaiKhoan, $ngayLap, $trangThai]);
+    }
+    function lapChiTietPhieuNhap($maPhieu, $maSanPham, $soLuong, $trangThai, $ngayNhap){
+        $query = "INSERT INTO chitietphieunhap VALUES (:maPhieu, :maSanPham, :soLuong, :trangThai, :ngayNhap)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':maPhieu', $maPhieu);
+        $stmt->bindParam(':maSanPham', $maSanPham);
+        $stmt->bindParam(':soLuong', $soLuong);
+        $stmt->bindParam(':trangThai', $trangThai);
+        $stmt->bindParam(':ngayNhap', $ngayNhap);
+        return $stmt->execute();
     }
 
     function layChiTietPhieuNhap($maPhieu){
@@ -64,7 +71,7 @@ class PhieuNhap{
     }
 
     function themChiTietNguyenLieu($maChiTiet, $maSanPham, $maPhieu, $maKho, $soLuongTon, $donVi, $gia, $ngaySanXuat, $ngayHetHan){
-        $stmt = $this->conn->prepare("INSERT INTO chitietsanpham VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0,0)");
+        $stmt = $this->conn->prepare("INSERT INTO chitietsanpham VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0,0,0,0)");
         return $stmt->execute([$maChiTiet, $maSanPham, $maPhieu, $maKho, $soLuongTon, $donVi, $gia, $ngaySanXuat, $ngayHetHan]);
     }
 

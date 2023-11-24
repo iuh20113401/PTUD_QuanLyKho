@@ -1,4 +1,4 @@
-"use strick";
+"use strict";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 import { toExcel, toPDF } from "./helper.js";
 async function layDanhSachDonYeuCauCu() {

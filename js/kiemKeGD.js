@@ -1,11 +1,18 @@
 "use strick";
 import { MAVAITRO, menu, menuShow, highLightMenu } from "./menu.js";
-import { toExcel, toPDF, getFetch } from "./helper.js";
+import {
+  toExcel,
+  toPDF,
+  getFetch,
+  thongBaoLoi,
+  modalXacNhan,
+  modalThongBao,
+} from "./helper.js";
 async function layDonKiemKeTheoTaiKhoan() {
   let data = await getFetch("../ajax/kiemKe.php", {
     action: "layDonYeuCauTheoTaiKhoan",
   });
-  return data;
+  return data ? data : null;
 }
 
 async function laySanPham(don) {
@@ -14,10 +21,11 @@ async function laySanPham(don) {
     kho: don.Kho,
     maSanPham: don.MoTa.split(","),
   });
-  return data;
+  return data ? data : null;
 }
 
 async function capNhatTrangThai(don, trangThai) {
+  console.log(trangThai);
   let data = await getFetch("../ajax/kiemKe.php", {
     action: "capNhatTrangThai",
     maDon: don.MaKiemKe,
@@ -60,7 +68,7 @@ async function render(loai = null, chiTietNguyenLieu = null, trangThai = null) {
 }
 function content(trangThai = null) {
   let dsDonKiemKe = dsDon
-    .map((don) => {
+    ?.map((don) => {
       return `<tr>
               <td>${don.MaKiemKe}</td>
               <td>${don.NgayLap}</td>
@@ -205,10 +213,15 @@ async function renderChiTietLoi(chitiet) {
   if (chitiet.TinhTrang === "Lỗi") {
     const btnHuy = document.querySelector("#tieuHuy");
     btnHuy.addEventListener("click", async (e) => {
-      let res = await capNhatTrangThai(chitiet, 5);
-      if (res) {
-        alert("Đã tiêu hủy thành công ");
-        window.location.reload();
+      let xacNhan = await modalXacNhan(
+        "Bạn có chắc muốn cập nhật lại số lượng không? Khi xác nhận thì các sẽ phẩm có thể bị tiêu hủy"
+      );
+      if (xacNhan) {
+        let res = await capNhatTrangThai(chitiet, 5);
+        if (res) {
+          await modalThongBao("Đã cập nhật thành công", true);
+          window.location.reload();
+        }
       }
     });
   }
@@ -222,7 +235,7 @@ async function renderChiTietKhacLoi(chitiet) {
     btnDuyet.addEventListener("click", async (e) => {
       let res = await capNhatTrangThai(chitiet, 2);
       if (res) {
-        alert("Duyệt đơn thành công!");
+        await modalThongBao("Duyệt đơn thành công", true);
         window.location.reload();
       }
     });
@@ -304,7 +317,7 @@ async function contentDonLoi(chiTiet) {
                 Quay lại
               </button>
           <button class="btn  center btnXoa mt-1 large" id ='tieuHuy'>
-            Tiêu hủy
+            Cập nhật lại số lượng
           </button>
               </div>`
               : `

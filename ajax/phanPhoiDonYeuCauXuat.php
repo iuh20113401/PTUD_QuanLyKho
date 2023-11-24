@@ -67,7 +67,7 @@ session_start();
     function lapPhieuXuatKho($maDon, $maKho, $maTaiKhoan, $ngayLap,$trangThai,$maChiTietSanPham, $soLuong){
         $maPhieu = [];
         $uniqueArray = array_unique($maKho);
-         $uniqueArray = array_values($uniqueArray);
+        $uniqueArray = array_values($uniqueArray);
         for($i = 0; $i < count($uniqueArray); $i++){
             array_push($maPhieu,rand(0,1000));
             $res = lapPhieuXuat($maPhieu[$i],$maDon ,$uniqueArray[$i], $maTaiKhoan, $ngayLap, null,$trangThai);
@@ -79,11 +79,9 @@ session_start();
         $i =0;
         $n = 0;
         while($i < count($maChiTietSanPham)){
-             $res = themChiTietPhieuXuat($maPhieu[$n], $maChiTietSanPham[$i], $soLuong[$i]);
+             $index = array_search($maKho[$i], $uniqueArray);
+             $res = themChiTietPhieuXuat($maPhieu[$index], $maChiTietSanPham[$i], $soLuong[$i]);
              $i++;
-             if($i < count ($maChiTietSanPham)){
-               $maKho[$i] != $maKho[$i-1] ? $n++ : $n;
-             }
         } 
            
         if(!$res){
@@ -109,7 +107,7 @@ session_start();
         }
     function capNhatTrangThaiDonYeuCau($maDon, $trangThai){
         $p = new ControlDonYeuCau(); 
-        $res = $p->capNhatTrangThaiDonYeuCau($maDon, $trangThai);
+        $res = $p->capNhatTrangThaiDonYeuCau($maDon, $trangThai,null);
         return $res;
     }
 

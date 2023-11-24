@@ -23,31 +23,32 @@ async function doiMatKhau(matKhauMoi) {
 }
 
 let taiKhoan = await layThongTinTaiKhoan();
-switch (taiKhoan[0]) {
-  case 1:
-    taiKhoan[1] = "Giám đốc";
-    break;
-  case 2:
-    taiKhoan[1] = "Quản lý kho";
-    break;
-  case 3:
-    taiKhoan[1] = "Nhân viên kho";
-    break;
-  case 4:
-    taiKhoan[1] = "Bộ phận sản xuất";
-    break;
-  case 5:
-    taiKhoan[1] = "Bộ phận bán hàng";
-    break;
-  case 6:
-    taiKhoan[1] = "Bộ phận kiểm kê";
-    break;
+if (taiKhoan) {
+  switch (taiKhoan[0]) {
+    case 1:
+      taiKhoan[1] = "Giám đốc";
+      break;
+    case 2:
+      taiKhoan[1] = "Quản lý kho";
+      break;
+    case 3:
+      taiKhoan[1] = "Nhân viên kho";
+      break;
+    case 4:
+      taiKhoan[1] = "Bộ phận sản xuất";
+      break;
+    case 5:
+      taiKhoan[1] = "Bộ phận bán hàng";
+      break;
+    case 6:
+      taiKhoan[1] = "Bộ phận kiểm kê";
+      break;
+  }
 }
 async function render() {
   let html = contentToanBo();
-
   html = `${menu()}
-      ${html}
+      ${contentToanBo()}
       `;
   let container = document.querySelector(".container");
   container.innerHTML = html;
@@ -92,7 +93,7 @@ function init() {
   const btnSua = document.querySelector("#sua");
   btnDX.addEventListener("click", async (e) => {
     await dangXuat();
-    window.location.reload();
+    window.location.href = "../index.html";
   });
   btnSua.addEventListener("click", async (e) => {
     const matKhau = document.querySelector("#MK");
@@ -112,7 +113,7 @@ function init() {
       if (res) {
         alert("Đổi mật khẩu thành công~");
         await dangXuat();
-        window.location.reload();
+        window.location.href("../index.html");
       }
     });
   });

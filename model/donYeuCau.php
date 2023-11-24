@@ -58,31 +58,25 @@ class DonYeuCau{
         }
     }
 
-    function capNhatChiTietDonYeuCau($maDon, $maSanPham, $ngaySanXuat, $ngayHetHan, $viTriKho){
+    function capNhatChiTietDonYeuCau($maDon, $maSanPham, $ngaySanXuat, $ngayHetHan){
         $p = new KetNoi();
         $p->ketNoi($conn);
         if(!$conn){
             return false;
         } else {
-                $query = "UPDATE chitietdonyeucau SET NgaySanXuat = :ngaySanXuat, NgayHetHan = :ngayHetHan, ViTriKho = :viTriKho WHERE MaDon = :maDon and MaSanPham = :maSanPham";
+                $query = "UPDATE chitietdonyeucau SET NgaySanXuat = :ngaySanXuat, NgayHetHan = :ngayHetHan WHERE MaDon = :maDon and MaSanPham = :maSanPham";
                 $stmt = $conn->prepare($query);
-                $stmt->execute([
+                $res = $stmt->execute([
                     ':ngaySanXuat' => $ngaySanXuat,
                     ':ngayHetHan' => $ngayHetHan,
-                    ':viTriKho' => $viTriKho,
                     ':maDon' => $maDon,
                     ':maSanPham' => $maSanPham
                 ]);
-
-                $query2 = "UPDATE sanpham as sp join chitietdonyeucau as ctd on sp.MaSanPham = ctd.MaSanPham SET soluongchonhap = soluongchonhap + ctd.soluong where ctd.MaSanPham = :maSanPham and ctd.MaDon = :maDon";
-                $stmt2 = $conn->prepare($query2);
-                $stmt2->bindParam(':maSanPham', $maSanPham, PDO::PARAM_INT);
-                $stmt2->bindParam(':maDon', $maDon, PDO::PARAM_INT);
-                return  $stmt2->execute();
+                return $res;
         }
     }
 
-    function capNhatTrangThaiDonYeuCau($maDon, $trangThai){
+    function capNhatTrangThaiDonYeuCau($maDon, $trangThai, $maLoai = null){
         $p = new KetNoi();
         $p->ketNoi($conn);
         if(!$conn){
@@ -92,7 +86,20 @@ class DonYeuCau{
             $stmt = $conn->prepare($query);
             $stmt->bindParam(':trangThai', $trangThai, PDO::PARAM_STR);
             $stmt->bindParam(':maDon', $maDon, PDO::PARAM_INT);
-            return  $stmt->execute();
+            $res = $stmt->execute();
+            if($maLoai == 2 || $maLoai == 4){
+                 $query2 = "UPDATE donyeucau as d join chitietdonyeucau as ctd on ctd.MaDon = d.MaDon join sanpham as sp on ctd.MaSanPham = sp.MaSanPham SET sp.soluongchoxuat = sp.soluongchoxuat + ctd.soLuong WHERE d.Madon = :maDon ";
+                $stmt2 =$conn->prepare($query2);
+                $stmt2->bindParam(':maDon', $maDon, PDO::PARAM_INT);
+                 $res = $stmt2->execute();
+            }
+            if($maLoai == 1 || $maLoai == 3){
+                $query2 = "UPDATE donyeucau as d join chitietdonyeucau as ctd on ctd.MaDon = d.MaDon join sanpham as sp on ctd.MaSanPham = sp.MaSanPham SET sp.soluongchonhap = sp.soluongchonhap + ctd.soLuong WHERE d.Madon = :maDon";
+                $stmt2 = $conn->prepare($query2);
+                $stmt2->bindParam(':maDon', $maDon, PDO::PARAM_INT);
+                return  $stmt2->execute();
+            }
+            return  $res;
         }
     }
     function lapDonYeuCau($maDon, $maLoai, $maTaiKhoan, $ngayLap, $soLuong, $trangThai){
@@ -112,20 +119,19 @@ class DonYeuCau{
             return  $stmt->execute();
         }
     }
-    function themChiTietDonYeuCau($maDon, $maSanPham, $soLuong, $donVi, $ngaySanXuat, $ngayHetHan, $viTriKho){
+    function themChiTietDonYeuCau($maDon, $maSanPham, $soLuong, $donVi, $ngaySanXuat, $ngayHetHan){
         $p = new KetNoi();
         $p->ketNoi($conn);
         if(!$conn){
             return false;
         } else {
-            $query = "INSERT chitietdonyeucau value (:maDon, :maSanPham, :soLuong, :donVi, :ngaySanXuat,:ngayHetHan,:viTriKho)";
+            $query = "INSERT chitietdonyeucau value (:maDon, :maSanPham, :soLuong, :donVi, :ngaySanXuat,:ngayHetHan)";
             $stmt = $conn->prepare($query);
             $stmt->bindParam(':maSanPham', $maSanPham);
             $stmt->bindParam(':soLuong', $soLuong);
             $stmt->bindParam(':donVi', $donVi);
             $stmt->bindParam(':ngaySanXuat', $ngaySanXuat);
             $stmt->bindParam(':ngayHetHan', $ngayHetHan);
-            $stmt->bindParam(':viTriKho', $viTriKho);
             $stmt->bindParam(':maDon', $maDon);
             return  $stmt->execute();;
         }

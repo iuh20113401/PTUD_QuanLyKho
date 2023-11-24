@@ -88,7 +88,15 @@ class KiemKe{
             $stmt = $conn->prepare($query);
             $stmt->bindParam(':maDon', $maDon, PDO::PARAM_INT);
             $stmt->bindParam(':trangThai', $trangThai);
-            return  $stmt->execute();
+            $res = $stmt->execute();
+            if($res && $trangThai == 5){
+                $query2 = "CALL capNhatSoLuongDonKiemKe(:maDon)";
+                $stmt2 = $conn->prepare($query2);
+                $stmt2->bindParam(':maDon', $maDon, PDO::PARAM_INT);
+                return $stmt2->execute();;
+            }else{
+                return $res;
+            }
         }
     }
     function themChiTietDonKiemKe($maKiemKe,$maChiTietSanPham,$tinhTrang,$soLuong,$moTa){

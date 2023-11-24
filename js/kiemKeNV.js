@@ -6,26 +6,26 @@ async function layKho() {
   let data = await getFetch("../ajax/kho.php", {
     action: "layTatCaKho",
   });
-  return data;
+  return data ? data : null;
 }
 async function laySanPhamTheoKho(kho) {
   let data = await getFetch("../ajax/sanPham.php", {
     action: "laySanPhamTheoKho",
     kho,
   });
-  return data;
+  return data ? data : null;
 }
 async function layThongTinTaiKhoan() {
   let data = await getFetch("../ajax/session.php", {
     action: "layThongTinTaiKhoan",
   });
-  return data;
+  return data ? data : null;
 }
 async function layDonKiemKeTheoTaiKhoan() {
   let data = await getFetch("../ajax/kiemKe.php", {
     action: "layDonYeuCauTheoTaiKhoan",
   });
-  return data;
+  return data ? data : null;
 }
 async function lapDonKiemKe(dataLap) {
   let data = await getFetch("../ajax/kiemKe.php", {
@@ -41,20 +41,22 @@ async function lapDonKiemKe(dataLap) {
   return data;
 }
 async function laySanPham(don) {
+  console.log(don);
+
   let data = await getFetch("../ajax/sanPham.php", {
     action: "layMotSoSanPhamTheoKho",
     kho: don.Kho,
     maSanPham: don.MoTa !== "" ? don.MoTa.split(",") : null,
   });
-  return data;
+  return data ? data : null;
 }
 async function laySanPhamTheoDon(don) {
   let data = await getFetch("../ajax/sanPham.php", {
     action: "layDanhMucSanPhamTheoKho",
     kho: don.Kho,
-    maSanPham: don.MoTa !== "" ? don.MoTa : null,
+    maSanPham: don.MoTa !== "" ? don.MoTa.split(",") : null,
   });
-  return data;
+  return data ? data : null;
 }
 async function themChiTietKiemKe(don) {
   let data = await getFetch("../ajax/kiemKe.php", {
@@ -85,6 +87,7 @@ async function layChiTietDonKiemKeLoi(don) {
   return data;
 }
 let dsKho = await layKho();
+dsKho = dsKho.filter((k) => k.SucChuaDaDung > 0);
 let dsSanPham;
 const maDon = Math.floor(Math.random() * 1000);
 const taiKhoan = await layThongTinTaiKhoan();
@@ -119,7 +122,7 @@ async function render(loai = null, chiTietNguyenLieu = null, trangThai = null) {
 }
 function content(trangThai = null) {
   let dsDonKiemKe = dsDon
-    .map((don) => {
+    ?.map((don) => {
       return `<tr>
               <td>${don.MaKiemKe}</td>
               <td>${don.NgayLap}</td>
@@ -136,7 +139,7 @@ function content(trangThai = null) {
     .join("");
   let html = `        
        <div class="content">
-        <a href="#"> <h3>Đon kiểm kê</h3></a>
+        <a href="#"> <h3>biên bản kiểm kê</h3></a>
         <form class="search">
           <div class="inputGroup">
             <input type="text" name="search" id="search" />
@@ -148,7 +151,7 @@ function content(trangThai = null) {
             </button>
           </div>
           <button type="button" class="btn primary large" id="themKK">
-            Lập đơn kiêm kê
+            Lập biên bản kiêm kê
           </button>
         </form>
         <div class="content__inner">
@@ -156,7 +159,7 @@ function content(trangThai = null) {
             dsDon
               ? `<table>
             <tr class="muc">
-              <th>Mã đơn</th>
+              <th>Mã biên bản</th>
               <th>Ngày lập</th>
               <th>Kho</th>
               <th>Loại</th>
@@ -165,7 +168,7 @@ function content(trangThai = null) {
             </tr>
             ${dsDonKiemKe}
           </table>`
-              : `<h3 class = 'khongDon'>Không có đơn nào</h3>`
+              : `<h3 class = 'khongDon'>Không có biên bản nào</h3>`
           }
         </div>
       </div>`;
@@ -175,6 +178,7 @@ async function contentChiTiet(chiTiet) {
   let dsNguyenLieu;
   if (chiTiet.Loai == "Theo sản phẩm") {
     dsNguyenLieu = await laySanPham(chiTiet);
+    console.log(chiTiet.MoTa, dsNguyenLieu);
     dsNguyenLieu = dsNguyenLieu
       .map((sp) => {
         return `
@@ -186,7 +190,7 @@ async function contentChiTiet(chiTiet) {
       .join("");
   }
   let html = `<div class="content">
-        <a href="#"> <h3>Đon kiểm kê</h3> > ${chiTiet.MaKiemKe}</a>
+        <a href="#"> <h3>biên bản kiểm kê  > ${chiTiet.MaKiemKe}</h3></a>
         <form class="search">
           <div class="inputGroup">
             <input type="text" name="search" id="search" />
@@ -198,12 +202,12 @@ async function contentChiTiet(chiTiet) {
             </button>
           </div>
           <button type="button" class="btn primary large" id="themKK">
-            Lập đơn kiểm kê
+            Lập biên bản kiểm kê
           </button>
         </form>
         <div class="content__inner chitiet">
-          <h3>Lập đon kiểm kê</h3>
-          <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaKiemKe}</p>
+          <h3>Lập biên bản kiểm kê</h3>
+          <p><span class="deMuc">Mã biên bản:</span>${chiTiet.MaKiemKe}</p>
           <p><span class="deMuc">Người lập:</span>${chiTiet.TenDangNhap}</p>
           <p><span class="deMuc">Ngày lập:</span>${chiTiet.NgayLap}</p>
           <div class="inputInfo--flat">
@@ -244,7 +248,7 @@ async function contentChiTiet(chiTiet) {
 
 function contentThem() {
   let html = `<div class="content">
-        <a href="#"> <h3>Đon kiểm kê</h3></a>
+        <a href="#"> <h3>biên bản kiểm kê</h3></a>
         <form class="search">
           <div class="inputGroup">
             <input type="text" name="search" id="search" />
@@ -260,8 +264,8 @@ function contentThem() {
           </button>
         </form>
         <div class="content__inner chitiet">
-          <h3>Lập đon kiểm kê</h3>
-          <p><span class="deMuc">Mã đơn:</span>${maDon}</p>
+          <h3>Lập biên bản kiểm kê</h3>
+          <p><span class="deMuc">Mã biên bản:</span>${maDon}</p>
           <p><span class="deMuc">Người lập:</span>${taiKhoan[3]}</p>
           <p><span class="deMuc">Vai trò:</span>${taiKhoan[1]}</p>
           <p><span class="deMuc">Ngày lập:</span>${new Date().toLocaleDateString()}</p>
@@ -286,7 +290,7 @@ function contentThem() {
           </div>
           <div id="danhSachNguyenLieu" ></div>
           <button class="btn large center primary mt-1" id ='lapKK'>
-            Lập đon yêu cầu kiểm kê
+            Lập biên bản yêu cầu kiểm kê
           </button>
         </div>
       </div>`;
@@ -308,7 +312,7 @@ async function contentDonLoi(chiTiet) {
     })
     .join("");
   let html = `<div class="content">
-        <a href="#"> <h3>Đon kiểm kê</h3> > ${chiTiet.MaKiemKe}</a>
+        <a href="#"> <h3>biên bản kiểm kê</h3> > ${chiTiet.MaKiemKe}</a>
         <form class="search">
           <div class="inputGroup">
             <input type="text" name="search" id="search" />
@@ -320,12 +324,12 @@ async function contentDonLoi(chiTiet) {
             </button>
           </div>
           <button type="button" class="btn primary large" id="themKK">
-            Lập đơn kiểm kê
+            Lập biên bản kiểm kê
           </button>
         </form>
         <div class="content__inner chitiet">
-          <h3>Lập đon kiểm kê</h3>
-          <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaKiemKe}</p>
+          <h3>Lập biên bản kiểm kê</h3>
+          <p><span class="deMuc">Mã biên bản:</span>${chiTiet.MaKiemKe}</p>
           <p><span class="deMuc">Người lập:</span>${chiTiet.TenDangNhap}</p>
           <p><span class="deMuc">Ngày lập:</span>${chiTiet.NgayLap}</p>
           <p><span class="deMuc">Tình trạng:</span>${chiTiet.TinhTrang}</p>
@@ -465,7 +469,7 @@ function renderThem() {
       };
       const res = await lapDonKiemKe(ttkk);
       if (res) {
-        alert("Bạn đã tạo đơn kiểm kê thành công!");
+        alert("Bạn đã tạo biên bản kiểm kê thành công!");
         window.location.reload();
       }
     } else {
@@ -490,7 +494,7 @@ function renderThem() {
           };
           const res = await lapDonKiemKe(ttkk);
           if (res) {
-            alert("Bạn đã tạo đơn kiểm kê thành công!");
+            alert("Bạn đã tạo biên bản kiểm kê thành công!");
             window.location.reload();
           }
         }
@@ -535,7 +539,7 @@ function themDivNL() {
 }
 function contentKiemKe(chiTiet) {
   let html = `<div class="content">
-        <a href="#"> <h3>Đon kiểm kê</h3> > ${chiTiet.MaKiemKe}</a>
+        <a href="#"> <h3>biên bản kiểm kê > ${chiTiet.MaKiemKe}</h3> </a>
         <form class="search">
           <div class="inputGroup">
             <input type="text" name="search" id="search" />
@@ -547,12 +551,12 @@ function contentKiemKe(chiTiet) {
             </button>
           </div>
           <button type="button" class="btn primary large" id="themKK">
-            Lập đơn kiểm kê
+            Lập biên bản kiểm kê
           </button>
         </form>
         <div class="content__inner chitiet">
-          <h3>Lập đon kiểm kê</h3>
-          <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaKiemKe}</p>
+          <h3>Lập biên bản kiểm kê</h3>
+          <p><span class="deMuc">Mã biên bản:</span>${chiTiet.MaKiemKe}</p>
           <p><span class="deMuc">Người lập:</span>${chiTiet.TenDangNhap}</p>
           <p><span class="deMuc">Ngày lập:</span>${chiTiet.NgayLap}</p>
           <div class="inputInfo--flat">
@@ -650,7 +654,7 @@ async function renderKiemKe(chiTiet) {
             res2 = await capNhatTrangThai(chiTiet, 4);
           }
           if (res2) {
-            alert("Bạn đã cập nhập đơn kiểm kê thành công!");
+            alert("Bạn đã cập nhập biên bản kiểm kê thành công!");
             window.location.reload();
           }
         }
@@ -661,6 +665,7 @@ async function renderKiemKe(chiTiet) {
 }
 async function themKiemKe(chiTiet) {
   let dsSanPham = await laySanPhamTheoDon(chiTiet);
+  console.log(dsSanPham);
   dsSanPham = dsSanPham.sort((a, b) => a.MaChiTietSanPham - b.MaChiTietSanPham);
   let html = `<h4 class="mt-1">Danh sách nguyên liệu cần kiểm kê</h4>
           <div div class="mt-1" id='danhsachNL'>
@@ -676,8 +681,8 @@ async function themKiemKe(chiTiet) {
             <select class="loai" >
             <option value=''>Loại ghi nhận</option>
              <option value=0> Thiếu </option>
-             <option value=0> Dư </option>
-             <option value=0> Hư hỏng </option>
+             <option value=1> Dư </option>
+             <option value=2> Hư hỏng </option>
             </select>
             <input class = 'input soLuong' type='number' placeholder = 'Số lượng sai lệch ' id="soLuong" />
             <input class = 'input' type='text' value ="KG" readonly id="donVi" />
@@ -690,6 +695,23 @@ async function themKiemKe(chiTiet) {
   const btnThem = document.querySelector("#themNL");
   btnThem.addEventListener("click", (e) => {
     btnThem.insertAdjacentHTML("beforebegin", themDivKiemKe(dsSanPham));
+  });
+  divLoai.addEventListener("change", (e) => {
+    if (e.target.matches(".nl")) {
+      const dsNL = e.target.closest("div").querySelector("#soLuong");
+      const chiTiet = dsSanPham.filter(
+        (sp) => sp.MaChiTietSanPham == e.target.value
+      )[0];
+      dsNL.max = chiTiet.SoLuongTon;
+    }
+  });
+  divLoai.addEventListener("input", (e) => {
+    if (e.target.matches("#soLuong")) {
+      const input = e.target;
+      if (+input.value > +input.max) {
+        input.value = input.max;
+      }
+    }
   });
 }
 function themDivKiemKe(dsSanPham) {
@@ -705,8 +727,8 @@ function themDivKiemKe(dsSanPham) {
             <select class="loai" >
             <option value=''>Loại ghi nhận</option>
              <option value=0> Thiếu </option>
-             <option value=0> Dư </option>
-             <option value=0> Hư hỏng </option>
+             <option value=1> Dư </option>
+             <option value=2> Hư hỏng </option>
             </select>
             <input class = 'input soLuong' type='number' placeholder = 'Số lượng sai lệch ' id="soLuong" />
             <input class = 'input' type='text' value ="KG" readonly id="donVi" />

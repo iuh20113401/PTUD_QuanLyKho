@@ -2,16 +2,16 @@
     include_once("../model/phieuNhap.php");
     class ControlPhieuNhap{
         // cho chức năng phân phối nhập kho
-        function lapPhieuNhap($maDon ,$maKho, $maTaiKhoan, $ngayLap, $ngayNhap,	$trangThai){
+        function lapPhieuNhap($maPhieu, $maDon,$maKho, $maTaiKhoan, $ngayLap,$trangThai){
              $p = new PhieuNhap();
-             $res = $p->lapPhieuNhap($maDon ,$maKho, $maTaiKhoan, $ngayLap, $ngayNhap,	$trangThai);
-             if (!$res) {
-                 return false;
-             } else {
-                 return true;
-             }
+             $res = $p->lapPhieuNhap($maPhieu,$maDon,$maKho, $maTaiKhoan, $ngayLap,$trangThai);
+             return $res;
          }
-        
+        function  lapChiTietPhieuNhap($maPhieu, $maSanPham, $soLuong, $trangThai, $ngayNhap){
+            $p = new PhieuNhap();
+            $res = $p->lapChiTietPhieuNhap($maPhieu, $maSanPham, $soLuong, $trangThai, $ngayNhap);
+            return $res;
+        }
          // cho chức năng xác nhận nhập kho
         function layPhieuNhapKhoChoNhapTheoKho($maKho){
             $p = new PhieuNhap();

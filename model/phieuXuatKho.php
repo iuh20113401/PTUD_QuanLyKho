@@ -27,12 +27,12 @@ class PhieuXuat{
     function layPhieuXuatKhoDaXuat($maTaiKhoan = null, $maKho = null){
         
         if($maTaiKhoan != null){
-            $query = "CALL layPhieuXuatKhoTheoKho(:maTaiKhoan, '', 'Đã xuất kho')";
+            $query = "CALL layPhieuXuatKhoTheoKho(:maTaiKhoan, '', 'Đã xuất')";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":maTaiKhoan", $maTaiKhoan);
         }
         if($maKho != null){
-            $query = "CALL layPhieuXuatKhoTheoKho('', :maKho, 'Đã xuất kho')";
+            $query = "CALL layPhieuXuatKhoTheoKho('', :maKho, 'Đã xuất')";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":maKho", $maKho);
         }
@@ -60,17 +60,28 @@ class PhieuXuat{
             ':maChiTietSanPham' => $maChiTietSanPham,
             ':soLuong' => $soLuong
         ]);
-        $query2 = "UPDATE sanpham as sp join chitietsanpham as ctsp on sp.MaSanPham = ctsp.MaSanPham SET sp.soluongchoxuat = sp.soluongchonhap + :soLuong_1, ctsp.soluongchoxuat = ctsp.soluongchoxuat + :soLuong_2 WHERE ctsp.MaChiTietSanPham = :maChiTietSanPham ";
+        $query2 = "UPDATE  chitietsanpham as ctsp SET  ctsp.soluongchoxuat = ctsp.soluongchoxuat + :soLuong_2 WHERE ctsp.MaChiTietSanPham = :maChiTietSanPham ";
         $stmt2 = $this->conn->prepare($query2);
         $stmt2->bindParam(':maChiTietSanPham', $maChiTietSanPham, PDO::PARAM_INT);
-        $stmt2->bindParam(':soLuong_1', $soLuong, PDO::PARAM_INT);
         $stmt2->bindParam(':soLuong_2', $soLuong, PDO::PARAM_INT);
         return  $stmt2->execute();
     }
-
+    function xoaChiTietPhieuXuat($maPhieu, $maChiTietSanPham){
+        $query = "DELETE  FROM chitietphieuxuat where maphieu = :maPhieu and machitietsanpham = :maChiTietSanPham";
+        $stmt = $this->conn->prepare($query);
+        $stmt -> bindParam(":maPhieu", $maPhieu);
+        $stmt -> bindParam(":maChiTietSanPham", $maChiTietSanPham);
+        return $stmt->execute();
+    }
     function layChiTietPhieuXuat($maPhieu){
         $stmt = $this->conn->prepare("CALL layChiTietPhieuXuat(:maPhieu)");
         $stmt->bindParam(':maPhieu', $maPhieu, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: false;
+    }
+    function layChiTietPhieuXuatTheoSanPham($maChiTietSanPham){
+        $stmt = $this->conn->prepare("SELECT * FROM chitietphieuxuat where maChiTietSanPham = :maChiTietSanPham");
+        $stmt->bindParam(':maChiTietSanPham', $maChiTietSanPham, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: false;
     }

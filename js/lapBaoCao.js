@@ -1,11 +1,16 @@
+"use strict";
 import { MAVAITRO, menu, menuShow, highLightMenu } from "./menu.js";
 import { toExcel, toPDF, getFetch } from "./helper.js";
 
 async function nguyenLieu() {
-  let data = await getFetch("../ajax/baoCao.php", {
-    action: "nguyenLieu",
-  });
-  return data;
+  try {
+    let data = await getFetch("../ajax/baoCao.php", {
+      action: "nguyenLieu",
+    });
+    return data;
+  } catch (error) {
+    return null;
+  }
 }
 async function thanhPham() {
   let data = await getFetch("../ajax/baoCao.php", {
@@ -41,12 +46,14 @@ function render(ma = 1) {
   container.innerHTML = html;
   menuShow();
   highLightMenu();
-  let pieChartTop10 = document.querySelector("#top10").getContext("2d");
-  let barChart = document.querySelector(".barChart").getContext("2d");
-  let lineChart = document.querySelector(".lineChart").getContext("2d");
-  myPieChart = pieChartVisual(pieChartTop10);
-  mybarChart = barChartVisual(barChart);
-  myLineChart = lineChartVisual(lineChart);
+  if (data?.length) {
+    let pieChartTop10 = document.querySelector("#top10").getContext("2d");
+    let barChart = document.querySelector(".barChart").getContext("2d");
+    let lineChart = document.querySelector(".lineChart").getContext("2d");
+    myPieChart = pieChartVisual(pieChartTop10);
+    mybarChart = barChartVisual(barChart);
+    myLineChart = lineChartVisual(lineChart);
+  }
 }
 function content(ma) {
   return `<div class="content">
@@ -192,8 +199,9 @@ function lineChartVisual(ctx) {
   return myChart;
 }
 async function init(ma = 1) {
-  let data = ma === 1 ? await nguyenLieu() : await thanhPham();
-  if (data.length) trichXuatData(data);
+  data = ma === 1 ? await nguyenLieu() : await thanhPham();
+  if (data) trichXuatData(data);
+  console.log(data);
   render(ma);
   const select = document.querySelector("select");
   select.addEventListener("change", (e) => {
@@ -202,7 +210,6 @@ async function init(ma = 1) {
 }
 
 function trichXuatData(data) {
-  console.log(data);
   uniqueSP = [...new Set(data.map((d) => d.TenSanPham))];
   dsUniqueSP = uniqueSP.map((uSP) => {
     let ds = data.filter((d) => d.TenSanPham === uSP);

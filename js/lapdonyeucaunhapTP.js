@@ -1,5 +1,5 @@
-"use strick";
-import { menu, menuShow } from "./menu.js";
+"use strict";
+import { menu, menuShow, highLightMenu } from "./menu.js";
 import { getFetch } from "./helper.js";
 async function layToanBoThanhPham() {
   const data = await getFetch("../ajax/sanPham.php", {
@@ -34,6 +34,7 @@ function render(dsNguyenLieu = null) {
   let container = document.querySelector(".container");
   container.innerHTML = html;
   menuShow();
+  highLightMenu();
 }
 function content(dsNguyenLieu = null) {
   let html = `<div class="content">
@@ -147,6 +148,14 @@ function init() {
   buttonThemNl.addEventListener("click", (e) => {
     e.target.insertAdjacentHTML("beforebegin", themCongThucInput);
   });
+  document.querySelector(".inputThanhPham").addEventListener("change", (e) => {
+    if (e.target.matches(".tp")) {
+      const chiTiet = dsSanPham.filter(
+        (sp) => sp.MaSanPham == e.target.value.split("/")[0]
+      )[0];
+      e.target.closest(".row").querySelector("#donVi").value = chiTiet.DonVi;
+    }
+  });
 }
 function renderDsNguyenLieu(dsNguyenLieu) {
   render(dsNguyenLieu);
@@ -156,27 +165,34 @@ function renderDsNguyenLieu(dsNguyenLieu) {
     init();
   });
   btnXacNhan.addEventListener("click", async (e) => {
-    const maDon = document.querySelector("#maDon").value;
-    const ngayLap = document.querySelector("#ngayLap").value;
-    const donYeuCau = {
-      maDon,
-      ngayLap,
-      maLoai: 3,
-      trangThai: "Chờ duyệt",
-      dsNguyenLieu,
-    };
-    const res = await themDonYeuCau(donYeuCau);
-    if (res) {
-      let newRes = confirm("Đã thêm thành công");
-      if (newRes || !newRes) {
-        window.location.reload();
+    try {
+      const maDon = document.querySelector("#maDon").value;
+      const ngayLap = document.querySelector("#ngayLap").value;
+      const donYeuCau = {
+        maDon,
+        ngayLap,
+        maLoai: 3,
+        trangThai: "Chờ duyệt",
+        dsNguyenLieu,
+      };
+      const res = await themDonYeuCau(donYeuCau);
+
+      if (res) {
+        let newRes = confirm("Đã thêm thành công");
+        if (newRes || !newRes) {
+          window.location.reload();
+        }
       }
+    } catch (error) {
+      console.error("Lỗi khi gửi đơn yêu cầu: ", error);
+      let warning = document.querySelector(".warning");
+      warning.innerHTML = `Có lỗi xảy ra khi gửi đơn yêu cầu`;
     }
   });
 }
 function themInput() {
   return `<div class="inputInfo dsThanhPham row row__5">
-              <select >
+              <select class = 'tp'>
                 <option value='defalut'">Chọn thành phẩm</option>
                 ${dsSanPham
                   .map((sp) => {
@@ -192,15 +208,7 @@ function themInput() {
                 id="soluong"
                 class="soluong input"
               />
-              <select class="selectSmall"  id ="donVi">
-                ${dsSanPham
-                  .map((sp) => {
-                    return `<option value= '${sp.DonVi}'>
-                    ${sp.DonVi}
-                  </option>;`;
-                  })
-                  .join("")}
-              </select>
+              <input type='text' disabled id="donVi" class='input bold small_10' placeholder ="Đơn vị"/>
               <input
                 id="ngaySanXuat"
                 class="ngaySanXuat input"
@@ -218,6 +226,8 @@ function themInput() {
                 onfocus="(this.type='date')"
                 onblur="(this.type='text')"
               />
+              <button type ='button' class ='btn xoaHang btnXoa btnSuperSmall'>
+              X</button>
             </div>`;
 }
 function buttonThem() {
@@ -228,37 +238,54 @@ function submitLapDon() {
   const lapDonNNL = document.querySelector("#lapDonNNL");
   lapDonNNL.addEventListener("click", async (e) => {
     e.preventDefault();
+    let isValid = true;
     let dsThanhPham = [];
     const chonThanhPham = document.querySelectorAll(".dsThanhPham");
-    chonThanhPham.forEach((thanhPham, i) => {
+
+    chonThanhPham.forEach((thanhPham) => {
       const ma = thanhPham.children[0].value.split("/")[0];
       const ten = thanhPham.children[0].value.split("/")[1];
-      const soluong = thanhPham.children[1].value;
+      const soluong = parseInt(thanhPham.children[1].value);
       const donvi = thanhPham.children[2].value;
       const ngaySanXuat = thanhPham.children[3].value;
       const ngayHetHan = thanhPham.children[4].value;
-      ma, soluong;
-      if (ma != "default" && soluong != 0) {
+      if (
+        ma !== "default" &&
+        soluong > 0 &&
+        !isNaN(soluong) &&
+        ngaySanXuat < ngayHetHan &&
+        ngaySanXuat < new Date().toISOString() &&
+        ngayHetHan > new Date().toISOString()
+      ) {
+        // Kiểm tra dữ liệu đầu vào
         dsThanhPham.push({
           ma: +ma,
           ten,
-          soluong: +soluong,
+          soluong,
           donvi,
           ngaySanXuat,
           ngayHetHan,
         });
-        if (i == chonThanhPham.length - 1) {
-          xuLyThem(dsThanhPham);
-        }
       } else {
+        console.log(
+          ma !== "default" &&
+            soluong > 0 &&
+            !isNaN(soluong) &&
+            ngaySanXuat < ngayHetHan &&
+            ngaySanXuat < new Date() &&
+            ngayHetHan > new Date()
+        );
+        isValid = false;
         let warning = document.querySelector(".warning");
-        let html = `Vui long chọn đầy đủ thông tin`;
-        warning.innerHTML = html;
-        x;
+        warning.innerHTML = `Vui lòng nhập đầy đủ thông tin và đảm bảo số lượng là số dương, ngầy sản xuất và ngày hết hạn hợp lệ`;
       }
     });
+
+    if (!isValid) return;
+    xuLyThem(dsThanhPham);
   });
 }
+
 function xuLyThem(dsThanhPham) {
   dsThanhPham = dsThanhPham.sort((a, b) => a.ma - b.ma);
   const ma = [...new Set(dsThanhPham.map((ds) => ds.ma))];

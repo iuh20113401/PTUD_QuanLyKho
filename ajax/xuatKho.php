@@ -59,7 +59,7 @@ session_start();
     }
     function layPhieuXuatKhoDaXuatTheoTaiKhoan($maTaiKhoan){
         $p = new ControlPhieuXuat(); 
-        $res = $p->layPhieuXuatKhoDaXuatTheoKho($maTaiKhoan);
+        $res = $p->layPhieuXuatKhoDaXuatTheoTaiKhoan($maTaiKhoan);
         echo json_encode($res);
     }
     function layPhieuXuatKhoChoXuatTheoTaiKhoan($maTaiKhoan){
@@ -85,7 +85,7 @@ session_start();
             $res2 = $p->layTrangThaiPhieuXuat($maPhieu);
             if($res2){
                 $p2 = new ControlDonYeuCau();
-                $p2->capNhatTrangThaiDonYeuCau($maDon, "Đã xuất kho");
+                $p2->capNhatTrangThaiDonYeuCau($maDon, "Đã xuất kho",null);
             }
             echo json_encode(true);
         }

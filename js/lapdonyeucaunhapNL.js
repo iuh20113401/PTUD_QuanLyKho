@@ -1,24 +1,48 @@
-"use strick";
-import { menu, menuShow } from "./menu.js";
+"use strict";
+import { menu, menuShow, highLightMenu } from "./menu.js";
 import { getFetch } from "./helper.js";
 async function layCongThuc() {
-  let data = await getFetch("../ajax/congThuc.php", {
-    action: "layCongThuc",
-  });
-  return data;
+  try {
+    let data = await getFetch("../ajax/congThuc.php", {
+      action: "layCongThuc",
+    });
+    return data;
+  } catch (error) {
+    console.error("Lỗi khi lấy công thức", error);
+    return null;
+  }
+}
+async function layKho() {
+  try {
+    const data = await getFetch("../ajax/kho.php", { action: "layTatCaKho" });
+    return data;
+  } catch (error) {
+    console.error("Lỗi khi lấy thông tin kho: ", error);
+    return null; // Trả về null hoặc giá trị mặc định khi có lỗi
+  }
 }
 async function layToanBoNguyenLieu() {
-  let data = await getFetch("../ajax/congThuc.php", {
-    action: "layToanBoNguyenLieu",
-  });
-  return data;
+  try {
+    let data = await getFetch("../ajax/sanPham.php", {
+      action: "layToanBoNguyenLieu",
+    });
+    return data;
+  } catch (error) {
+    console.error("Lỗi khi lấy nguyên liệu", error);
+    return null;
+  }
 }
 async function layChiTietCongThuc(maCongThuc) {
-  const data = await getFetch("../ajax/congThuc.php", {
-    action: "layChiTietCongThuc",
-    maCongThuc,
-  });
-  return data;
+  try {
+    const data = await getFetch("../ajax/congThuc.php", {
+      action: "layChiTietCongThuc",
+      maCongThuc,
+    });
+    return data;
+  } catch (error) {
+    console.error("Lỗi khi lấy chi tiết công thức", error);
+    return null;
+  }
 }
 async function themDonYeuCau(donYeuCau) {
   const data = await getFetch("../ajax/lapDonYeuCau.php", {
@@ -41,6 +65,7 @@ function render(dsNguyenLieu = null) {
   let container = document.querySelector(".container");
   container.innerHTML = html;
   menuShow();
+  highLightMenu();
 }
 function content(dsNguyenLieu = null) {
   let html = `<div class="content">
@@ -108,7 +133,7 @@ function content(dsNguyenLieu = null) {
               value="${Math.floor(Math.random() * 1000)}"
             />
           </div>
-          <div name="taikhoan" class="inputInfo--flat">
+          <div name="taikhoan" class="inputInfo--flat mt-1">
             <label for="">Người lập: </label>
             <input
               type="text"
@@ -118,7 +143,7 @@ function content(dsNguyenLieu = null) {
               value="Giám đốc"
             />
           </div>
-          <div name="ngaylap" class="inputInfo--flat">
+          <div name="ngaylap" class="inputInfo--flat mt-1">
             <label for="">Ngày lập: </label>
             <input
               type="date"
@@ -129,7 +154,7 @@ function content(dsNguyenLieu = null) {
               readonly
             />
           </div>
-          <h3>Danh sách yêu cầu</h3>
+          <h3 class ='mt-1'>Danh sách yêu cầu</h3>
           <table>
             <tr>
               <th>Tên nguyên liệu</th>
@@ -148,7 +173,7 @@ function content(dsNguyenLieu = null) {
 
   return dsNguyenLieu !== null ? html2 : html;
 }
-function init() {
+async function init() {
   render();
   submitLapDon();
   let congthuc = document.querySelector("#congthuc");
@@ -190,8 +215,8 @@ function renderDsNguyenLieu(dsNguyenLieu) {
   render(dsNguyenLieu);
   const btnHuy = document.querySelector("#Huy");
   const btnXacNhan = document.querySelector("#xacNhan");
-  btnHuy.addEventListener("click", (e) => {
-    init();
+  btnHuy.addEventListener("click", async (e) => {
+    await init();
   });
   btnXacNhan.addEventListener("click", async (e) => {
     const maDon = document.querySelector("#maDon").value;
@@ -212,52 +237,37 @@ function renderDsNguyenLieu(dsNguyenLieu) {
     }
   });
 }
-async function themInput(name = "congthuc", ds = null) {
-  let className = name === "congthuc" ? "dsCongThuc" : "dsNguyenLieu";
-  let dsSanPham =
+async function themInput(name = "congthuc") {
+  const className = name === "congthuc" ? "dsCongThuc" : "dsNguyenLieu";
+  const dsSanPham =
     name === "congthuc" ? await layCongThuc() : await layToanBoNguyenLieu();
+  const options = dsSanPham
+    .map(
+      (sp) => `<option value='${
+        name === "congthuc" ? sp.MaCongThuc : `${sp.MaSanPham}/${sp.TenSanPham}`
+      }'>
+        ${name === "congthuc" ? sp.TenCongThuc : sp.TenSanPham}
+      </option>`
+    )
+    .join("");
   return `<div class="inputInfo ${className} row">
-              <select >
-                <option value="default">${
-                  name === "congthuc" ? "Chọn công thức" : "Chọn nguyên liệu"
-                }</option>
-                ${dsSanPham
-                  .map((sp) => {
-                    if (name === "congthuc") {
-                      return `<option value= ${sp.MaCongThuc}>
-                    ${sp.TenCongThuc}
-                  </option>;`;
-                    } else {
-                      return `<option value= '${sp.MaSanPham}/${sp.TenSanPham}'>
-                    ${sp.TenSanPham}
-                  </option>;`;
-                    }
-                  })
-                  .join("")}
-              </select>
-              <input
-                type="number"
-                placeholder="Nhập số lượng"
-                id="soluong"
-                class="soluong input"
-              />
-              <select  id ="donVi">
-                ${dsSanPham
-                  .map((sp) => {
-                    if (name === "congthuc") {
-                      return `<option>
-                    Cái
-                  </option>;`;
-                    } else {
-                      return `<option value= '${sp.DonVi}'>
-                    ${sp.DonVi}
-                  </option>;`;
-                    }
-                  })
-                  .join("")}
-              </select>
-            </div>`;
+            <select>${options}</select>
+            <input type="number" placeholder="Nhập số lượng" class="soluong input" />
+            <select id="donVi">
+              ${
+                name === "congthuc"
+                  ? "<option>Cái</option>"
+                  : dsSanPham
+                      .map(
+                        (sp) =>
+                          `<option value='${sp.DonVi}'>${sp.DonVi}</option>`
+                      )
+                      .join("")
+              }
+            </select>
+          </div>`;
 }
+
 function buttonThem() {
   return `<button type="button" class="btn secondary themNL" >Thêm</button>`;
 }
@@ -266,15 +276,24 @@ function submitLapDon() {
   const lapDonNNL = document.querySelector("#lapDonNNL");
   lapDonNNL.addEventListener("click", async (e) => {
     e.preventDefault();
+
     let dsNguyenLieu = [];
+    let isValid = true;
     const chonNguyenLieu = document.querySelectorAll(".dsNguyenLieu");
     const chonCongThuc = document.querySelectorAll(".dsCongThuc");
-    chonNguyenLieu.forEach((nguyenLieu, i) => {
+
+    chonNguyenLieu.forEach((nguyenLieu) => {
       const ma = nguyenLieu.children[0].value.split("/")[0];
       const ten = nguyenLieu.children[0].value.split("/")[1];
       const soluong = nguyenLieu.children[1].value;
       const donvi = nguyenLieu.children[2].value;
-      if (ten != "default" && soluong != "") {
+
+      if (
+        ten !== "default" &&
+        soluong !== "" &&
+        !isNaN(soluong) &&
+        parseInt(soluong) >= 0
+      ) {
         dsNguyenLieu.push({
           ma: +ma,
           ten,
@@ -282,35 +301,47 @@ function submitLapDon() {
           donvi,
         });
       } else {
+        isValid = false;
         let warning = document.querySelector(".warning");
-        let html = `Vui long chọn đầy đủ thông tin`;
+        let html = `Vui lòng nhập đầy đủ thông tin và số lượng phải là số không âm`;
         warning.innerHTML = html;
       }
     });
-    const promises = Array.from(chonCongThuc).map(async (congThuc, i) => {
+
+    if (!isValid) return;
+
+    const promises = Array.from(chonCongThuc).map(async (congThuc) => {
       const ma = congThuc.children[0].value;
       const soluong = congThuc.children[1].value;
-      let warning = document.querySelector(".warning");
-      if (ma != "default" && soluong != "") {
-        warning.innerHTML = "";
+
+      if (
+        ma !== "default" &&
+        soluong !== "" &&
+        !isNaN(soluong) &&
+        parseInt(soluong) >= 0
+      ) {
         let data = await layChiTietCongThuc(ma);
-        return data.map((d) => {
-          return {
-            ma: d.MaSanPham,
-            ten: d.TenSanPham,
-            soluong: d.SoLuong * soluong,
-            donvi: d.DonVi,
-          };
-        });
+        return data.map((d) => ({
+          ma: d.MaSanPham,
+          ten: d.TenSanPham,
+          soluong: d.SoLuong * soluong,
+          donvi: d.DonVi,
+        }));
       } else {
-        let html = `Vui long chọn đầy đủ thông tin`;
+        isValid = false;
+        let warning = document.querySelector(".warning");
+        let html = `Vui lòng chọn đầy đủ thông tin và số lượng phải là số không âm`;
         warning.innerHTML = html;
       }
     });
+
+    if (!isValid) return;
+
     let congThucResults = await Promise.all(promises);
     congThucResults.forEach((ds) => {
       dsNguyenLieu = dsNguyenLieu.concat(ds);
     });
+
     dsNguyenLieu = dsNguyenLieu.sort((a, b) => a.ma - b.ma);
     const ma = [...new Set(dsNguyenLieu.map((ds) => ds.ma))];
     const newDs = ma.map((m) => {
@@ -323,7 +354,39 @@ function submitLapDon() {
         donvi: newds[0].donvi,
       };
     });
+    if (!(await kiemTraSucChuaKho(newDs))) return;
+
     renderDsNguyenLieu(newDs);
   });
 }
-init();
+
+async function kiemTraSucChuaKho(dsNguyenLieu) {
+  try {
+    let kho = await layKho();
+    let nguyenLieu = await layToanBoNguyenLieu();
+    let tongSoLuongNhap = 0;
+    kho = kho.filter((k) => k.Loai === "Nguyên liệu");
+    let soluongchonhap = nguyenLieu.reduce(
+      (acc, nl) => nl.SoLuongChoNhap + acc,
+      0
+    );
+    console.log(soluongchonhap);
+    dsNguyenLieu.forEach((nl) => {
+      tongSoLuongNhap += parseInt(nl.soluong) || 0;
+    });
+    let SucChua = kho.reduce(
+      (acc, k) => acc + (k.SucChua - k.SucChuaDaDung),
+      0
+    );
+    // So sánh tổng số lượng nguyên liệu cần nhập với sức chứa của kho
+    if (tongSoLuongNhap > SucChua - soluongchonhap) {
+      alert("Số lượng nguyên liệu nhập vào vượt quá sức chứa tối đa của kho!");
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Lỗi khi kiểm tra sức chứa kho: ", error);
+  }
+}
+
+await init();

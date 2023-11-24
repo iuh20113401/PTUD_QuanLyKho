@@ -1,6 +1,6 @@
-"use strick";
-import { menu, menuShow } from "./menu.js";
-import { getFetch } from "./helper.js";
+"use strict";
+import { menu, menuShow, highLightMenu } from "./menu.js";
+import { getFetch, modalThongBao, thongBaoLoi, xoaHang } from "./helper.js";
 async function layToanBoThanhPham() {
   const data = await getFetch("../ajax/sanPham.php", {
     action: "layToanBoThanhPham",
@@ -31,12 +31,13 @@ function render(dsNguyenLieu = null) {
   let container = document.querySelector(".container");
   container.innerHTML = html;
   menuShow();
+  highLightMenu();
 }
 function content(dsNguyenLieu = null) {
   let html = `<div class="content">
         <h5>Lập đon yêu cầu > Xuất thành phẩm</h5>
         <form class="don">
-          <h2 class = "tittle">Đơn yêu cầu Xuất thành phẩm</h2>
+          <h2 class = "tittle">Đơn yêu cầu xuất thành phẩm</h2>
           <div name="taikhoan" class="inputInfo--flat mb-1">
             <label for="">Người lập: </label>
             <input
@@ -139,14 +140,34 @@ function init() {
   buttonThemNl.addEventListener("click", (e) => {
     e.target.insertAdjacentHTML("beforebegin", themCongThucInput);
   });
+  document.querySelector(".inputThanhPham").addEventListener("change", (e) => {
+    if (e.target.matches(".tp")) {
+      const chiTiet = dsSanPham.filter(
+        (sp) => sp.MaSanPham == e.target.value.split("/")[0]
+      )[0];
+      e.target.closest(".row").querySelector("#donVi").value = chiTiet.DonVi;
+    }
+  });
+  xoaHang();
 }
-function renderDsNguyenLieu(dsNguyenLieu) {
+async function renderDsNguyenLieu(dsNguyenLieu) {
+  let thanhPham = await layToanBoThanhPham();
+  let res = dsNguyenLieu
+    .map((nl) => {
+      let old = thanhPham.filter((tps) => tps.MaSanPham === nl.ma)[0];
+      return +old.SoLuongTon - +old.SoLuongChoXuat >= nl.soluong;
+    })
+    .some((nl) => nl == false);
+  if (res) {
+    await modalThongBao("Không đủ thành phẩm để xuất", false);
+    return;
+  }
   render(dsNguyenLieu);
   const btnHuy = document.querySelector("#Huy");
-  const btnXacNhan = document.querySelector("#xacNhan");
   btnHuy.addEventListener("click", (e) => {
     init();
   });
+  const btnXacNhan = document.querySelector("#xacNhan");
   btnXacNhan.addEventListener("click", async (e) => {
     const maDon = document.querySelector("#maDon").value;
     const ngayLap = document.querySelector("#ngayLap").value;
@@ -168,7 +189,7 @@ function renderDsNguyenLieu(dsNguyenLieu) {
 }
 function themInput() {
   return `<div class="inputInfo dsThanhPham row">
-              <select >
+              <select class ='tp'>
                 <option value='defalut'">Chọn thành phẩm</option>
                 ${dsSanPham.map((sp) => {
                   return `<option value= '${sp.MaSanPham}/${sp.TenSanPham}'>
@@ -182,15 +203,9 @@ function themInput() {
                 id="soluong"
                 class="soluong input"
               />
-              <select  id ="donVi">
-                ${dsSanPham
-                  .map((sp) => {
-                    return `<option value= '${sp.DonVi}'>
-                    ${sp.DonVi}
-                  </option>;`;
-                  })
-                  .join("")}
-              </select>
+                <input type='text' disabled id="donVi" class='input bold ' placeholder ="Đơn vị"/>
+              <button type ='button' class ='btn xoaHang btnXoa btnSuperSmall'>
+              X</button>
             </div>`;
 }
 function buttonThem() {
@@ -203,7 +218,7 @@ function submitLapDon() {
     e.preventDefault();
     let dsThanhPham = [];
     const chonThanhPham = document.querySelectorAll(".dsThanhPham");
-    chonThanhPham.forEach((thanhPham, i) => {
+    chonThanhPham.forEach(async (thanhPham, i) => {
       const ma = thanhPham.children[0].value.split("/")[0];
       const ten = thanhPham.children[0].value.split("/")[1];
       const soluong = thanhPham.children[1].value;
@@ -217,7 +232,7 @@ function submitLapDon() {
           donvi,
         });
         if (i == chonThanhPham.length - 1) {
-          xuLyThem(dsThanhPham);
+          await xuLyThem(dsThanhPham);
         }
       } else {
         let warning = document.querySelector(".warning");
@@ -228,7 +243,7 @@ function submitLapDon() {
     });
   });
 }
-function xuLyThem(dsThanhPham) {
+async function xuLyThem(dsThanhPham) {
   dsThanhPham = dsThanhPham.sort((a, b) => a.ma - b.ma);
   const ma = [...new Set(dsThanhPham.map((ds) => ds.ma))];
   const newDs = ma.map((m) => {
@@ -241,6 +256,6 @@ function xuLyThem(dsThanhPham) {
       donvi: newds[0].donvi,
     };
   });
-  renderDsNguyenLieu(newDs);
+  await renderDsNguyenLieu(newDs);
 }
 init();

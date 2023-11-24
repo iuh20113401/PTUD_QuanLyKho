@@ -5,139 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      .notification-container {
-        position: fixed;
-        top: 20px;
-        right: 50%;
-        transform: translate(50%);
-        z-index: 1000;
-      }
-      /* Thêm vào CSS hiện tại */
-      .top-notification {
-        top: 20px;
-        right: 20px;
-        left: 20px;
-        text-align: center;
-      }
-
-      .notification {
-        background-color: red;
-        color: white;
-        padding: 15px;
-
-        margin-bottom: 15px;
-        border-radius: 4px;
-        font-size: 16px;
-        display: none;
-      }
-      .fixed-notification-container {
+      .modal {
         display: none;
         position: fixed;
-        top: 0;
+        z-index: 1;
         left: 0;
+        top: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
-        z-index: 2000;
-        justify-content: center;
-        align-items: center;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
       }
 
-      .fixed-notification {
-        background-color: #fff;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        max-width: 400px;
-        text-align: center;
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
       }
 
-      .notification-message {
-        font-size: 18px;
-        margin-bottom: 20px;
-        color: #333;
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
       }
 
-      .close-btn,
-      .confirm-btn {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
         cursor: pointer;
-        transition: background-color 0.3s ease;
       }
 
-      .close-btn {
-        display: block;
-        margin-left: 90%;
-        background-color: #f44336;
-        color: white;
+      .success {
+        color: green;
       }
 
-      .close-btn:hover {
-        background-color: #d32f2f;
-      }
-
-      .confirm-btn {
-        display: block;
-        background-color: #4caf50;
-        color: white;
-        margin-left: 50%;
-      }
-
-      .confirm-btn:hover {
-        background-color: #388e3c;
+      .error {
+        color: red;
       }
     </style>
   </head>
   <body>
-    <div id="notificationContainer" class="notification-container"></div>
-    <div id="fixedNotificationContainer" class="fixed-notification-container">
-      <div class="fixed-notification">
-        <button class="close-btn">&times;</button>
-        <span class="notification-message"></span>
-        <button class="confirm-btn">Xác nhận</button>
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="modalMessage">Đây là thông điệp modal.</p>
       </div>
     </div>
   </body>
   <script>
-    function showSuccessNotification(message) {
-      const notificationContainer = document.getElementById(
-        "notificationContainer"
-      );
-      const notification = document.createElement("div");
-      notification.classList.add("notification");
-      notification.innerText = message;
+    function showModal(message, isSuccess) {
+      var modal = document.getElementById("myModal");
+      var span = document.getElementsByClassName("close")[0];
+      var messageElement = document.getElementById("modalMessage");
 
-      // Hiển thị thông báo
-      notificationContainer.appendChild(notification);
-      notification.style.display = "block";
+      messageElement.innerHTML = message;
+      if (isSuccess) {
+        messageElement.classList.add("success");
+        messageElement.classList.remove("error");
+      } else {
+        messageElement.classList.add("error");
+        messageElement.classList.remove("success");
+      }
 
-      // Ẩn thông báo sau 3 giây
-      setTimeout(() => {
-        notification.style.display = "none";
-        notificationContainer.removeChild(notification);
-      }, 3000);
-    }
-    function showFixedNotification(message) {
-      const container = document.getElementById("fixedNotificationContainer");
-      const messageSpan = container.querySelector(".notification-message");
-      messageSpan.textContent = message;
+      modal.style.display = "block";
 
-      container.style.display = "flex";
-
-      const closeBtn = container.querySelector(".close-btn");
-      const confirmBtn = container.querySelector(".confirm-btn");
-
-      const closeNotification = () => {
-        container.style.display = "none";
+      span.onclick = function () {
+        modal.style.display = "none";
       };
 
-      closeBtn.onclick = closeNotification;
-      confirmBtn.onclick = closeNotification;
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+          window.location.reload();
+        }
+      };
     }
-    showFixedNotification("Cảnh báo! Cần xác nhận để tiếp tục.");
-    showSuccessNotification("Thao tác đã được thực hiện thành công!");
+    showModal("Hoàn tất nhiệm vụ!", true); // Thông báo thành công
   </script>
 </html>

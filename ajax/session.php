@@ -24,6 +24,10 @@
         }
     }
     function layThongTinTaiKhoan(){
+        if(isset($_SESSION['viTriKho'])){
+            echo json_encode([$_SESSION["maVaiTro"],$_SESSION["tenVaiTro"],$_SESSION["maTaiKhoan"],$_SESSION["tenTaiKhoan"], $_SESSION['viTriKho']]);
+            return;
+        }
         echo json_encode([$_SESSION["maVaiTro"],$_SESSION["tenVaiTro"],$_SESSION["maTaiKhoan"],$_SESSION["tenTaiKhoan"]]);
     }
     function dangXuat(){

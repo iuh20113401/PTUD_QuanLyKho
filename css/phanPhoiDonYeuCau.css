@@ -94,6 +94,7 @@ select {
   margin: auto;
 }
 .float {
+  z-index: 1000;
   width: 95%;
   height: 95%;
   padding: 1rem;

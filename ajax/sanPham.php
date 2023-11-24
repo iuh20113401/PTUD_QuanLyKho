@@ -5,6 +5,7 @@ session_start();
 
     if(isset($_POST["action"])){
         $action = $_POST["action"];
+        
         if($action === "laySanPhamTheoTen"){
             $ten = $_POST['ten'];
             $loai = $_POST['loai'];
@@ -38,8 +39,8 @@ session_start();
          }
          if($action === 'layMotSoSanPhamTheoKho' ){
             $maSanPham = null;
-            if(isset($_POST['maSanPham'])){
-                $maSanPham = $_POST['maSanPham'];
+            if(isset($_POST['maSanPham']) && $_POST['maSanPham'] != 'null'){
+                $maSanPham = explode(',', $_POST['maSanPham']);
             }
             $kho = $_POST['kho'];
          }
@@ -50,7 +51,24 @@ session_start();
             }
             $kho = $_POST['kho'];
          }
-
+         if( $action === 'xoaChiTietSanPham'){
+            $maChiTietSanPham = $_POST['maChiTietSanPham'];
+         }
+         if($action === 'capNhatXoaChiTietSanPham'){
+            $maChiTietSanPham = explode(',', $_POST['maChiTietSanPham']);
+           
+         }
+         if($action === 'laySanPhamHetHan'){
+            $tinhTrang = 0;
+            if(isset($_POST['tinhTrang']) && $_POST['tinhTrang'] != 'null'){
+                $tinhTrang = $_POST['tinhTrang'];
+            }
+         }
+        if( $action ===  'capNhatDanhSachKhoMoi' ){
+            $maChiTietSanPham = explode(',', $_POST['dsMa']);
+            $maKho =  explode(',', $_POST['dsKho']);
+        }
+       
         switch($action){
             case "layToanBoSanPham":
                 layToanBoSanPham();
@@ -60,6 +78,15 @@ session_start();
                 break;
             case "layToanBoThanhPham":
                 layToanBoThanhPham();
+                break;
+            case "laySanPhamHetHan":
+                laySanPhamHetHan($tinhTrang);
+                break;
+            case 'laySanPhamTieuHuy':
+                laySanPhamTieuHuy();
+                break;
+            case "laySanPhamHetSoLuong":
+                laySanPhamHetSoLuong();
                 break;
             case "laySanPhamTheoTen":
                 laySanPhamTheoTen($ten,$loai);
@@ -82,8 +109,17 @@ session_start();
             case "capNhatSanPham":
                 capNhatSanPham($maSanPham, $tenSanPham, $donVi);
                 break;
+            case 'capNhatDanhSachKhoMoi':
+                capNhatDanhSachKhoMoi($maChiTietSanPham, $maKho);
+                break;
             case 'xoaSanPham':
                 xoaSanPham($maSanPham,$loai );
+                break;
+            case 'xoaChiTietSanPham':
+                xoaChiTietSanPham($maChiTietSanPham);
+                break;
+            case 'capNhatXoaChiTietSanPham':
+                capNhatXoaChiTietSanPham($maChiTietSanPham);
                 break;
         }
     }
@@ -101,6 +137,21 @@ session_start();
     function layToanBoThanhPham(){
         $p = new ControlSanPham(); 
         $res = $p->layToanBoThanhPham();
+         echo json_encode($res);
+    }
+    function laySanPhamHetHan($tinhTrang){
+        $p = new ControlSanPham(); 
+        $res = $p->laySanPhamHetHan($tinhTrang);
+         echo json_encode($res);
+    }
+    function laySanPhamTieuHuy(){
+        $p = new ControlSanPham(); 
+        $res = $p->laySanPhamTieuHuy();
+         echo json_encode($res);
+    }
+    function laySanPhamHetSoLuong(){
+        $p = new ControlSanPham(); 
+        $res = $p->laySanPhamHetSoLuong();
          echo json_encode($res);
     }
     function laySanPhamTheoTen($ten,$loai){
@@ -157,6 +208,28 @@ session_start();
     function xoaSanPham($maSanPham,$loai ){
         $p = new ControlSanPham(); 
         $res = $p->xoaSanPham($maSanPham,$loai );
+        echo json_encode($res);
+    }
+    function capNhatXoaChiTietSanPham($maChiTietSanPham){
+        $p = new ControlSanPham(); 
+        $res = $p->capNhatXoaChiTietSanPham($maChiTietSanPham);
+        echo json_encode($res);
+    }
+    function capNhatDanhSachKhoMoi($maChiTietSanPham, $maKho){
+        $p = new ControlSanPham();
+        for ($i=0; $i < count($maChiTietSanPham); $i++) { 
+            $res = $p->capNhatDanhSachKhoMoi($maChiTietSanPham[$i], $maKho[$i]);
+            if(!$res){
+                echo json_encode($res);
+                return;
+            }
+        }
          echo json_encode($res);
     }
+    function xoaChiTietSanPham($maChiTietSanPham ){
+        $p = new ControlSanPham();
+        $res = $p->xoaChiTietSanPham($maChiTietSanPham);
+        echo json_encode($res);
+    }
+    
 ?>

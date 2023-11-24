@@ -9,6 +9,7 @@ session_start();
             $loai = $_POST['loai'];
             $tenDangNhap = $_POST['tenDangNhap'];
             $pass = $_POST['pass'];
+            $viTriKho = $_POST['viTriKho'];
         }
         if ($action == 'doiMatKhau') {
             $maTaiKhoan = $_SESSION['maTaiKhoan'];
@@ -16,7 +17,7 @@ session_start();
         }
         switch ($action) { 
             case "themTaiKhoan":
-                themTaiKhoan($maTaiKhoan,$loai, $tenDangNhap, $pass);
+                themTaiKhoan($maTaiKhoan,$loai, $tenDangNhap, $pass,$viTriKho);
                 break;
             case 'doiMatKhau':
                 doiMatKhau($maTaiKhoan, $pass);
@@ -24,9 +25,9 @@ session_start();
         }
 
     }
-    function themTaiKhoan($maTaiKhoan,$loai, $tenDangNhap, $pass){
+    function themTaiKhoan($maTaiKhoan,$loai, $tenDangNhap, $pass,$viTriKho){
         $p = new ControlTaiKhoan(); 
-        $res = $p->themTaiKhoan($maTaiKhoan,$loai, $tenDangNhap, $pass);
+        $res = $p->themTaiKhoan($maTaiKhoan,$loai, $tenDangNhap, $pass,$viTriKho);
         if (!$res){
             echo json_encode(false);
         }else{

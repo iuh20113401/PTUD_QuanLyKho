@@ -1,10 +1,10 @@
-"use strick";
+"use strict";
 import { menu, menuShow, highLightMenu } from "./menu.js";
-import { getFetch } from "./helper.js";
+import { getFetch, modalThongBao, taiKhoan } from "./helper.js";
 async function layDanhSachPhieuXuat() {
   const data = await getFetch("../ajax/xuatKho.php", {
     action: "layPhieuXuatKhoChoXuat",
-    maKho: 3,
+    maKho: taiKhoan[4],
   });
   return data;
 }
@@ -114,7 +114,7 @@ function contentChiTiet(chiTiet) {
           </form>
         </form>
         <div class="content__inner chitiet">
-          <h3>Đơn yêu cầu nhập nguyên liệu</h3>
+          <h3>${chiTiet.TenLoai}</h3>
           <p><span class="deMuc">Mã đơn:</span>${chiTiet.MaDon}</p>
           <p><span class="deMuc">Tên đơn:</span>${chiTiet.TenLoai}</p>
           <p><span class="deMuc">Người lập:</span>${chiTiet.MaTaiKhoan}</p>
@@ -137,15 +137,18 @@ async function renderChiTiet(maPhieu) {
   const btnQuayLai = document.querySelector("#quayLai");
   btnXacNhan.addEventListener("click", async (e) => {
     if (confirm("Bạn có chắc đã nhập kho phiếu yêu cầu này? ")) {
-      await xacNhanXuatKho(chiTiet);
-      themOverlay();
+      let res = await xacNhanXuatKho(chiTiet);
+      let res2 = res
+        ? await modalThongBao("Xuất kho thành công!", true)
+        : await modalThongBao("Xuất kho thất bại!", false);
+      if (res2) {
+        window.location.reload();
+      }
     }
   });
   btnQuayLai.addEventListener("click", (e) => {
     init();
   });
-  const overlayDivEl = document.querySelector(".overlayDiv");
-  overlayDivEl.addEventListener("click", showOverlay);
 }
 function themOverlay() {
   const overlayDivEl = document.querySelector(".overlayDiv");

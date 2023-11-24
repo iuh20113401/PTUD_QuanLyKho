@@ -25,6 +25,9 @@ session_start();
             $_SESSION["tenVaiTro"] = $res[0]['TenVaiTro'];
             $_SESSION["maTaiKhoan"] = $res[0]['MaTaiKhoan'];
             $_SESSION["tenTaiKhoan"] = $res[0]['TenDangNhap'];
+            if($_SESSION['maVaiTro'] == 3){
+                $_SESSION['viTriKho'] = $res[0]['ViTriKho'];
+            }
             echo json_encode($res);
         }
     

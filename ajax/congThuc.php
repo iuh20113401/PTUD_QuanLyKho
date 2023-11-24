@@ -139,5 +139,6 @@ session_start();
                 return;
             }
         }
+        echo json_encode($res2);
     }
     ?>

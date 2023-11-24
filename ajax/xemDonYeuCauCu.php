@@ -69,7 +69,7 @@ session_start();
     }
     function layPhieuXuatKhoTheoTaiKhoan($maTaiKhoan){
         $p = new ControlPhieuXuat(); 
-        $res = $p->layPhieuXuatKhoTheoTaiKhoan($maTaiKhoan);
+        $res = $p->layPhieuXuatKhoDaXuatTheoTaiKhoan($maTaiKhoan);
         if (!$res){
             echo json_encode(false);
         }else{

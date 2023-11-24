@@ -22,6 +22,10 @@ session_start();
         if($action === "capNhatTrangThaiDonYeuCau"){
             $maDon = $_POST["maDon"];
             $trangThai = $_POST["trangThai"];
+            $loai = null;
+            if(isset($_POST["loai"]) && $_POST["loai"] != 'null'){
+                $loai = $_POST["loai"];
+            }
         }
         switch($action){
             case "layDonYeuCau":
@@ -31,7 +35,7 @@ session_start();
                 layChiTietlayDonYeuCau($maDon);
                 break;
             case 'capNhatTrangThaiDonYeuCau':
-                capNhatTrangThaiDonYeuCau($maDon,$trangThai);
+                capNhatTrangThaiDonYeuCau($maDon,$trangThai, $loai);
                 break;
             case "layDonYeuCauTheoTaiKhoan":
                  layDonYeuCauTheoTaiKhoan($maTaiKhoan, $trangThai);
@@ -65,9 +69,9 @@ session_start();
             echo json_encode($res);
         }
     }
-    function capNhatTrangThaiDonYeuCau($maDon, $trangThai){
+    function capNhatTrangThaiDonYeuCau($maDon, $trangThai,$loai){
         $p = new ControlDonYeuCau(); 
-        $res = $p->capNhatTrangThaiDonYeuCau($maDon,$trangThai);
+        $res = $p->capNhatTrangThaiDonYeuCau($maDon,$trangThai,$loai);
         if(!$res){
             echo json_encode(false);
         }else{

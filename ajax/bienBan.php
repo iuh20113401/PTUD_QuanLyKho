@@ -35,8 +35,7 @@
             echo json_encode($res);
         }
          $p2 = new ControlDonYeuCau();
-        $res2 = $p2->capNhatTrangThaiDonYeuCau($maDon, "Lập biên bản");
-        echo json_encode($res2);
+        echo json_encode($res);
     }
     function layBienBan(){
         $p = new ConTrolBienBan();

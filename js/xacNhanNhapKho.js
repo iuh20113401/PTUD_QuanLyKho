@@ -1,10 +1,10 @@
-"use strick";
+"use strict";
 import { menu, menuShow, highLightMenu } from "./menu.js";
-import { getFetch } from "./helper.js";
+import { getFetch, modalThongBao, taiKhoan } from "./helper.js";
 async function layDanhSachPhieuNhap() {
   const data = await getFetch("../ajax/nhapKho.php", {
     action: "layPhieuNhapKhoChoNhap",
-    maKho: 1,
+    maKho: taiKhoan[4],
   });
   return data;
 }
@@ -18,27 +18,18 @@ async function layChiTietPhieuNhap(maPhieu) {
 }
 
 async function xacNhanNhapKho(phieu) {
-  let data;
-  await $.ajax({
-    url: "../ajax/nhapKho.php", // Đường dẫn đến tệp PHP
-    type: "post", // Phương thức POST hoặc GET
-    data: {
-      action: "xacNhanNhapKho",
-      maPhieu: phieu.MaPhieu,
-      maSanPham: phieu.NguyenLieu.map((nl) => nl.MaSanPham),
-      maDon: phieu.MaDon,
-      maKho: phieu.MaKho,
-      soLuong: phieu.NguyenLieu.map((nl) => nl.SoLuong),
-      donVi: phieu.NguyenLieu.map((nl) => nl.DonVi),
-      ngaySanXuat: phieu.NguyenLieu.map((nl) => nl.NgaySanXuat),
-      ngayHetHan: phieu.NguyenLieu.map((nl) => nl.NgayHetHan),
-    },
-    success: function (response) {
-      response;
-      console.log(response);
-      data = JSON.parse(response);
-    },
+  const data = await getFetch("../ajax/nhapKho.php", {
+    action: "xacNhanNhapKho",
+    maPhieu: phieu.MaPhieu,
+    maSanPham: phieu.NguyenLieu.map((nl) => nl.MaSanPham),
+    maDon: phieu.MaDon,
+    maKho: phieu.MaKho,
+    soLuong: phieu.NguyenLieu.map((nl) => nl.SoLuong),
+    donVi: phieu.NguyenLieu.map((nl) => nl.DonVi),
+    ngaySanXuat: phieu.NguyenLieu.map((nl) => nl.NgaySanXuat),
+    ngayHetHan: phieu.NguyenLieu.map((nl) => nl.NgayHetHan),
   });
+  console.log(data);
   return data;
 }
 function render(chiTietNguyenLieu = null) {
@@ -151,8 +142,10 @@ async function renderChiTiet(maPhieu) {
   const btnQuayLai = document.querySelector("#quayLai");
   btnXacNhan.addEventListener("click", async (e) => {
     if (confirm("Bạn có chắc đã nhập kho phiếu yêu cầu này? ")) {
-      await xacNhanNhapKho(chiTiet);
-      themOverlay();
+      let res = await xacNhanNhapKho(chiTiet);
+      res
+        ? await modalThongBao("Đã nhập kho thành công!", true)
+        : await modalThongBao("Nhập kho thất bại!", false);
     }
   });
   btnQuayLai.addEventListener("click", (e) => {

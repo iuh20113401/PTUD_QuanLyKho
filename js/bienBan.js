@@ -1,4 +1,4 @@
-"use strick";
+"use strict";
 import { MAVAITRO, menu, menuShow, highLightMenu } from "./menu.js";
 import { toExcel, toPDF, getFetch } from "./helper.js";
 

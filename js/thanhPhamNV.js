@@ -25,8 +25,8 @@ async function layChiTietSanPham(maSanPham) {
 }
 
 let dsSanPham = await layToanBoThanhPham();
-async function render(load = null) {
-  load ? (dsSanPham = await layToanBoNguyenLieu()) : null;
+dsSanPham = dsSanPham?.filter((sp) => sp.SoLuongTon > 0) || null;
+async function render() {
   let html = contentToanBo();
 
   html = `${menu()}
@@ -38,6 +38,7 @@ async function render(load = null) {
   highLightMenu();
   renderSearch();
   renderChiTiet();
+  sortDanhSachSanPham();
 }
 function contentToanBo() {
   let chiTietSanPham = dsSanPham
@@ -53,7 +54,7 @@ function contentToanBo() {
             </tr>`;
         })
         .join("")
-    : `<h3 class ="khongDon">Không có đơn yêu cầu nào!</h3`;
+    : "";
   let html = `<div class="content">
        <h3>Sản phẩm > <a href="thanhPham.html">Thành phẩm</a></h3>
         <form class="search">
@@ -63,20 +64,82 @@ function contentToanBo() {
             </div>
           </form>
         <div class="content__inner">
-          <table>
+          ${
+            dsSanPham != null && dsSanPham.length > 0
+              ? `<table>
             <tr class="muc">
               <th>Mã thành phẩm</th>
               <th>Tên thành phẩm</th>
-              <th>Số lượng tồn</th>
-              <th>Số lượng chờ nhập</th>
-              <th>Số lượng chò xuất</th>
+              <th class ='slt'>Số lượng tồn</th>
+              <th class ='slcn'>Số lượng chờ nhập</th>
+              <th class ='slcx'>Số lượng chò xuất</th>
               <th>Đơn vị</th>
             </tr>
             ${chiTietSanPham}
-          </table>
+          </table>`
+              : "<h3 class ='khongDon'>không có sản phẩm nào!</h3>"
+          }
         </div>
       </div>`;
   return html;
+}
+let sltRes = true;
+let slcxRes = true;
+let slcnRes = true;
+function renderSort() {
+  const content = document.querySelector(".content");
+  let html = contentToanBo();
+  const placeholder = document.createElement("div");
+  placeholder.insertAdjacentHTML("afterbegin", html);
+  const node = placeholder.firstElementChild;
+  const container = document.querySelector(".container");
+  container.replaceChild(node, content);
+}
+function sortDanhSachSanPham() {
+  document.body.addEventListener("click", (e) => {
+    const slt = Array.from(e.target.classList).includes("slt");
+    const slcx = Array.from(e.target.classList).includes("slcx");
+    const slcn = Array.from(e.target.classList).includes("slcn");
+    if (slt) {
+      sltRes = !sltRes;
+      sortSoLuongTon(!sltRes);
+      renderSort();
+    }
+    if (slcx) {
+      slcxRes = !slcxRes;
+      sortSoLuongChoXuat(!slcxRes);
+      renderSort();
+    }
+    if (slcn) {
+      slcnRes = !slcnRes;
+      sortSoLuongChoNhap(!slcnRes);
+      renderSort();
+    }
+  });
+}
+function sortSoLuongChoNhap(slt) {
+  if (slt) {
+    dsSanPham = dsSanPham.sort((a, b) => b.SoLuongChoNhap - a.SoLuongChoNhap);
+  } else {
+    dsSanPham = dsSanPham.sort((a, b) => a.SoLuongChoNhap - b.SoLuongChoNhap);
+  }
+  return;
+}
+function sortSoLuongChoXuat(slcx) {
+  if (slcx) {
+    dsSanPham = dsSanPham.sort((a, b) => b.SoLuongChoXuat - a.SoLuongChoXuat);
+  } else {
+    dsSanPham = dsSanPham.sort((a, b) => a.SoLuongChoXuat - b.SoLuongChoXuat);
+  }
+  return;
+}
+function sortSoLuongTon(slcn) {
+  if (slcn) {
+    dsSanPham = dsSanPham.sort((a, b) => b.SoLuongTon - a.SoLuongTon);
+  } else {
+    dsSanPham = dsSanPham.sort((a, b) => a.SoLuongTon - b.SoLuongTon);
+  }
+  return;
 }
 function renderSearch() {
   const form = document.querySelector("form");

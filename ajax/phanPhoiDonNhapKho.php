@@ -19,6 +19,7 @@ session_start();
             $ngaySanXuat =  explode(',',$_POST['ngaySanXuat']);
             $ngayHetHan =  explode(',',$_POST['ngayHetHan']);
             $viTriKho =  explode(',',$_POST['viTriKho']);
+            $soLuong = explode(',',$_POST['soLuong']);
             $trangThai =  $_POST['trangThai'];
         }
         switch($action){
@@ -32,7 +33,7 @@ session_start();
                 layKhoPhuHop($loai,$soLuong);
                 break;
             case 'capNhatDonYeuCau':
-                capNhatDonYeuCau($maDon, $maSanPham, $ngaySanXuat, $ngayHetHan, $viTriKho, $trangThai, 2);
+                capNhatDonYeuCau($maDon, $maSanPham, $ngaySanXuat, $ngayHetHan, $viTriKho, $trangThai, 2, $soLuong);
                 break;
         }
     }
@@ -65,44 +66,73 @@ session_start();
             echo json_encode($res);
         }
     }
-    function capNhatDonYeuCau($maDon, $maSanPham, $ngaySanXuat, $ngayHetHan, $viTriKho, $trangThai, $maTaiKhoan){
-
-         for ($i=0; $i < count($maSanPham); $i++) { 
-            $res = capNhatChiTietDonYeuCau($maDon,$maSanPham[$i], $ngaySanXuat[$i], $ngayHetHan[$i], $viTriKho[$i]);
-         }
-         if(!$res) echo json_encode(false); 
-         $uniqueArray = array_unique($viTriKho);
-         $uniqueArray = array_values($uniqueArray);
-         for ($i=0; $i < count($uniqueArray); $i++) { 
-           $res = lapPhieuNhap($maDon ,$uniqueArray[$i], $maTaiKhoan,date("Y-m-d"), null, "Chờ nhập");
-         }
-            if(!$res) echo json_encode(false); 
-         $res = capNhapTrangThaiDonYeuCau($maDon, $trangThai);
-         echo json_encode($res);
+    function capNhatDonYeuCau($maDon, $maSanPham, $ngaySanXuat, $ngayHetHan, $viTriKho, $trangThai, $maTaiKhoan,$soLuong){
+        // Mảng kết hợp để lưu giá trị theo mã sản phẩm
+            $uniqueValues = array();
+            for ($i = 0; $i < count($maSanPham); $i++) {
+                $ma = $maSanPham[$i];
+                if (!isset($uniqueValues[$ma])) {
+                    $uniqueValues[$ma] = array(
+                        'maSanPham' => $ma,
+                        'ngaySanXuat' => $ngaySanXuat[$i],
+                        'ngayHetHan' => $ngayHetHan[$i],
+                    );
+                }
+            }
+        $uniqueValuesArray = array_values($uniqueValues);
+        for ($i=0; $i < count($uniqueValuesArray); $i++) { 
+            $res = capNhatChiTietDonYeuCau($maDon,$uniqueValuesArray[$i]['maSanPham'], $uniqueValuesArray[$i]['ngaySanXuat'], $uniqueValuesArray[$i]['ngayHetHan'], $viTriKho[$i]);
+        }
+        $maPhieu = rand(0,1000); 
+        $uniqueViTriKho = array_unique($viTriKho);
+        $uniqueViTriKho = array_values($uniqueViTriKho);
+        $soLuongMaPhieu = count($uniqueViTriKho);
+        $maPhieu = array();
+        // Tạo mã phiếu ngẫu nhiên
+        for ($i = 0; $i < $soLuongMaPhieu; $i++) {
+            array_push( $maPhieu, rand(1,1000) );
+            $res = lapPhieuNhap($maPhieu[$i],$maDon ,$uniqueViTriKho[$i], $maTaiKhoan,date("Y-m-d"), "Chờ nhập");
+            if(!$res) {
+                echo json_encode(false);
+                return;
+            };
+        }
+        for ($i=0; $i < count($maSanPham); $i++) { 
+            $index = array_search($viTriKho[$i], $uniqueViTriKho);
+            $res = lapChiTietPhieuNhap($maPhieu[$index], $maSanPham[$i], $soLuong[$i], "Chờ nhập", null);
+            if(!$res) {
+                echo json_encode(false);
+                return;
+            };
+        }
+        if(!$res) {
+                echo json_encode(false);
+                return;
+            };
+        $res = capNhapTrangThaiDonYeuCau($maDon, $trangThai);
+        echo json_encode($res);
+        return;
     }
+    
     function capNhatChiTietDonYeuCau($maDon,$maSanPham, $ngaySanXuat, $ngayHetHan, $viTriKho){
         $p = new ControlDonYeuCau(); 
         $res = $p->capNhatChiTietDonYeuCau($maDon,$maSanPham, $ngaySanXuat, $ngayHetHan, $viTriKho);
-        if (!$res){
-           echo json_encode(false);
-        }else{
-           echo json_encode(true);
-        }
+        return $res;
     }
     function capNhapTrangThaiDonYeuCau($maDon, $trangThai){
         $p = new ControlDonYeuCau(); 
-        $res = $p->capNhatTrangThaiDonYeuCau($maDon, $trangThai);
-        if (!$res){
-           echo json_encode(false);
-        }else{
-           echo json_encode(true);
-        }
+        $res = $p->capNhatTrangThaiDonYeuCau($maDon, $trangThai, null);
+        return $res;
     }
-    function lapPhieuNhap($maDon ,$maKho, $maTaiKhoan, $ngayLap, $ngayNhap,	$trangThai){
+    function lapPhieuNhap($maPhieu,$maDon,$maKho, $maTaiKhoan, $ngayLap,$trangThai){
         $p = new ControlPhieuNhap(); 
-        $res = $p->lapPhieuNhap($maDon ,$maKho, $maTaiKhoan, $ngayLap, $ngayNhap,	$trangThai);
-        echo json_encode($res);
+        $res = $p->lapPhieuNhap($maPhieu,$maDon ,$maKho, $maTaiKhoan, $ngayLap,	$trangThai);
+        return $res;
     }
-
+    function  lapChiTietPhieuNhap($maPhieu, $maSanPham, $soLuong, $trangThai, $ngayNhap){
+        $p = new ControlPhieuNhap();
+        $res = $p->lapChiTietPhieuNhap($maPhieu, $maSanPham, $soLuong, $trangThai, $ngayNhap);
+        return $res;
+    }
 
 ?>

@@ -70,13 +70,13 @@ function replaceHref(MaVaiTro) {
       location.replace("./view/phanPhoiDonYeuCauNhap.html");
       break;
     case 3:
-      location.replace("./view/xacNhanNhapKho.html");
+      location.replace("./view/nguyenLieu.html");
       break;
     case 4:
       location.replace("./view/nguyenLieu.html");
       break;
     case 5:
-      location.replace("./view/nguyenLieu.html");
+      location.replace("./view/thanhPham.html");
       break;
     default:
       location.replace("./view/nguyenLieu.html");

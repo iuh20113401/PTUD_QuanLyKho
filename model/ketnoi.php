@@ -7,11 +7,10 @@
             }else{
                 $user = "nguoidung";
             }
-            $conn = new PDO('mysql:host=localhost;dbname=new_unity', $user, '');
+            $conn = new PDO('mysql:host=localhost;dbname=new_unity', 'root', '');
         }
         function dongKetNoi($conn){
             $conn = null;
-
             return true;
         }
     }

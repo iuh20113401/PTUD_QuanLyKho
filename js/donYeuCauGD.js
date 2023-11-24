@@ -1,9 +1,10 @@
-"use strick";
+"use strict";
 import { MAVAITRO, menu, menuShow, highLightMenu } from "./menu.js";
-import { toExcel, toPDF, getFetch } from "./helper.js";
+import { toExcel, toPDF, getFetch, modalThongBao } from "./helper.js";
 
 async function layDonYeuCau(trangThai = null) {
   trangThai = trangThai === "Toàn bộ" ? null : trangThai;
+  console.log(trangThai);
   let data = await getFetch("../ajax/donYeuCau.php", {
     action: "layDonYeuCau",
     trangThai: trangThai,
@@ -18,11 +19,13 @@ async function layChiTietDonYeuCau(maDon) {
   });
   return data;
 }
-async function capNhatTrangThaiDonYeuCau(maDon, trangThai) {
+async function capNhatTrangThaiDonYeuCau(maDon, trangThai, loai) {
+  console.log(loai);
   let data = await getFetch("../ajax/donYeuCau.php", {
     action: "capNhatTrangThaiDonYeuCau",
     maDon,
     trangThai,
+    loai,
   });
   return data;
 }
@@ -97,6 +100,8 @@ function content(trangThai = null) {
   return html;
 }
 function contentChiTiet(chiTiet) {
+  console.log(chiTiet);
+
   let dsNguyenLieu = `<table class="small"><tr>
               <th>Tên nguyên liệu</th>
               <th>Số lượng yêu cầu</th>
@@ -174,7 +179,7 @@ async function layDon(id) {
   const chiTiet = await layChiTietDonYeuCau(id);
   return chiTiet;
 }
-function themBtnDuyet() {
+function themBtnDuyet(maLoai) {
   let html = `<button class="btn primary " id = "duyet">Duyệt đơn</button>
   <button class="btn btnXoa " id = "khongDuyet">Không duyệt</button>
   `;
@@ -183,9 +188,14 @@ function themBtnDuyet() {
   const btnKhongDuyet = document.querySelector("#khongDuyet");
   const maDon = document.querySelector(".maDon").id;
   btnDuyet.addEventListener("click", async (e) => {
-    let res = await capNhatTrangThaiDonYeuCau(maDon, "Đã duyệt");
+    console.log(maLoai);
+    let res = await capNhatTrangThaiDonYeuCau(maDon, "Đã duyệt", maLoai);
+
     if (res) {
-      let confirmRes = confirm("Bạn đã duyệt đơn thành công!");
+      let confirmRes = await modalThongBao(
+        "Bạn đã duyệt đơn thành công!",
+        true
+      );
       if (!confirmRes || confirmRes) {
         dsDon = await layDonYeuCau(goBack());
         init(dsDon, goBack());
@@ -194,7 +204,10 @@ function themBtnDuyet() {
   });
   btnKhongDuyet.addEventListener("click", async (e) => {
     let res = await capNhatTrangThaiDonYeuCau(maDon, "Đã hủy");
-    let confirmRes = confirm("Bạn đã không duyệt đơn thành công!");
+    let confirmRes = await modalThongBao(
+      "Bạn đã không duyệt đơn thành công",
+      false
+    );
     if (!confirmRes || confirmRes) {
       dsDon = await layDonYeuCau(goBack());
       init(dsDon, goBack());
@@ -205,7 +218,7 @@ async function renderChiTiet(id) {
   let chitiet = await layDon(id);
   render(chitiet);
   if (chitiet[0].TrangThai == "Chờ duyệt" && MAVAITRO == 1) {
-    themBtnDuyet();
+    themBtnDuyet(chitiet[0].MaLoai);
   }
   toExcel(chitiet[0].TenLoai);
   toPDF(chitiet[0].TenLoai);

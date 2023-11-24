@@ -28,6 +28,33 @@
                  return $res;
              }
          }
+        function laySanPhamHetHan($tinhTrang){
+             $p = new SanPham();
+             $res = $p->laySanPhamHetHan($tinhTrang);
+             if (!$res) {
+                 return false;
+             } else {
+                 return $res;
+             }
+         }
+         function laySanPhamTieuHuy(){
+             $p = new SanPham();
+             $res = $p->laySanPhamTieuHuy();
+             if (!$res) {
+                 return false;
+             } else {
+                 return $res;
+             }
+         }
+        function laySanPhamHetSoLuong(){
+             $p = new SanPham();
+             $res = $p->laySanPhamHetSoLuong();
+             if (!$res) {
+                 return false;
+             } else {
+                 return $res;
+             }
+         }
         function laySanPhamTheoTen($ten, $loai){
              $p = new SanPham();
              $res = $p->laySanPhamTheoTen($ten,$loai);
@@ -46,9 +73,19 @@
                  return $res;
              }
          }
+         function capNhatDanhSachKhoMoi($maChiTietSanPham,$maKho){
+            $p = new SanPham();
+            $res = $p->capNhatDanhSachKhoMoi($maChiTietSanPham,$maKho);
+            return $res;
+         }
          function layMotSoSanPhamTheoKho($kho, $maSanPham){
             $p=new SanPham();   
             $res = $p->laySanPhamTheoKho($kho, $maSanPham) ;
+            return $res;
+         }
+         function capNhatXoaChiTietSanPham($maChiTietSanPham){
+            $p=new SanPham();   
+            $res = $p->capNhatXoaChiTietSanPham($maChiTietSanPham) ;
             return $res;
          }
          function layDanhMucSanPhamTheoKho($kho, $maSanPham){
@@ -83,6 +120,11 @@
             $p = new SanPham();
                 $res = $p->xoaSanPham($maSanPham, $loai);
                 return $res;
+        }
+        function xoaChiTietSanPham($maChiTietSanPham ){
+            $p = new SanPham();
+            $res = $p->xoaChiTietSanPham($maChiTietSanPham);
+            return $res;
         }
     }
 
