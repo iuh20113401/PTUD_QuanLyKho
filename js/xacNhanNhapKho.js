@@ -146,6 +146,8 @@ async function renderChiTiet(maPhieu) {
       res
         ? await modalThongBao("Đã nhập kho thành công!", true)
         : await modalThongBao("Nhập kho thất bại!", false);
+
+      window.location.reload();
     }
   });
   btnQuayLai.addEventListener("click", (e) => {

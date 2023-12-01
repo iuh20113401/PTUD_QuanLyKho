@@ -1,5 +1,10 @@
-import render, { dsSanPham } from "./nguyenLieuNV.js";
-import { getFetch } from "./helper.js";
+import render from "./nguyenLieuNV.js";
+import {
+  getFetch,
+  modalThongBao,
+  modalXacNhan,
+  thongBaoLoi,
+} from "./helper.js";
 async function themNL(maSanPham, tenSanPham) {
   const data = await getFetch("../ajax/sanPham.php", {
     action: "themSanPham",
@@ -9,6 +14,7 @@ async function themNL(maSanPham, tenSanPham) {
   });
   return data;
 }
+
 async function capNhatSanPham(maSanPham, tenSanPham) {
   const data = await getFetch("../ajax/sanPham.php", {
     action: "capNhatSanPham",
@@ -42,18 +48,20 @@ function renderThemNL() {
   btnThemNL.addEventListener("click", async (e) => {
     const maSanPham = document.querySelector("#maNL").value;
     const tenSanPham = document.querySelector("#tenNL").value;
+    if (tenSanPham == "") {
+      thongBaoLoi("Vui lòng nhập tên nguyên liệu");
+      return;
+    }
     let res = await themNL(maSanPham, tenSanPham);
     if (res) {
-      let resConfirm = confirm("Bạn đã thêm thành công! Bạn có muốn tiếp tục");
-      if (resConfirm) {
-        renderThemNL();
-      } else {
-        window.location.reload();
-      }
+      await modalThongBao("Bạn đã thêm thành công", true);
+      window.location.reload();
     }
   });
 }
 function contentThemNL() {
+  let maNguyenLieu =
+    "1" + Math.floor(Math.random() * (9999999 - 1000000) + 1000000);
   let html = `<h3><a href='nguyenLieu.js'>Nguyên liệu</a> > Thêm nguyên liệu</h3>
         <form class="search">
           <div class="inputGroup">
@@ -72,9 +80,7 @@ function contentThemNL() {
           <form action="" class="form">
             <div class="inputInfo--flat mt-1">
               <label for="maNL" class="label" >Mã nguyên liệu</label>
-              <input type="text" name="maNL" id="maNL" class="inputLarge" readonly value =${Math.floor(
-                Math.random() * 1000
-              )} />
+              <input type="text" name="maNL" id="maNL" class="inputLarge" readonly value =${maNguyenLieu} />
             </div>
             <div class="inputInfo--flat mt-1">
               <label for="tenNL" class="label">Tên nguyên liệu</label>
@@ -92,7 +98,7 @@ function contentThemNL() {
         </div>`;
   return html;
 }
-function xoaSuaBtn() {
+function xoaSuaBtn(dsSanPham) {
   const nguyenLieus = document.querySelectorAll(".hover");
   const muc = document.querySelector(".muc");
   let html = `<td><div class="buttons">
@@ -108,18 +114,19 @@ function xoaSuaBtn() {
   btnSua.forEach((sua) => {
     sua.addEventListener("click", (e) => {
       const ma = sua.closest("tr").children[0].textContent;
-      renderSua(ma);
+      renderSua(dsSanPham, ma);
     });
   });
   btnXoa.forEach((xoa) => {
     xoa.addEventListener("click", (e) => {
       const ma = xoa.closest("tr").children[0].textContent;
       const ten = xoa.closest("tr").children[1].textContent;
-      renderXoa(ma, ten);
+      const soLuong = xoa.closest("tr").children[2].textContent;
+      renderXoa(ma, ten, soLuong);
     });
   });
 }
-function renderSua(id) {
+function renderSua(dsSanPham, id) {
   const chiTiet = dsSanPham.filter((sp) => sp.MaSanPham == id);
   let content = document.querySelector(".content");
   content.innerHTML = contentSua(chiTiet[0]);
@@ -127,16 +134,15 @@ function renderSua(id) {
   btnSuaNL.addEventListener("click", async (e) => {
     const maSanPham = document.querySelector("#maNL").value;
     const tenSanPham = document.querySelector("#tenNL").value;
+    console.log(tenSanPham);
+    if (tenSanPham == "") {
+      thongBaoLoi("Vui lòng nhập tên nguyên liệu");
+      return;
+    }
     let res = await capNhatSanPham(maSanPham, tenSanPham);
     if (res) {
-      let resConfirm = confirm(
-        "Bạn đã cập nhật thành công! Có muốn tiếp tục không?"
-      );
-      if (resConfirm) {
-        renderSua(maSanPham);
-      } else {
-        window.location.reload();
-      }
+      await modalThongBao("Bạn đã cập thành công!", true);
+      window.location.reload();
     }
   });
 }
@@ -189,14 +195,20 @@ function contentSua(chiTiet) {
         </div>`;
   return html;
 }
-async function renderXoa(ma, ten) {
-  let resConfirm = confirm(`Bạn có xác nhận muốn xóa nguyên liệu "${ten}"`);
+async function renderXoa(ma, ten, soLuong) {
+  if (soLuong > 0) {
+    await modalThongBao("Hiện tại vẫn còn số lượng tồn không thể xóa!", false);
+    return;
+  }
+  let resConfirm = await modalXacNhan(
+    `Bạn có xác nhận muốn xóa nguyên liệu "${ten}"`
+  );
   if (resConfirm) {
     let res = xoaSanPham(ma);
     if (!res) {
-      alert("Xóa không thành công");
+      await modalThongBao("Xóa không thành công", false);
     } else {
-      alert("Đã xóa thành công!");
+      await modalThongBao("Đã xóa thành công!", true);
       window.location.reload();
     }
   }

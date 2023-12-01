@@ -242,7 +242,7 @@ async function renderChiTietKhacLoi(chitiet) {
     btnKhongDuyet.addEventListener("click", async (e) => {
       let res = await capNhatTrangThai(chitiet, 1);
       if (res) {
-        alert("Cập nhật đơn thành công!");
+        await modalThongBao("Cập nhật đơn thành công!", true);
         window.location.reload();
       }
     });
@@ -250,7 +250,6 @@ async function renderChiTietKhacLoi(chitiet) {
 }
 async function contentDonLoi(chiTiet) {
   let dsNguyenLieuLoi = await layChiTietDonKiemKeLoi(chiTiet);
-  console.log(dsNguyenLieuLoi);
   dsNguyenLieuLoi = dsNguyenLieuLoi
     .map((sp) => {
       return `

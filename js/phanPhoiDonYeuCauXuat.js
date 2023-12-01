@@ -332,7 +332,6 @@ async function renderChiTietPhanPhoi(id, chiTietNL = null) {
     dsDonXuat = [];
     renderChiTiet(id);
   });
-
   btnChonNL.forEach((btn, i) => {
     btn.addEventListener("click", (e) =>
       renderChonNL(id, SoLuongCan[i].textContent, btn.id)
@@ -340,7 +339,11 @@ async function renderChiTietPhanPhoi(id, chiTietNL = null) {
   });
   let btnXacNhan = document.querySelector("#xacNhan");
   btnXacNhan.addEventListener("click", (e) => {
-    renderXacNhanCuoi(id);
+    if (dsDonXuat.length === btnChonNL.length) {
+      renderXacNhanCuoi(id);
+    } else {
+      thongBaoLoi("Vui lòng chọn đầy đủ nguyên liệu");
+    }
   });
 }
 function renderPhanPhoi(chiTiet, id) {
@@ -444,7 +447,6 @@ async function renderXacNhanCuoi(id) {
   });
   btnQuayLai.addEventListener("click", (e) => {
     dsDonXuat = [];
-
     renderChiTiet(id);
   });
 }

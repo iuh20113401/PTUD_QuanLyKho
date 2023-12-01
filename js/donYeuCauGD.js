@@ -4,7 +4,6 @@ import { toExcel, toPDF, getFetch, modalThongBao } from "./helper.js";
 
 async function layDonYeuCau(trangThai = null) {
   trangThai = trangThai === "Toàn bộ" ? null : trangThai;
-  console.log(trangThai);
   let data = await getFetch("../ajax/donYeuCau.php", {
     action: "layDonYeuCau",
     trangThai: trangThai,
@@ -20,7 +19,6 @@ async function layChiTietDonYeuCau(maDon) {
   return data;
 }
 async function capNhatTrangThaiDonYeuCau(maDon, trangThai, loai) {
-  console.log(loai);
   let data = await getFetch("../ajax/donYeuCau.php", {
     action: "capNhatTrangThaiDonYeuCau",
     maDon,
@@ -46,7 +44,7 @@ function render(chiTietNguyenLieu = null, trangThai = null) {
 function content(trangThai = null) {
   let html = `        
         <div class="content">
-         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+         <a href="#"> <h3> Đơn yêu cầu </h3></a>
           <form class="search" value = ${trangThai} >
             <select >
               <option >Toàn bộ</option>
@@ -84,7 +82,7 @@ function content(trangThai = null) {
                   return `<tr>
                 <td>${don.MaDon}</td>
                 <td>${don.TenLoai}</td>
-                <td>${don.MaTaiKhoan}</td>
+                <td>${don.TenDangNhap}</td>
                 <td>${don.NgayLap}</td>
                 <td class="center">${don.soluongnguyenlieu}</td>
                 <td><button class="btn primary center large" id = ${don.MaDon}>Xem</button></td>
@@ -100,8 +98,6 @@ function content(trangThai = null) {
   return html;
 }
 function contentChiTiet(chiTiet) {
-  console.log(chiTiet);
-
   let dsNguyenLieu = `<table class="small"><tr>
               <th>Tên nguyên liệu</th>
               <th>Số lượng yêu cầu</th>
@@ -131,9 +127,7 @@ function contentChiTiet(chiTiet) {
           <p class="alert hidden"></p>`;
   let trangThai = chiTiet[0].TrangThai;
   let html = `<div class="content">
-        <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập > ${
-          chiTiet[0].TenLoai
-        }</h3></a>
+        <a href="#"> <h3> Đơn yêu cầ > ${chiTiet[0].TenLoai}</h3></a>
         <form class="search" value = ${trangThai} >
             <select >
               <option >Toàn bộ</option>
@@ -159,7 +153,7 @@ function contentChiTiet(chiTiet) {
             chiTiet[0].MaDon
           }><span class="deMuc">Mã đơn:</span>${chiTiet[0].MaDon}</p>
           <p><span class="deMuc">Tên đơn:</span>${chiTiet[0].TenLoai}</p>
-          <p><span class="deMuc">Người lập:</span>${chiTiet[0].MaTaiKhoan}</p>
+          <p><span class="deMuc">Người lập:</span>${chiTiet[0].TenDangNhap}</p>
           <p><span class="deMuc">Ngày lập:</span>${chiTiet[0].NgayLap}</p>
           <p><span class="deMuc">TrangThai:</span>${chiTiet[0].TrangThai}</p>
           <p><span class="deMuc">Danh sách yêu cầu:</span></p>
@@ -188,7 +182,6 @@ function themBtnDuyet(maLoai) {
   const btnKhongDuyet = document.querySelector("#khongDuyet");
   const maDon = document.querySelector(".maDon").id;
   btnDuyet.addEventListener("click", async (e) => {
-    console.log(maLoai);
     let res = await capNhatTrangThaiDonYeuCau(maDon, "Đã duyệt", maLoai);
 
     if (res) {
@@ -245,7 +238,6 @@ async function init(dsDonMoi, trangThai = null) {
   const select = document.querySelector("select");
   select.addEventListener("change", async (e) => {
     let trangThai = e.target.value || "";
-    console.log(trangThai);
     dsDon = (await layDonYeuCau(trangThai)) || [];
     init(dsDon, trangThai);
   });

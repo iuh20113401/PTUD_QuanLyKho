@@ -1,5 +1,5 @@
 import { menu, menuShow, highLightMenu } from "./menu.js";
-import { getFetch } from "./helper.js";
+import { getFetch, modalThongBao } from "./helper.js";
 async function layThongTinTaiKhoan() {
   const data = await getFetch("../ajax/session.php", {
     action: "layThongTinTaiKhoan",
@@ -111,8 +111,8 @@ function init() {
       const matKhauMoi = matKhau.value;
       let res = await doiMatKhau(matKhauMoi);
       if (res) {
-        alert("Đổi mật khẩu thành công~");
         await dangXuat();
+        await modalThongBao("Đổi mật khẩu thành công~", true);
         window.location.href("../index.html");
       }
     });

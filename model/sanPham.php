@@ -40,7 +40,7 @@ class SanPham{
         return $menuItems ?: false;
     }
     function laySanPhamTieuHuy(){
-        $query = "SELECT ctsp.MaChiTietSanPham, sp.MaSanPham, sp.TenSanPham, ctsp.SoLuongTon, ctsp.NgaySanXuat, ctsp.NgayHetHan, sp.Loai, ctsp.SoLuongChoXuat,k.TenKho, ctsp.DonVi 
+        $query = "SELECT ctsp.MaChiTietSanPham, sp.MaSanPham, sp.TenSanPham, ctsp.SoLuongTon, ctsp.NgaySanXuat, ctsp.NgayHetHan, sp.Loai, ctsp.SoLuongChoXuat,k.TenKho, ctsp.DonVi , ctsp.SoLuongChoTieuHuy
         FROM chitietsanpham as ctsp JOIN
         sanpham as sp on sp.MaSanPham = ctsp.MaSanPHam JOIN
         Kho as k on k.MaKho = ctsp.MaKho
@@ -76,7 +76,7 @@ class SanPham{
         return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: false;
     }
     function layDanhMucSanPhamTheoKho($kho, $maSanPham = null){
-        $query = "SELECT ctsp.MaChiTietSanPham, sp.MaSanPham, sp.TenSanPham, ctsp.DonVi, ctsp.SoLuongTon FROM chitietsanpham as ctsp join sanpham as sp on sp.MaSanPham = ctsp.MaSanPham where maKho = :kho and ctsp.TinhTrang = 0 ";
+        $query = "SELECT ctsp.MaChiTietSanPham, sp.MaSanPham, sp.TenSanPham, ctsp.DonVi, ctsp.SoLuongTon FROM chitietsanpham as ctsp join sanpham as sp on sp.MaSanPham = ctsp.MaSanPham where maKho = :kho and ctsp.tinhTrang= 0 ";
         if($maSanPham != null){
             $sanPham = implode(',', array_map(function($item) { return "'".$item."'"; }, $maSanPham));
             $query .= "AND sp.maSanPham IN ($sanPham)";

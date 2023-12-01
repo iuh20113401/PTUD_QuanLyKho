@@ -1,6 +1,12 @@
 "use strict";
 import { menu, menuShow, highLightMenu } from "./menu.js";
-import { getFetch } from "./helper.js";
+import {
+  getFetch,
+  modalThongBao,
+  taiKhoan,
+  thongBaoLoi,
+  xoaHang,
+} from "./helper.js";
 async function layCongThuc() {
   try {
     let data = await getFetch("../ajax/congThuc.php", {
@@ -73,23 +79,25 @@ function content(dsNguyenLieu = null) {
         <form class="don">
           <h2 class = "tittle">Đơn yêu cầu nhập nguyên liệu</h2>
           <div name="taikhoan" class="inputInfo--flat mb-1">
-            <label for="">Người lập: </label>
+            <label for="" class='label'>Người lập: </label>
             <input
               type="text"
-              class="default"
+              class="inputLarge"
               name="taiKhoan"
               readonly
-              value="Giám đốc"
+              value="${taiKhoan[3]}"
             />
           </div>
           <div name="ngaylap" class="inputInfo--flat mb-1">
-            <label for="">Ngày lập: </label>
-            <input type="date" class="inputLarge" name="taiKhoan" />
+            <label for="date" class='label'>Ngày lập: </label>
+            <input type="date" class="inputLarge" name="date" value=${new Date().toLocaleDateString(
+              "en-CA"
+            )} disabled />
           </div>
           <h3>Danh sách yêu cầu</h3>
           <div class="largeInput inputCongThuc">
             <div class="inputInfo row ">
-              <input type="checkbox" name="congthuc" id="congthuc" />
+              <input type="checkbox" name="congthuc" id="congthuc"  />
               <label for="congthuc">Nhập theo công thức</label>
             </div>
             <div class = "nguyenlieus"></div>
@@ -110,6 +118,14 @@ function content(dsNguyenLieu = null) {
       </div>`;
   let html2;
   if (dsNguyenLieu !== null) {
+    let date = new Date();
+    let MaDon =
+      "1" +
+      "0" +
+      date.getDate() +
+      date.getMonth() +
+      date.getFullYear().toString().slice(2, 4) +
+      Math.floor(Math.random() * 100 - 1);
     html = dsNguyenLieu.reduce((acc, nl) => {
       let html = `<tr>
               <td>${nl.ten}</td>
@@ -123,31 +139,31 @@ function content(dsNguyenLieu = null) {
         <form class="don">
           <h2 class="tittle">Đơn yêu cầu nhập nguyên liệu</h2>
           <div name="maDon" class="inputInfo--flat">
-            <label for="">Mã đơn: </label>
+            <label for="" class='label'>Mã đơn: </label>
             <input
               type="text"
-              class="default"
+              class="inputLarge"
               name="maDon"
               id="maDon"
               readonly
-              value="${Math.floor(Math.random() * 1000)}"
+              value="${MaDon}"
             />
           </div>
           <div name="taikhoan" class="inputInfo--flat mt-1">
-            <label for="">Người lập: </label>
+            <label for="" class='label'>Người lập: </label>
             <input
               type="text"
-              class="default"
+              class="inputLarge"
               name="taiKhoan"
               readonly
-              value="Giám đốc"
+              value=${taiKhoan[3]}
             />
           </div>
           <div name="ngaylap" class="inputInfo--flat mt-1">
-            <label for="">Ngày lập: </label>
+            <label for="" class='label'>Ngày lập: </label>
             <input
               type="date"
-              class="default"
+              class="inputLarge"
               value="${new Date().toLocaleDateString("en-CA")}"
               name="ngayLap"
               id="ngayLap"
@@ -173,6 +189,7 @@ function content(dsNguyenLieu = null) {
 
   return dsNguyenLieu !== null ? html2 : html;
 }
+
 async function init() {
   render();
   submitLapDon();
@@ -180,32 +197,38 @@ async function init() {
   let nguyenlieu = document.querySelector("#nguyenlieu");
   let inputCongThuc = document.querySelector(".inputCongThuc");
   let inputNguyenLIeu = document.querySelector(".inputNguyenLieu");
+
   congthuc.addEventListener("click", async (e) => {
     if (e.target.checked) {
-      const themCongThucInput = await themInput();
+      const { html, catchEvent } = await themInput();
       const buttonThemNguyenLieu = buttonThem();
       const nguyenlieus = inputCongThuc.querySelector(".nguyenlieus");
-      nguyenlieus.innerHTML = themCongThucInput;
+      nguyenlieus.innerHTML = html;
       nguyenlieus.insertAdjacentHTML("beforeend", buttonThemNguyenLieu);
       const buttonThemNl = inputCongThuc.querySelector(".themNL");
       buttonThemNl.addEventListener("click", (e) => {
-        e.target.insertAdjacentHTML("beforebegin", themCongThucInput);
+        e.target.insertAdjacentHTML("beforebegin", html);
       });
+      document.querySelector(".content").addEventListener("change", (e) => {
+        catchEvent(e);
+      });
+      xoaHang();
     } else {
       inputCongThuc.querySelector(".nguyenlieus").innerHTML = "";
     }
   });
   nguyenlieu.addEventListener("click", async (e) => {
     if (e.target.checked) {
-      const themCongThucInput = await themInput("nguyenlieu");
+      const { html } = await themInput("nguyenlieu");
       const buttonThemNguyenLieu = buttonThem();
       const nguyenlieus = inputNguyenLIeu.querySelector(".nguyenlieus");
-      nguyenlieus.innerHTML = themCongThucInput;
+      nguyenlieus.innerHTML = html;
       nguyenlieus.insertAdjacentHTML("beforeend", buttonThemNguyenLieu);
       const buttonThemNl = inputNguyenLIeu.querySelector(".themNL");
       buttonThemNl.addEventListener("click", (e) => {
-        e.target.insertAdjacentHTML("beforebegin", themCongThucInput);
+        e.target.insertAdjacentHTML("beforebegin", html);
       });
+      xoaHang();
     } else {
       inputNguyenLIeu.querySelector(".nguyenlieus").innerHTML = "";
     }
@@ -230,7 +253,7 @@ function renderDsNguyenLieu(dsNguyenLieu) {
     };
     const res = await themDonYeuCau(donYeuCau);
     if (res) {
-      let newRes = confirm("Đã thêm thành công");
+      let newRes = await modalThongBao("Đã thêm thành công", true);
       if (newRes || !newRes) {
         window.location.reload();
       }
@@ -243,29 +266,40 @@ async function themInput(name = "congthuc") {
     name === "congthuc" ? await layCongThuc() : await layToanBoNguyenLieu();
   const options = dsSanPham
     .map(
-      (sp) => `<option value='${
+      (sp) => `
+      <option value='${
         name === "congthuc" ? sp.MaCongThuc : `${sp.MaSanPham}/${sp.TenSanPham}`
       }'>
         ${name === "congthuc" ? sp.TenCongThuc : sp.TenSanPham}
       </option>`
     )
     .join("");
-  return `<div class="inputInfo ${className} row">
-            <select>${options}</select>
+  let html = `<div class="inputInfo ${className} row">
+            <select class = '${name === "congthuc" ? `tp` : ``}'>
+            ${
+              name == "congthuc"
+                ? `<option>Chọn công thức</option>`
+                : `<option>Chọn nguyên liệu</option>`
+            }
+            ${options}</select>
             <input type="number" placeholder="Nhập số lượng" class="soluong input" />
-            <select id="donVi">
-              ${
-                name === "congthuc"
-                  ? "<option>Cái</option>"
-                  : dsSanPham
-                      .map(
-                        (sp) =>
-                          `<option value='${sp.DonVi}'>${sp.DonVi}</option>`
-                      )
-                      .join("")
-              }
-            </select>
+            <input type='text' class = 'input donVi' value = '${
+              name === "congthuc" ? `Đơn vị` : `KG`
+            }' disabled/>
+            <button type ='button' class ='btn xoaHang btnXoa btnSuperSmall'>
+              X</button>
           </div>`;
+  function catchEvent(e) {
+    if (e.target.matches(".tp")) {
+      const chiTiet = dsSanPham.filter(
+        (sp) => sp.MaCongThuc == +e.target.value
+      )[0];
+      if (chiTiet?.DonVi)
+        e.target.closest(".row").querySelector(".donVi").value = chiTiet.DonVi;
+      else e.target.closest(".row").querySelector(".donVi").value = "Đơn vị";
+    }
+  }
+  return { html, catchEvent };
 }
 
 function buttonThem() {
@@ -355,7 +389,9 @@ function submitLapDon() {
       };
     });
     if (!(await kiemTraSucChuaKho(newDs))) return;
-
+    if (!newDs.length) {
+      return;
+    }
     renderDsNguyenLieu(newDs);
   });
 }
@@ -370,7 +406,6 @@ async function kiemTraSucChuaKho(dsNguyenLieu) {
       (acc, nl) => nl.SoLuongChoNhap + acc,
       0
     );
-    console.log(soluongchonhap);
     dsNguyenLieu.forEach((nl) => {
       tongSoLuongNhap += parseInt(nl.soluong) || 0;
     });
@@ -380,7 +415,9 @@ async function kiemTraSucChuaKho(dsNguyenLieu) {
     );
     // So sánh tổng số lượng nguyên liệu cần nhập với sức chứa của kho
     if (tongSoLuongNhap > SucChua - soluongchonhap) {
-      alert("Số lượng nguyên liệu nhập vào vượt quá sức chứa tối đa của kho!");
+      thongBaoLoi(
+        "Số lượng nguyên liệu nhập vào vượt quá sức chứa tối đa của kho!"
+      );
       return false;
     }
     return true;

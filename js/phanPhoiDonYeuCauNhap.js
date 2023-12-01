@@ -1,6 +1,6 @@
 "use strict";
 import { menu, menuShow, highLightMenu } from "./menu.js";
-import { getFetch, modalThongBao, taiKhoan } from "./helper.js";
+import { getFetch, modalThongBao, taiKhoan, thongBaoLoi } from "./helper.js";
 async function layDanhSachTatCaDon() {
   let data = await getFetch("../ajax/phanPhoiDonNhapKho.php", {
     action: "layTatCaDon",
@@ -384,7 +384,7 @@ async function renderChonKho(maSanPham, dsKho, soluongcan) {
       dsKho.push(...danhSachKho);
       return danhSachKho;
     } else {
-      alert("Vui lòng nhập đủ số lượng cần!");
+      thongBaoLoi("Vui lòng nhập đủ số lượng cần!");
     }
   });
 }
@@ -458,13 +458,21 @@ async function renderPhieuNhap(id, dsKho = null) {
     .forEach((e) => NgaySanXuat.push(e.value));
   const kho = [];
   document.querySelectorAll(".kho").forEach((e) => kho.push(e.value));
+  if (!NgaySanXuat.every((e) => e !== "")) {
+    alertMessage("Vui lòng chọn đầy đủ ngày sản xuất");
+    return;
+  }
+  if (!NgayHetHan.every((e) => e !== "")) {
+    alertMessage("Vui lòng chọn đầy đủ ngày hết hạn");
+    return;
+  }
   if (
     !(
       NgayHetHan.every((e) => e > new Date().toISOString()) &&
       NgaySanXuat.every((e) => e < new Date().toISOString())
     )
   ) {
-    alertMessage("Vui lòng chọn đầy đủ ngày hết hạn và ngày sản xuất");
+    alertMessage("Vui lòng ngày sản xuất và ngày hết hạn hợp lệ");
     return;
   } else {
     alertMessage("");

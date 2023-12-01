@@ -13,6 +13,7 @@ session_start();
         if($action === "themCongThuc"){
             $maCongThuc = $_POST["maCongThuc"];
             $tenCongThuc = $_POST["tenCongThuc"];
+            $donViCT = $_POST["donViCT"];
             $moTa = $_POST["moTa"];
             $maSanPham = explode(',',$_POST["maSanPham"]);
             $soLuong = explode(',',$_POST["soLuong"]);
@@ -38,7 +39,7 @@ session_start();
                 layChiTietCongThuc($maCongThuc);
                 break;
             case "themCongThuc":
-                xuLyThemCongThuc($maCongThuc,$tenCongThuc,$moTa,$maSanPham,$soLuong,$donVi);
+                xuLyThemCongThuc($maCongThuc,$tenCongThuc,$donViCT,$moTa,$maSanPham,$soLuong,$donVi);
                 break;
             case 'capNhatCongThuc':
                 xuLyCapNhatCongThuc($maCongThuc,$tenCongThuc,$moTa,$maSanPham,$soLuong,$donVi);
@@ -66,9 +67,9 @@ session_start();
             echo json_encode($res);
         }
     }
-    function themCongThuc($maCongThuc, $tenCongThuc, $moTa, $soLuongNguyenLieu){
+    function themCongThuc($maCongThuc, $tenCongThuc,$donVi, $moTa, $soLuongNguyenLieu){
         $p = new ControlCongThuc(); 
-        $res = $p->themCongThuc($maCongThuc, $tenCongThuc, $moTa, $soLuongNguyenLieu);
+        $res = $p->themCongThuc($maCongThuc, $tenCongThuc,$donVi, $moTa, $soLuongNguyenLieu);
         if(!$res){
             return false;
         }else{
@@ -84,8 +85,8 @@ session_start();
            return true;
         }
     }
-    function xuLyThemCongThuc($maCongThuc,$tenCongThuc,$moTa,$maSanPham,$soLuong,$donVi){
-        $res = themCongThuc($maCongThuc, $tenCongThuc, $moTa, count($maSanPham));
+    function xuLyThemCongThuc($maCongThuc,$tenCongThuc,$donViCT, $moTa,$maSanPham,$soLuong,$donVi){
+        $res = themCongThuc($maCongThuc, $tenCongThuc, $donViCT, $moTa, count($maSanPham));
         if(!$res){
             echo json_encode("false Them công thức");
             return;

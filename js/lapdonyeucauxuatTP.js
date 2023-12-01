@@ -1,6 +1,12 @@
 "use strict";
 import { menu, menuShow, highLightMenu } from "./menu.js";
-import { getFetch, modalThongBao, thongBaoLoi, xoaHang } from "./helper.js";
+import {
+  getFetch,
+  modalThongBao,
+  thongBaoLoi,
+  taiKhoan,
+  xoaHang,
+} from "./helper.js";
 async function layToanBoThanhPham() {
   const data = await getFetch("../ajax/sanPham.php", {
     action: "layToanBoThanhPham",
@@ -39,18 +45,20 @@ function content(dsNguyenLieu = null) {
         <form class="don">
           <h2 class = "tittle">Đơn yêu cầu xuất thành phẩm</h2>
           <div name="taikhoan" class="inputInfo--flat mb-1">
-            <label for="">Người lập: </label>
+            <label for="" class='label'>Người lập: </label>
             <input
               type="text"
-              class="default"
+              class="inputLarge"
               name="taiKhoan"
               readonly
-              value="Giám đốc"
+              value=${taiKhoan[3]}
             />
           </div>
           <div name="ngaylap" class="inputInfo--flat mb-1">
-            <label for="">Ngày lập: </label>
-            <input type="date" class="inputLarge" name="taiKhoan" />
+            <label for="" class='label'>Ngày lập: </label>
+            <input type="date" class="inputLarge" name="taiKhoan" value=${new Date().toLocaleDateString(
+              "en-CA"
+            )} disabled />
           </div>
           <h3>Danh sách yêu cầu</h3>
           <div class="largeInput inputThanhPham">
@@ -77,10 +85,10 @@ function content(dsNguyenLieu = null) {
         <form class="don">
           <h2 class="tittle">Đơn yêu cầu xuất thành phẩm</h2>
           <div name="maDon" class="inputInfo--flat">
-            <label for="">Mã đơn: </label>
+            <label for="" class='label'>Mã đơn: </label>
             <input
               type="text"
-              class="default"
+              class="inputLarge"
               name="maDon"
               id="maDon"
               readonly
@@ -88,20 +96,20 @@ function content(dsNguyenLieu = null) {
             />
           </div>
           <div name="taikhoan" class="inputInfo--flat">
-            <label for="">Người lập: </label>
+            <label for=""class='label'>Người lập: </label>
             <input
               type="text"
-              class="default"
+              class="inputLarge mt-1"
               name="taiKhoan"
               readonly
-              value="Giám đốc"
+              value=${taiKhoan[3]}
             />
           </div>
           <div name="ngaylap" class="inputInfo--flat">
-            <label for="">Ngày lập: </label>
+            <label for=""class='label'>Ngày lập: </label>
             <input
               type="date"
-              class="default"
+              class="inputLarge mt-1"
               value="${new Date().toLocaleDateString("en-CA")}"
               name="ngayLap"
               id="ngayLap"
@@ -224,7 +232,12 @@ function submitLapDon() {
       const soluong = thanhPham.children[1].value;
       const donvi = thanhPham.children[2].value;
       ma, soluong;
-      if (ma != "default" && soluong != 0) {
+
+      if (+soluong < 0) {
+        let warning = document.querySelector(".warning");
+        let html = `Vui long nhập số lượng hợp lệ`;
+        warning.innerHTML = html;
+      } else if (ma != "default" && soluong != 0) {
         dsThanhPham.push({
           ma: +ma,
           ten,
@@ -238,7 +251,6 @@ function submitLapDon() {
         let warning = document.querySelector(".warning");
         let html = `Vui long chọn đầy đủ thông tin`;
         warning.innerHTML = html;
-        x;
       }
     });
   });
@@ -256,6 +268,9 @@ async function xuLyThem(dsThanhPham) {
       donvi: newds[0].donvi,
     };
   });
+  if (!newDs.length) {
+    return;
+  }
   await renderDsNguyenLieu(newDs);
 }
 init();

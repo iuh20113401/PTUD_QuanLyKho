@@ -90,7 +90,19 @@ session_start();
         $maPhieu = array();
         // Tạo mã phiếu ngẫu nhiên
         for ($i = 0; $i < $soLuongMaPhieu; $i++) {
-            array_push( $maPhieu, rand(1,1000) );
+            // Chuyển đổi $maSanPham[$i] thành chuỗi
+            $maDonStr = strval($maDon);
+
+            // Lấy số đầu tiên và 3 số cuối
+            $soDauTien = intval($maDonStr[1]) + 1;
+            $baSoCuoi = rand(100, 999);
+
+            // Lấy ngày, tháng, và 2 số cuối của năm hiện tại
+            $ngayHienTai = date("d"); // Ngày hiện tại
+            $thangHienTai = date("m"); // Tháng hiện tại
+            // Tạo mã chi tiết
+            $maChiTiet = $soDauTien  . $ngayHienTai . $thangHienTai . $baSoCuoi;
+            array_push( $maPhieu, $maChiTiet);
             $res = lapPhieuNhap($maPhieu[$i],$maDon ,$uniqueViTriKho[$i], $maTaiKhoan,date("Y-m-d"), "Chờ nhập");
             if(!$res) {
                 echo json_encode(false);

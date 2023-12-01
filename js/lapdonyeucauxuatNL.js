@@ -1,6 +1,12 @@
 "use strict";
 import { menu, menuShow, highLightMenu } from "./menu.js";
-import { getFetch, modalThongBao, thongBaoLoi } from "./helper.js";
+import {
+  getFetch,
+  modalThongBao,
+  thongBaoLoi,
+  xoaHang,
+  taiKhoan,
+} from "./helper.js";
 async function layCongThuc() {
   const data = await getFetch("../ajax/congThuc.php", {
     action: "layCongThuc",
@@ -54,18 +60,20 @@ function content(dsNguyenLieu = null) {
         <form class="don">
           <h2 class = "tittle">Đơn yêu cầu xuất nguyên liệu</h2>
           <div name="taikhoan" class="inputInfo--flat mb-1">
-            <label for="">Người lập: </label>
+            <label for="" class='label'>Người lập: </label>
             <input
               type="text"
-              class="default"
+              class="inputLarge"
               name="taiKhoan"
               readonly
-              value="Giám đốc"
+              value="${taiKhoan[3]}"
             />
           </div>
           <div name="ngaylap" class="inputInfo--flat mb-1">
-            <label for="">Ngày lập: </label>
-            <input type="date" class="inputLarge" name="taiKhoan" />
+            <label for="" class='label'>Ngày lập: </label>
+            <input type="date" class="inputLarge" name="taiKhoan" value=${new Date().toLocaleDateString(
+              "en-CA"
+            )} disabled />
           </div>
           <h3>Danh sách yêu cầu</h3>
           <div class="largeInput inputCongThuc">
@@ -91,6 +99,15 @@ function content(dsNguyenLieu = null) {
       </div>`;
   let html2;
   if (dsNguyenLieu !== null) {
+    let date = new Date();
+
+    let MaDon =
+      "2" +
+      "0" +
+      date.getDate() +
+      date.getMonth() +
+      date.getFullYear().toString().slice(2, 4) +
+      Math.floor(Math.random() * 100 - 1);
     html = dsNguyenLieu.reduce((acc, nl) => {
       let html = `<tr>
               <td>${nl.ten}</td>
@@ -103,32 +120,32 @@ function content(dsNguyenLieu = null) {
         <h5>Lập đon yêu cầu > Xuất nguyên liệu</h5>
         <form class="don">
           <h2 class="tittle">Đơn yêu cầu xuất nguyên liệu</h2>
-          <div name="maDon" class="inputInfo--flat">
-            <label for="">Mã đơn: </label>
+          <div name="maDon" class="inputInfo--flat ">
+            <label for="" class='label'>Mã đơn: </label>
             <input
               type="text"
-              class="default"
+              class="inputLarge" 
               name="maDon"
               id="maDon"
               readonly
-              value="${Math.floor(Math.random() * 1000)}"
+              value="${MaDon}"
             />
           </div>
-          <div name="taikhoan" class="inputInfo--flat">
-            <label for="">Người lập: </label>
+          <div name="taikhoan" class="inputInfo--flat mt-1">
+            <label for="" class='label'>Người lập: </label>
             <input
               type="text"
-              class="default"
+              class="inputLarge" 
               name="taiKhoan"
               readonly
               value="Giám đốc"
             />
           </div>
-          <div name="ngaylap" class="inputInfo--flat">
-            <label for="">Ngày lập: </label>
+          <div name="ngaylap" class="inputInfo--flat mt-1 ">
+            <label for="" class='label'>Ngày lập: </label>
             <input
               type="date"
-              class="default"
+              class="inputLarge"  
               value="${new Date().toLocaleDateString("en-CA")}"
               name="ngayLap"
               id="ngayLap"
@@ -162,29 +179,37 @@ function init() {
   document.body.addEventListener("click", async (e) => {
     if (e.target.matches("#congthuc")) {
       if (e.target.checked) {
-        const themCongThucInput = await themInput();
+        const { html, catchEvent } = await themInput();
         const buttonThemNguyenLieu = buttonThem();
         const nguyenlieus = inputCongThuc.querySelector(".nguyenlieus");
-        nguyenlieus.innerHTML = themCongThucInput;
+        nguyenlieus.innerHTML = html;
         nguyenlieus.insertAdjacentHTML("beforeend", buttonThemNguyenLieu);
         const buttonThemNl = inputCongThuc.querySelector(".themNL");
         buttonThemNl.addEventListener("click", (e) => {
-          e.target.insertAdjacentHTML("beforebegin", themCongThucInput);
+          e.target.insertAdjacentHTML("beforebegin", html);
         });
+        document.querySelector(".content").addEventListener("change", (e) => {
+          catchEvent(e);
+        });
+        xoaHang();
       } else {
         inputCongThuc.querySelector(".nguyenlieus").innerHTML = "";
       }
     } else if (e.target.matches("#nguyenlieu")) {
       if (e.target.checked) {
-        const themCongThucInput = await themInput("nguyenlieu");
+        const { html, catchEvent } = await themInput("nguyenlieu");
         const buttonThemNguyenLieu = buttonThem();
         const nguyenlieus = inputNguyenLIeu.querySelector(".nguyenlieus");
-        nguyenlieus.innerHTML = themCongThucInput;
+        nguyenlieus.innerHTML = html;
         nguyenlieus.insertAdjacentHTML("beforeend", buttonThemNguyenLieu);
         const buttonThemNl = inputNguyenLIeu.querySelector(".themNL");
         buttonThemNl.addEventListener("click", (e) => {
-          e.target.insertAdjacentHTML("beforebegin", themCongThucInput);
+          e.target.insertAdjacentHTML("beforebegin", html);
         });
+        document.querySelector(".content").addEventListener("change", (e) => {
+          catchEvent(e);
+        });
+        xoaHang();
       } else {
         inputNguyenLIeu.querySelector(".nguyenlieus").innerHTML = "";
       }
@@ -197,7 +222,6 @@ async function renderDsNguyenLieu(dsNguyenLieu) {
   let res = dsNguyenLieu
     .map((nl) => {
       let old = nguyenLieu.filter((nls) => nls.MaSanPham === nl.ma)[0];
-      console.log(old);
       return +old?.SoLuongTon - +old?.SoLuongChoXuat >= nl.soluong;
     })
     .some((nl) => nl == false);
@@ -234,8 +258,8 @@ async function themInput(name = "congthuc", ds = null) {
   let className = name === "congthuc" ? "dsCongThuc" : "dsNguyenLieu";
   let dsSanPham =
     name === "congthuc" ? await layCongThuc() : await layToanBoNguyenLieu();
-  return `<div class="inputInfo ${className} row">
-              <select >
+  let html = `<div class="inputInfo inputThanhPham ${className} row">
+              <select class = "${name == "congthuc" ? "tp" : ""}">
                 <option value="default">${
                   name === "congthuc" ? "Chọn công thức" : "Chọn nguyên liệu"
                 }</option>
@@ -259,22 +283,22 @@ async function themInput(name = "congthuc", ds = null) {
                 id="soluong"
                 class="soluong input"
               />
-              <select  id ="donVi">
-                ${dsSanPham
-                  .map((sp) => {
-                    if (name === "congthuc") {
-                      return `<option>
-                    Cái
-                  </option>;`;
-                    } else {
-                      return `<option value= '${sp.DonVi}'>
-                    ${sp.DonVi}
-                  </option>;`;
-                    }
-                  })
-                  .join("")}
-              </select>
+              <input type ='text' disabled class='input donVi' value ="${
+                name === "congthuc" ? "Đơn vị" : "KG"
+              }" />
+              <button type ='button' class ='btn xoaHang btnXoa btnSuperSmall'>
+              X</button>
             </div>`;
+  function catchEvent(e) {
+    if (e.target.matches(".tp")) {
+      const chiTiet = dsSanPham.filter(
+        (sp) => sp.MaCongThuc == +e.target.value
+      )[0];
+      console.log(chiTiet.DonVi);
+      e.target.closest(".row").querySelector(".donVi").value = chiTiet.DonVi;
+    }
+  }
+  return { html, catchEvent };
 }
 function buttonThem() {
   return `<button type="button" class="btn secondary themNL" >Thêm</button>`;
@@ -354,6 +378,9 @@ function submitLapDon() {
         donvi: newds[0].donvi,
       };
     });
+    if (!newDs.length) {
+      return;
+    }
     await renderDsNguyenLieu(newDs);
   });
 }

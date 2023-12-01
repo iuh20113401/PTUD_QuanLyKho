@@ -1,5 +1,10 @@
-import render, { dsSanPham } from "./thanhPhamNV.js";
-import { getFetch } from "./helper.js";
+import render from "./thanhPhamNV.js";
+import {
+  getFetch,
+  modalThongBao,
+  modalXacNhan,
+  thongBaoLoi,
+} from "./helper.js";
 async function themTP(maSanPham, tenSanPham, donVi) {
   const data = await getFetch("../ajax/sanPham.php", {
     action: "themSanPham",
@@ -46,19 +51,20 @@ function renderThemNL() {
     const maSanPham = document.querySelector("#maTP").value;
     const tenSanPham = document.querySelector("#tenTP").value;
     const donVi = document.querySelector("#donVi").value;
-
+    if (tenSanPham == "" || donVi == "") {
+      thongBaoLoi("Vui lòng điền đầy đủ thông tin ");
+      return;
+    }
     let res = await themTP(maSanPham, tenSanPham, donVi);
     if (res) {
-      let resConfirm = confirm("Bạn đã thêm thành công! Bạn có muốn tiếp tục");
-      if (resConfirm) {
-        renderThemNL();
-      } else {
-        window.location.reload();
-      }
+      let resConfirm = await modalThongBao("Bạn đã thêm thành công!", true);
+      window.location.reload();
     }
   });
 }
 function contentThemNL() {
+  let maThanhPham =
+    "2" + Math.floor(Math.random() * (9999999 - 1000000) + 1000000);
   let html = `<h3><a href='thanhPham.html'>Thành phẩm</a> > Thêm thành phẩm</h3>
         <form class="search">
           <div class="inputGroup">
@@ -77,9 +83,7 @@ function contentThemNL() {
           <form action="" class="form">
             <div class="inputInfo--flat mt-1">
               <label for="maTP" class="label" >Mã thành phẩm</label>
-              <input type="text" name="maTP" id="maTP" class="inputLarge" readonly value =${Math.floor(
-                Math.random() * 1000
-              )} />
+              <input type="text" name="maTP" id="maTP" class="inputLarge" readonly value =${maThanhPham} />
             </div>
             <div class="inputInfo--flat mt-1">
               <label for="tenTP" class="label">Tên thành phẩm</label>
@@ -87,7 +91,7 @@ function contentThemNL() {
             </div>
             <div class="inputInfo--flat mt-1">
               <label for="moTa" class="label">Đơn vị</label>
-              <input type="text" name="donVi" id="donVi" class="inputLarge" value ="Cái"/>
+              <input type="text" name="donVi" id="donVi" class="inputLarge" value ="Hộp"/>
             </div>
             
             <div class="buttons center mt-1">
@@ -97,7 +101,8 @@ function contentThemNL() {
         </div>`;
   return html;
 }
-function xoaSuaBtn() {
+function xoaSuaBtn(dsSanPham) {
+  if (!dsSanPham) return;
   const thanhPhams = document.querySelectorAll(".hover");
   const muc = document.querySelector(".muc");
   let html = `<td><div class="buttons">
@@ -113,18 +118,19 @@ function xoaSuaBtn() {
   btnSua.forEach((sua) => {
     sua.addEventListener("click", (e) => {
       const ma = sua.closest("tr").children[0].textContent;
-      renderSua(ma);
+      renderSua(dsSanPham, ma);
     });
   });
   btnXoa.forEach((xoa) => {
     xoa.addEventListener("click", (e) => {
       const ma = xoa.closest("tr").children[0].textContent;
       const ten = xoa.closest("tr").children[1].textContent;
-      renderXoa(ma, ten);
+      const soLuong = xoa.closest("tr").children[2].textContent;
+      renderXoa(ma, ten, soLuong);
     });
   });
 }
-function renderSua(id) {
+function renderSua(dsSanPham, id) {
   const chiTiet = dsSanPham.filter((sp) => sp.MaSanPham == id);
   id, dsSanPham, chiTiet;
   let content = document.querySelector(".content");
@@ -134,16 +140,14 @@ function renderSua(id) {
     const maSanPham = document.querySelector("#maTP").value;
     const tenSanPham = document.querySelector("#tenTP").value;
     const donVi = document.querySelector("#donVi").value;
+    if (tenSanPham == "" || donVi == "") {
+      thongBaoLoi("Vui điền đầy đủ thông tin");
+      return;
+    }
     let res = await capNhatSanPham(maSanPham, tenSanPham, donVi);
     if (res) {
-      let resConfirm = confirm(
-        "Bạn đã cập nhật thành công! Có muốn tiếp tục không?"
-      );
-      if (resConfirm) {
-        renderSua(maSanPham);
-      } else {
-        window.location.reload();
-      }
+      await modalThongBao("Bạn đã cập nhật thành công! ", true);
+      window.location.reload();
     }
   });
 }
@@ -169,7 +173,7 @@ function contentSua(chiTiet) {
               <input type="text" name="maTP" id="maTP" class="inputLarge" readonly value =${chiTiet.MaSanPham} />
             </div>
             <div class="inputInfo--flat mt-1">
-              <label for="tenTP" class="label">Tên nguyên liệu</label>
+              <label for="tenTP" class="label">Tên thành phẩm</label>
               <input type="text" name="tenTP" id="tenTP" class="inputLarge" value='${chiTiet.TenSanPham}' />
             </div>
             <div class="inputInfo--flat mt-1">
@@ -190,20 +194,29 @@ function contentSua(chiTiet) {
             </div>
             
             <div class="buttons center mt-1">
-              <button type="button" id = "suaNL" class="btn primary large center">Sửa nguyên liệu</button>
+              <button type="button" id = "suaNL" class="btn primary large center">Sửa</button>
             </div>
           </form>
         </div>`;
   return html;
 }
-async function renderXoa(ma, ten) {
-  let resConfirm = confirm(`Bạn có xác nhận muốn xóa nguyên liệu "${ten}"`);
+async function renderXoa(ma, ten, soLuong) {
+  if (soLuong > 0) {
+    await modalThongBao(
+      "Thành phẩm hiện còn đang tồn kho! Không thể xóa",
+      false
+    );
+    return;
+  }
+  let resConfirm = await modalXacNhan(
+    `Bạn có xác nhận muốn xóa thành phẩm "${ten}"`
+  );
   if (resConfirm) {
     let res = xoaSanPham(ma);
     if (!res) {
-      alert("Xóa không thành công");
+      await modalThongBao("Xóa không thành công", false);
     } else {
-      alert("Đã xóa thành công!");
+      await modalThongBao("Đã xóa thành công!", true);
       window.location.reload();
     }
   }

@@ -1,13 +1,6 @@
 import { toExcel, toPDF, getFetch } from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 
-async function layToanBoThanhPham() {
-  const data = await getFetch("../ajax/sanPham.php", {
-    action: "layToanBoThanhPham",
-  });
-  return data;
-}
-
 async function laySanPhamTheoTen(ten) {
   const data = await getFetch("../ajax/sanPham.php", {
     action: "laySanPhamTheoTen",
@@ -23,12 +16,10 @@ async function layChiTietSanPham(maSanPham) {
   });
   return data;
 }
-
-let dsSanPham = await layToanBoThanhPham();
-dsSanPham = dsSanPham?.filter((sp) => sp.SoLuongTon > 0) || null;
-async function render() {
+let dsSanPham;
+async function render(dsSanPhamMoi) {
+  dsSanPham = dsSanPhamMoi;
   let html = contentToanBo();
-
   html = `${menu()}
       ${html}
       `;
@@ -38,7 +29,6 @@ async function render() {
   highLightMenu();
   renderSearch();
   renderChiTiet();
-  sortDanhSachSanPham();
 }
 function contentToanBo() {
   let chiTietSanPham = dsSanPham
@@ -83,64 +73,7 @@ function contentToanBo() {
       </div>`;
   return html;
 }
-let sltRes = true;
-let slcxRes = true;
-let slcnRes = true;
-function renderSort() {
-  const content = document.querySelector(".content");
-  let html = contentToanBo();
-  const placeholder = document.createElement("div");
-  placeholder.insertAdjacentHTML("afterbegin", html);
-  const node = placeholder.firstElementChild;
-  const container = document.querySelector(".container");
-  container.replaceChild(node, content);
-}
-function sortDanhSachSanPham() {
-  document.body.addEventListener("click", (e) => {
-    const slt = Array.from(e.target.classList).includes("slt");
-    const slcx = Array.from(e.target.classList).includes("slcx");
-    const slcn = Array.from(e.target.classList).includes("slcn");
-    if (slt) {
-      sltRes = !sltRes;
-      sortSoLuongTon(!sltRes);
-      renderSort();
-    }
-    if (slcx) {
-      slcxRes = !slcxRes;
-      sortSoLuongChoXuat(!slcxRes);
-      renderSort();
-    }
-    if (slcn) {
-      slcnRes = !slcnRes;
-      sortSoLuongChoNhap(!slcnRes);
-      renderSort();
-    }
-  });
-}
-function sortSoLuongChoNhap(slt) {
-  if (slt) {
-    dsSanPham = dsSanPham.sort((a, b) => b.SoLuongChoNhap - a.SoLuongChoNhap);
-  } else {
-    dsSanPham = dsSanPham.sort((a, b) => a.SoLuongChoNhap - b.SoLuongChoNhap);
-  }
-  return;
-}
-function sortSoLuongChoXuat(slcx) {
-  if (slcx) {
-    dsSanPham = dsSanPham.sort((a, b) => b.SoLuongChoXuat - a.SoLuongChoXuat);
-  } else {
-    dsSanPham = dsSanPham.sort((a, b) => a.SoLuongChoXuat - b.SoLuongChoXuat);
-  }
-  return;
-}
-function sortSoLuongTon(slcn) {
-  if (slcn) {
-    dsSanPham = dsSanPham.sort((a, b) => b.SoLuongTon - a.SoLuongTon);
-  } else {
-    dsSanPham = dsSanPham.sort((a, b) => a.SoLuongTon - b.SoLuongTon);
-  }
-  return;
-}
+
 function renderSearch() {
   const form = document.querySelector("form");
   form.addEventListener("submit", async (e) => {
@@ -218,4 +151,4 @@ function renderChiTiet() {
   });
 }
 export default render;
-export { dsSanPham };
+export { contentToanBo, renderChiTiet };

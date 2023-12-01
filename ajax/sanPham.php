@@ -46,7 +46,7 @@ session_start();
          }
          if( $action === 'layDanhMucSanPhamTheoKho'){
             $maSanPham = null;
-            if(isset($_POST['maSanPham']) && $_POST['maSanPham'] != null){
+            if(isset($_POST['maSanPham']) && $_POST['maSanPham'] != 'null'){
                 $maSanPham = explode(',',$_POST['maSanPham']);
             }
             $kho = $_POST['kho'];

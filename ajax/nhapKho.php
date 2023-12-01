@@ -103,7 +103,18 @@ session_start();
     function  themChiTietNguyenLieu($maDon, $maSanPham, $maPhieu, $maKho, $soLuongTon,$donVi, $gia, $ngaySanXuat, $ngayHetHan){
         $p = new ControlPhieuNhap();
         for ($i=0; $i < count($maSanPham) ; $i++) { 
-            $maChiTiet = rand(1,1000);
+            // Chuyển đổi $maSanPham[$i] thành chuỗi
+            $maSanPhamStr = strval($maSanPham[$i]);
+
+            // Lấy số đầu tiên và 3 số cuối
+            $soDauTien = $maSanPhamStr[0];
+            $baSoCuoi = substr($maSanPhamStr, -3);
+
+            // Lấy ngày, tháng, và 2 số cuối của năm hiện tại
+            $random = rand(100000,999999);
+
+            // Tạo mã chi tiết
+            $maChiTiet = $soDauTien . $baSoCuoi . $random;
             $res = $p->themChiTietNguyenLieu($maChiTiet, $maSanPham[$i], $maPhieu, $maKho, $soLuongTon[$i],$donVi[$i], $gia, $ngaySanXuat[$i], $ngayHetHan[$i]);
         }
         if(!$res){

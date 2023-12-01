@@ -160,8 +160,6 @@ function menuBPKK() {
               </ul>
             </div>
             <li><a href='kiemKe.html'>Biên bản kiểm kê</a></li>
-            <li><a href="xacNhanNhapKho.html">Phiếu nhập</a></li>
-            <li><a href="xacNhanXuatKho.html">Phiếu xuất</a></li>
             <li><a href="taiKhoan.html">Tài khoản</a></li>
           </ul>
         </div>
@@ -273,8 +271,6 @@ const rolePages = {
     "nguyenLieu.html",
     "thanhPham.html",
     "donYeuCau.html",
-    "phieuNhap.html",
-    "phieuXuat.html",
     "taiKhoan.html",
     "kiemKe.html",
   ],

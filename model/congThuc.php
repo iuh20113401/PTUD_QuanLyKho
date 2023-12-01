@@ -7,7 +7,7 @@ class CongThuc{
         if(!$conn){
             return false;
         } else {
-            $query = "SELECT * FROM congthuc where trangthai = 1";
+            $query = "SELECT * FROM congthuc as ct join sanpham as sp on sp.MaSanPHam = ct.MaCongThuc  where trangthai = 1";
             $stmt = $conn->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -21,7 +21,7 @@ class CongThuc{
         if(!$conn){
             return false;
         } else {
-            $query = "SELECT ct.MaCongThuc, ct.TenCongThuc, ct.MoTa, ctct.MaSanPham, sp.TenSanPham, ctct.SoLuong, ctct.DonVi FROM CongThuc as ct JOIN chitietcongthuc as ctct on ctct.MaCongTHuc = ct.MaCongTHuc JOIN sanpham as sp on sp.MaSanPham = ctct.MaSanPHam WHERE ct.MaCongThuc = :maCongThuc";
+            $query = "SELECT ct.MaCongThuc, ct.TenCongThuc, ct.DonVi as DonViCT,ct.MoTa, ctct.MaSanPham, sp.TenSanPham, ctct.SoLuong, ctct.DonVi FROM CongThuc as ct JOIN chitietcongthuc as ctct on ctct.MaCongTHuc = ct.MaCongTHuc JOIN sanpham as sp on sp.MaSanPham = ctct.MaSanPHam WHERE ct.MaCongThuc = :maCongThuc";
             $stmt = $conn->prepare($query);
             $stmt->bindParam(':maCongThuc', $maCongThuc, PDO::PARAM_INT);
             $stmt->execute();
@@ -29,17 +29,18 @@ class CongThuc{
         }
     }
 
-    function themCongThuc($maCongThuc, $tenCongThuc, $moTa, $soLuongNguyenLieu){
+    function themCongThuc($maCongThuc, $tenCongThuc,$donVi, $moTa, $soLuongNguyenLieu){
         $p = new KetNoi();
         $p->ketNoi($conn);
         if(!$conn){
             return false;
         } else {
-                $query = "INSERT congthuc values (:maCongThuc, :tenCongThuc, :moTa, :soLuongNguyenLieu, 1)";
+                $query = "INSERT congthuc values (:maCongThuc, :tenCongThuc,:donVi, :soLuongNguyenLieu , :moTa, 1)";
                 $stmt = $conn->prepare($query);
                 $stmt->bindParam(':maCongThuc', $maCongThuc);
                 $stmt->bindParam(':tenCongThuc', $tenCongThuc);
                 $stmt->bindParam(':moTa', $moTa);
+                $stmt->bindParam(':donVi', $donVi);
                 $stmt->bindParam(':soLuongNguyenLieu', $soLuongNguyenLieu);
                 return $stmt->execute();
         }

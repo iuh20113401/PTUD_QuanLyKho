@@ -1,13 +1,27 @@
 "use strict";
 import { menu, menuShow, highLightMenu } from "./menu.js";
-import { getFetch } from "./helper.js";
+import {
+  getFetch,
+  modalThongBao,
+  taiKhoan,
+  xoaHang,
+  thongBaoLoi,
+} from "./helper.js";
 async function layToanBoThanhPham() {
   const data = await getFetch("../ajax/sanPham.php", {
     action: "layToanBoThanhPham",
   });
   return data;
 }
-
+async function layKho() {
+  try {
+    const data = await getFetch("../ajax/kho.php", { action: "layTatCaKho" });
+    return data;
+  } catch (error) {
+    console.error("Lỗi khi lấy thông tin kho: ", error);
+    return null; // Trả về null hoặc giá trị mặc định khi có lỗi
+  }
+}
 async function themDonYeuCau(donYeuCau) {
   const data = await getFetch("../ajax/lapDonYeuCau.php", {
     action: "lapDonYeuCauNhapTP",
@@ -42,18 +56,20 @@ function content(dsNguyenLieu = null) {
         <form class="don">
           <h2 class = "tittle">Đơn yêu cầu nhập thành phẩm</h2>
           <div name="taikhoan" class="inputInfo--flat mb-1">
-            <label for="">Người lập: </label>
+            <label for="" class='label'>Người lập: </label>
             <input
               type="text"
-              class="default"
+              class="inputLarge"
               name="taiKhoan"
               readonly
-              value="Giám đốc"
+              value=${taiKhoan[3]}
             />
           </div>
           <div name="ngaylap" class="inputInfo--flat mb-1">
-            <label for="">Ngày lập: </label>
-            <input type="date" class="inputLarge" name="taiKhoan" />
+            <label for="" class='label'>Ngày lập: </label>
+            <input type="date" class="inputLarge" name="taiKhoan" value = ${new Date().toLocaleDateString(
+              "en-CA"
+            )} readonly/>
           </div>
           <h3>Danh sách yêu cầu</h3>
           <div class="largeInput inputThanhPham">
@@ -67,6 +83,14 @@ function content(dsNguyenLieu = null) {
       </div>`;
   let html2;
   if (dsNguyenLieu !== null) {
+    let date = new Date();
+    let MaDon =
+      "2" +
+      "0" +
+      date.getDate() +
+      date.getMonth() +
+      date.getFullYear().toString().slice(2, 4) +
+      Math.floor(Math.random() * 100 - 1);
     dsNguyenLieu;
     html = dsNguyenLieu.reduce((acc, nl) => {
       let html = `<tr>
@@ -83,31 +107,31 @@ function content(dsNguyenLieu = null) {
         <form class="don">
           <h2 class="tittle">Đơn yêu cầu Nhập thành phẩm</h2>
           <div name="maDon" class="inputInfo--flat">
-            <label for="">Mã đơn: </label>
+            <label for="" class='label'>Mã đơn: </label>
             <input
               type="text"
-              class="default"
+              class="inputLarge"
               name="maDon"
               id="maDon"
               readonly
-              value="${Math.floor(Math.random() * 1000)}"
+              value="${MaDon}"
             />
           </div>
           <div name="taikhoan" class="inputInfo--flat">
-            <label for="">Người lập: </label>
+            <label for="" class='label'>Người lập: </label>
             <input
               type="text"
-              class="default"
+              class="inputLarge mt-1"
               name="taiKhoan"
               readonly
-              value="Giám đốc"
+              value=${taiKhoan[3]}
             />
           </div>
           <div name="ngaylap" class="inputInfo--flat">
-            <label for="">Ngày lập: </label>
+            <label for="" class='label'>Ngày lập: </label>
             <input
               type="date"
-              class="default"
+              class="inputLarge mt-1"
               value="${new Date().toLocaleDateString("en-CA")}"
               name="ngayLap"
               id="ngayLap"
@@ -156,6 +180,7 @@ function init() {
       e.target.closest(".row").querySelector("#donVi").value = chiTiet.DonVi;
     }
   });
+  xoaHang();
 }
 function renderDsNguyenLieu(dsNguyenLieu) {
   render(dsNguyenLieu);
@@ -178,18 +203,19 @@ function renderDsNguyenLieu(dsNguyenLieu) {
       const res = await themDonYeuCau(donYeuCau);
 
       if (res) {
-        let newRes = confirm("Đã thêm thành công");
-        if (newRes || !newRes) {
+        let newRes = await modalThongBao("Đã thêm thành công", true);
+        if (newRes) {
           window.location.reload();
         }
       }
     } catch (error) {
-      console.error("Lỗi khi gửi đơn yêu cầu: ", error);
+      await modalThongBao("Lỗi khi gửi đơn yêu cầu: ".error, false);
       let warning = document.querySelector(".warning");
       warning.innerHTML = `Có lỗi xảy ra khi gửi đơn yêu cầu`;
     }
   });
 }
+
 function themInput() {
   return `<div class="inputInfo dsThanhPham row row__5">
               <select class = 'tp'>
@@ -267,14 +293,6 @@ function submitLapDon() {
           ngayHetHan,
         });
       } else {
-        console.log(
-          ma !== "default" &&
-            soluong > 0 &&
-            !isNaN(soluong) &&
-            ngaySanXuat < ngayHetHan &&
-            ngaySanXuat < new Date() &&
-            ngayHetHan > new Date()
-        );
         isValid = false;
         let warning = document.querySelector(".warning");
         warning.innerHTML = `Vui lòng nhập đầy đủ thông tin và đảm bảo số lượng là số dương, ngầy sản xuất và ngày hết hạn hợp lệ`;
@@ -282,11 +300,11 @@ function submitLapDon() {
     });
 
     if (!isValid) return;
-    xuLyThem(dsThanhPham);
+    await xuLyThem(dsThanhPham);
   });
 }
 
-function xuLyThem(dsThanhPham) {
+async function xuLyThem(dsThanhPham) {
   dsThanhPham = dsThanhPham.sort((a, b) => a.ma - b.ma);
   const ma = [...new Set(dsThanhPham.map((ds) => ds.ma))];
   const newDs = ma.map((m) => {
@@ -301,6 +319,43 @@ function xuLyThem(dsThanhPham) {
       donvi: newds[0].donvi,
     };
   });
+  if (!newDs.length) {
+    console.log(newDs);
+    return;
+  }
+  if (!(await kiemTraSucChuaKho(newDs))) {
+    return;
+  }
   renderDsNguyenLieu(newDs);
+}
+async function kiemTraSucChuaKho(dsThanhPham) {
+  try {
+    let kho = await layKho();
+    let thanhPham = await layToanBoThanhPham();
+    let tongSoLuongNhap = 0;
+    kho = kho.filter((k) => k.Loai === "Thành phẩm");
+    let soluongchonhap = thanhPham.reduce(
+      (acc, nl) => nl.SoLuongChoNhap + acc,
+      0
+    );
+    dsThanhPham.forEach((nl) => {
+      tongSoLuongNhap += parseInt(nl.soluong) || 0;
+    });
+    let SucChua = kho.reduce(
+      (acc, k) => acc + (k.SucChua - k.SucChuaDaDung),
+      0
+    );
+    // So sánh tổng số lượng nguyên liệu cần nhập với sức chứa của kho
+    if (tongSoLuongNhap > SucChua - soluongchonhap) {
+      thongBaoLoi(
+        "Số lượng thành phẩm nhập vào vượt quá sức chứa tối đa của kho!"
+      );
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Lỗi khi kiểm tra sức chứa kho: ", error);
+    return false;
+  }
 }
 init();

@@ -1,13 +1,6 @@
 import { toExcel, toPDF, getFetch } from "./helper.js";
 import { menu, menuShow, highLightMenu } from "./menu.js";
 
-async function layToanBoNguyenLieu() {
-  const data = await getFetch("../ajax/sanPham.php", {
-    action: "layToanBoNguyenLieu",
-  });
-  return data;
-}
-
 async function laySanPhamTheoTen(ten) {
   const data = await getFetch("../ajax/sanPham.php", {
     action: "laySanPhamTheoTen",
@@ -25,12 +18,11 @@ async function layChiTietSanPham(maSanPham) {
   return data;
 }
 
-let dsSanPham = await layToanBoNguyenLieu();
-dsSanPham = dsSanPham.filter((sp) => sp.SoLuongTon > 0);
+let dsSanPham;
 async function render(dsSanPhamMoi = null) {
   dsSanPham = dsSanPhamMoi
     ? dsSanPhamMoi
-    : dsSanPham.sort((a, b) => b.SoLuongTon - a.SoLuongTon);
+    : dsSanPham?.sort((a, b) => b.SoLuongTon - a.SoLuongTon);
   let html = contentToanBo();
   html = `${menu()}
       ${html}
@@ -41,7 +33,6 @@ async function render(dsSanPhamMoi = null) {
   highLightMenu();
   renderSearch();
   renderChiTiet();
-  sortDanhSachSanPham();
 }
 function contentToanBo() {
   let chiTietSanPham = dsSanPham
@@ -57,7 +48,7 @@ function contentToanBo() {
             </tr>`;
         })
         .join("")
-    : `<h3 class ="khongDon">Không có nguyên liệu nào!</h3`;
+    : null;
   let html = `<div class="content">
        <h3>Sản phẩm > <a href="nguyenLieu.html">Nguyên Liệu</a></h3>
         <form class="search">
@@ -67,7 +58,9 @@ function contentToanBo() {
             </div>
           </form>
         <div class="content__inner">
-          <table>
+          ${
+            dsSanPham
+              ? `<table>
             <tr class="muc">
               <th>Mã nguyên liệu</th>
               <th>Tên nguyên liệu</th>
@@ -77,71 +70,14 @@ function contentToanBo() {
               <th>Đơn vị</th>
             </tr>
             ${chiTietSanPham}
-          </table>
+          </table>`
+              : `<h3 class ="khongDon">Không có nguyên liệu nào!</h3`
+          }
         </div>
       </div>`;
   return html;
 }
-function renderSort() {
-  const content = document.querySelector(".content");
-  let html = contentToanBo();
-  const placeholder = document.createElement("div");
-  placeholder.insertAdjacentHTML("afterbegin", html);
-  const node = placeholder.firstElementChild;
-  const container = document.querySelector(".container");
-  container.replaceChild(node, content);
-}
-let sltRes = true;
-let slcxRes = true;
-let slcnRes = true;
-function sortDanhSachSanPham() {
-  document.body.addEventListener("click", (e) => {
-    const slt = Array.from(e.target.classList).includes("slt");
-    const slcx = Array.from(e.target.classList).includes("slcx");
-    const slcn = Array.from(e.target.classList).includes("slcn");
-    if (slt) {
-      sltRes = !sltRes;
-      sortSoLuongTon(!sltRes);
-      renderSort();
-    }
-    if (slcx) {
-      slcxRes = !slcxRes;
-      sortSoLuongChoXuat(!slcxRes);
-      renderSort();
-    }
-    if (slcn) {
-      slcnRes = !slcnRes;
-      sortSoLuongChoNhap(!slcnRes);
-      renderSort();
-    }
-  });
-}
-function sortSoLuongChoNhap(slt) {
-  console.log(slt);
-  if (slt) {
-    dsSanPham = dsSanPham.sort((a, b) => b.SoLuongChoNhap - a.SoLuongChoNhap);
-  } else {
-    dsSanPham = dsSanPham.sort((a, b) => a.SoLuongChoNhap - b.SoLuongChoNhap);
-  }
-  return;
-}
-function sortSoLuongChoXuat(slcx) {
-  if (slcx) {
-    dsSanPham = dsSanPham.sort((a, b) => b.SoLuongChoXuat - a.SoLuongChoXuat);
-  } else {
-    dsSanPham = dsSanPham.sort((a, b) => a.SoLuongChoXuat - b.SoLuongChoXuat);
-  }
-  console.log(dsSanPham);
-  return;
-}
-function sortSoLuongTon(slcn) {
-  if (slcn) {
-    dsSanPham = dsSanPham.sort((a, b) => b.SoLuongTon - a.SoLuongTon);
-  } else {
-    dsSanPham = dsSanPham.sort((a, b) => a.SoLuongTon - b.SoLuongTon);
-  }
-  return;
-}
+
 function renderSearch() {
   const form = document.querySelector("form");
   form.addEventListener("submit", async (e) => {
@@ -213,10 +149,10 @@ function renderChiTiet() {
         contentChitiet(dsChiTietSanPham);
       const quayLai = document.querySelector("#quayLai");
       quayLai.addEventListener("click", (e) => {
-        render();
+        window.location.reload();
       });
     });
   });
 }
 export default render;
-export { dsSanPham };
+export { contentToanBo, renderChiTiet };

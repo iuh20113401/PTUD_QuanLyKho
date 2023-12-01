@@ -62,7 +62,7 @@ function contentHetHan() {
               <td>${sp.MaChiTietSanPham}</td>
               <td>${sp.TenSanPham}</td>
               <td>${sp.SoLuongTon}</td>
-              <td>${sp.SoLuongChoXuat}</td>
+              <td>${sp.SoLuongChoTieuHuy}</td>
               <td>${sp.NgaySanXuat}</td>
               <td class = 'textError'>${sp.NgayHetHan}</td>
               <td>
@@ -99,10 +99,10 @@ function contentHetHan() {
               <th>Mã chi tiết sản phẩm</th>
               <th>Tên sản phẩm</th>
               <th>Số lượng tồn</th>
-              <th>Số lượng chờ xuất</th>
+              <th>Số lượng chờ tiêu hủy</th>
               <th>Ngày sản xuất</th>
               <th>Ngày hết hạn</th>
-              <th>Kho</th>
+              <th>Hành động</th>
             </tr>
             ${chiTietSanPham}
           </table>

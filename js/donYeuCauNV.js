@@ -1,6 +1,6 @@
 "use strict";
 import { MAVAITRO, menu, menuShow, highLightMenu } from "./menu.js";
-import { toExcel, toPDF, getFetch } from "./helper.js";
+import { toExcel, toPDF, getFetch, taiKhoan } from "./helper.js";
 
 async function layDonYeuCau(trangThai = null) {
   let data = await getFetch("../ajax/donYeuCau.php", {
@@ -43,12 +43,10 @@ function render(chiTietNguyenLieu = null, trangThai = null) {
 function content(trangThai = null) {
   let html = `        
         <div class="content">
-         <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập</h3></a>
+         <a href="#"> <h3>Đơn yêu cầu</h3></a>
           <form class="search" value = ${trangThai} >
             <select >
-              <option value="" ${
-                trangThai == "" ? `selected` : ""
-              }>Toàn bộ</option>
+              <option value="" }>Toàn bộ</option>
               <option value="Chờ duyệt" ${
                 trangThai == "Chờ duyệt" ? `selected` : ""
               }>Chờ duyệt</option>
@@ -83,7 +81,7 @@ function content(trangThai = null) {
                   return `<tr>
                 <td>${don.MaDon}</td>
                 <td>${don.TenLoai}</td>
-                <td>${don.MaTaiKhoan}</td>
+                <td>${don.TenDangNhap}</td>
                 <td>${don.NgayLap}</td>
                 <td class="center">${don.soluongnguyenlieu}</td>
                 <td><button class="btn primary center large" id = ${don.MaDon}>Xem</button></td>
@@ -128,9 +126,7 @@ function contentChiTiet(chiTiet) {
 `;
   let trangThai = chiTiet[0].TrangThai;
   let html = `<div class="content">
-        <a href="#"> <h3>Phân phối > Đơn yêu cầu nhập > ${
-          chiTiet[0].TenLoai
-        }</h3></a>
+        <a href="#"> <h3>Đơn yêu cầu > ${chiTiet[0].TenLoai}</h3></a>
         <form class="search" value = ${trangThai} >
             <select >
               <option >Toàn bộ</option>
@@ -156,7 +152,7 @@ function contentChiTiet(chiTiet) {
             chiTiet[0].MaDon
           }><span class="deMuc">Mã đơn:</span>${chiTiet[0].MaDon}</p>
           <p><span class="deMuc">Tên đơn:</span>${chiTiet[0].TenLoai}</p>
-          <p><span class="deMuc">Người lập:</span>${chiTiet[0].MaTaiKhoan}</p>
+          <p><span class="deMuc">Người lập:</span>${chiTiet[0].TenDangNhap}</p>
           <p><span class="deMuc">Ngày lập:</span>${chiTiet[0].NgayLap}</p>
           <p><span class="deMuc">TrangThai:</span>${chiTiet[0].TrangThai}</p>
           <p><span class="deMuc">Danh sách yêu cầu:</span></p>

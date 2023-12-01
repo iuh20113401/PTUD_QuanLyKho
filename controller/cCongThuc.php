@@ -27,9 +27,9 @@
                 }
             }
         }
-        function  themCongThuc($maCongThuc, $tenCongThuc, $moTa, $soLuongNguyenLieu){
+        function  themCongThuc($maCongThuc, $tenCongThuc,$donVi, $moTa, $soLuongNguyenLieu){
             $p = new CongThuc();
-            $res = $p-> themCongThuc($maCongThuc, $tenCongThuc, $moTa, $soLuongNguyenLieu);
+            $res = $p-> themCongThuc($maCongThuc, $tenCongThuc,$donVi, $moTa, $soLuongNguyenLieu);
             if (!$res) {
                 return false;
             } else {

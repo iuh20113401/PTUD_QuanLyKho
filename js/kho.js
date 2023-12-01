@@ -320,7 +320,6 @@ async function renderSua() {
   });
   btnXacNhan.addEventListener("click", async (e) => {
     const maKho = document.querySelector("#maKho");
-
     const ttk = {
       maKho: maKho.value,
       tenKho: tenKho.value,
@@ -329,9 +328,21 @@ async function renderSua() {
       sucChua: sucChua.value,
       loai: loai.value == 1 ? "Nguyên liệu" : "Thành phẩm",
     };
+    if (
+      !(
+        maKho.value &&
+        tenKho.value &&
+        viTri.value &&
+        moTa.value &&
+        sucChua.value
+      )
+    ) {
+      thongBaoLoi("Vui lòng nhập đầy đủ thông tin ");
+      return;
+    }
     let res = await suaKho(ttk);
     if (res) {
-      alert("Cập nhật kho thành công!");
+      await modalThongBao("Cập nhật kho thành công", true);
       window.location.reload();
     }
   });
@@ -363,13 +374,13 @@ async function renderThem() {
     };
 
     if (!kiemTraDuLieuNhap(ttk)) {
-      alert("Vui lòng nhập đủ tất cả thông tin!");
+      thongBaoLoi("Vui lòng nhập đủ tất cả thông tin!");
       return;
     }
 
     let res = await themKho(ttk);
     if (res) {
-      alert("Thêm kho thành công!");
+      await modalThongBao("Thêm kho thành công!", true);
       window.location.reload();
     }
   });
@@ -391,8 +402,9 @@ async function renderXoa(id) {
     }
   }, 0);
   if (chiTiet.SucChuaDaDung > checkSoLuong) {
-    await modalXacNhan(
-      "Hiện tại không có kho có đủ số lượng để chuyển sản phẩm?"
+    await modalThongBao(
+      "Hiện tại không có kho có đủ số lượng để chuyển sản phẩm?",
+      false
     );
     return;
   }
@@ -407,10 +419,13 @@ async function renderXoa(id) {
     }
   }
   // Tiếp tục với xóa kho nếu không còn sản phẩm
-  const res = confirm("Bạn có chắc muốn xóa kho này!");
+  const res = await modalXacNhan("Bạn có chắc muốn xóa kho này!");
   if (res) {
     let res2 = await xoaKho({ maKho: id, trangThai: "Kho đã hủy" });
-    // Kiểm tra và thông báo
+    if (res2) {
+      await modalThongBao("Xóa kho thành công", true);
+      window.location.reload();
+    }
   }
 }
 // Hàm hiển thị danh sách sản phẩm
@@ -443,11 +458,13 @@ function hienThiDanhSachSanPham(danhSach, loai, maKho) {
       trangThai: "Kho đã hủy",
     };
     let res2 = await xoaKho(ttk);
-    console.log(res, res2, ttk);
     if (res && res2) {
+      document.querySelector(".formChonNL").remove();
       await modalThongBao("Xóa kho thành công!", true);
       window.location.reload();
     } else {
+      document.querySelector(".formChonNL").remove();
+
       await modalThongBao("Xóa kho thất bại", false);
       window.location.reload();
     }

@@ -7,6 +7,7 @@ import {
   thongBaoLoi,
   modalThongBao,
   xoaHang,
+  modalXacNhan,
 } from "./helper.js";
 async function layCongThuc() {
   let data = await getFetch("../ajax/congThuc.php", {
@@ -38,6 +39,7 @@ async function layToanBoNguyenLieu() {
 async function themCT(
   maCongThuc,
   tenCongThuc,
+  donViCT,
   moTa,
   maSanPham,
   soLuong,
@@ -47,6 +49,7 @@ async function themCT(
     action: "themCongThuc",
     maCongThuc,
     tenCongThuc,
+    donViCT,
     moTa,
     maSanPham,
     soLuong,
@@ -159,15 +162,21 @@ function contentChiTiet(chiTiet) {
           <h3>Chi tiết công thức </h3>
           <p><span class="deMuc">Mã công thức:</span>${chiTiet[0].MaCongThuc}</p>
           <p><span class="deMuc">Tên công thức:</span>${chiTiet[0].TenCongThuc}</p>
+          <p><span class="deMuc">Đơn vị:</span>${chiTiet[0].DonViCT}</p>
           <p><span class="deMuc">Mô tả:</span>${chiTiet[0].MoTa}</p>
           <p><span class="deMuc">Danh sách nguyên liệu:</span></p>
           ${congThuc}
-          <button type='button' class = "btn secondary large center" id = 'quayLai'>Quay lại</button>
+          <div class="buttons ">
+              <button type='button' class = "btn primary large center" id = 'sua'>Sửa</button>
+            <button type='button' class = "btn secondary large center" id = 'quayLai'>Quay lại</button>
+          </div>
         </div>
       </div>`;
   return html;
 }
 function contentThemCongThuc(dsNguyenLieu) {
+  let maCongThuc =
+    "2" + Math.floor(Math.random() * (9999999 - 1000000) + 1000000);
   let html = `
         <h3>Công thức > Thêm công thức</h3>
         <form class="search">
@@ -187,13 +196,15 @@ function contentThemCongThuc(dsNguyenLieu) {
           <form action="" class="form">
             <div class="inputInfo--flat mt-1">
               <label for="maCT" class="label" >Mã công thức</label>
-              <input type="text" name="maCT" id="maCT" class="inputLarge" readonly value =${Math.floor(
-                Math.random() * 1000
-              )} />
+              <input type="text" name="maCT" id="maCT" class="inputLarge" readonly value =${maCongThuc} />
             </div>
             <div class="inputInfo--flat mt-1">
               <label for="tenCT" class="label">Tên công thức</label>
               <input type="text" name="tenCT" id="tenCT" class="inputLarge" />
+            </div>
+            <div class="inputInfo--flat mt-1">
+              <label for="donVi" class="label">Đơn vị</label>
+              <input type="text" name="donVi" id="donViCT" class="inputLarge" />
             </div>
             <div class="inputInfo--flat mt-1">
               <label for="moTa" class="label">Mô tả</label>
@@ -274,6 +285,7 @@ async function renderThemChiTiet() {
     e.preventDefault();
     const maCT = document.querySelector("#maCT");
     const tenCT = document.querySelector("#tenCT");
+    const donViCT = document.querySelector("#donViCT");
     const moTa = document.querySelector("#moTa");
     const sanPham = document.querySelectorAll(".nguyenLieu");
     const soLuong = document.querySelectorAll(".soLuong");
@@ -291,6 +303,7 @@ async function renderThemChiTiet() {
         dsSoLuong.push(soLuong[i].value);
       }
     });
+
     const check =
       maCT.value != "" &&
       tenCT.value != "" &&
@@ -302,9 +315,18 @@ async function renderThemChiTiet() {
       thongBaoLoi("Vui lòng nhập đầy đủ thông tin");
       return;
     }
+    if (
+      maSanPham.some((e) => e == "") ||
+      dsSoLuong.some((e) => e == 0) ||
+      dsSoLuong.some((e) => e < 0)
+    ) {
+      thongBaoLoi("Vui lòng chọn sản phẩm và số lượng");
+      return;
+    }
     let res = await themCT(
       maCT.value,
       tenCT.value,
+      donViCT.value,
       moTa.value,
       maSanPham,
       dsSoLuong,
@@ -313,8 +335,9 @@ async function renderThemChiTiet() {
     if (res) {
       await modalThongBao("Đã thêm công thức thành công!", true);
       window.location.reload();
+    } else {
+      await modalThongBao("Thêm công thức thất bại!", false);
     }
-    await modalThongBao("Thêm công thức thất bại!", false);
   });
   xoaHang();
 }
@@ -333,13 +356,15 @@ function init() {
   });
   document.querySelector(".content").addEventListener("click", async (e) => {
     if (e.target.matches(".xoa")) {
-      let res = await xoaCongThuc(e.target.id);
-      if (res) {
-        modalThongBao("Xóa công thức thành cồng!", true);
-        window.location.reload();
-      } else {
-        modalThongBao("Xóa công thức thất bại!", false);
-        window.location.reload();
+      if (await modalXacNhan("Bạn có chắc muốn xáo công thức này không?")) {
+        let res = await xoaCongThuc(e.target.id);
+        if (res) {
+          await modalThongBao("Xóa công thức thành cồng!", true);
+          window.location.reload();
+        } else {
+          await modalThongBao("Xóa công thức thất bại!", false);
+          window.location.reload();
+        }
       }
     }
   });

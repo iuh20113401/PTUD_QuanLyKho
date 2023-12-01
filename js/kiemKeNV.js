@@ -1,6 +1,12 @@
 "use strick";
 import { MAVAITRO, menu, menuShow, highLightMenu } from "./menu.js";
-import { toExcel, toPDF, getFetch } from "./helper.js";
+import {
+  toExcel,
+  toPDF,
+  getFetch,
+  thongBaoLoi,
+  modalThongBao,
+} from "./helper.js";
 
 async function layKho() {
   let data = await getFetch("../ajax/kho.php", {
@@ -41,8 +47,6 @@ async function lapDonKiemKe(dataLap) {
   return data;
 }
 async function laySanPham(don) {
-  console.log(don);
-
   let data = await getFetch("../ajax/sanPham.php", {
     action: "layMotSoSanPhamTheoKho",
     kho: don.Kho,
@@ -178,7 +182,10 @@ async function contentChiTiet(chiTiet) {
   let dsNguyenLieu;
   if (chiTiet.Loai == "Theo sản phẩm") {
     dsNguyenLieu = await laySanPham(chiTiet);
-    console.log(chiTiet.MoTa, dsNguyenLieu);
+    let uniqueMa = [...new Set(dsNguyenLieu.map((nl) => nl.MaSanPham))];
+    dsNguyenLieu = uniqueMa.map((u) =>
+      dsNguyenLieu.find((nl) => nl.MaSanPham == u)
+    );
     dsNguyenLieu = dsNguyenLieu
       .map((sp) => {
         return `
@@ -298,7 +305,6 @@ function contentThem() {
 }
 async function contentDonLoi(chiTiet) {
   let dsNguyenLieuLoi = await layChiTietDonKiemKeLoi(chiTiet);
-  console.log(dsNguyenLieuLoi);
   dsNguyenLieuLoi = dsNguyenLieuLoi
     .map((sp) => {
       return `
@@ -367,9 +373,13 @@ async function contentDonLoi(chiTiet) {
               <button class="btn  center secondary mt-1" id ='quayLai'>
                 Quay lại
               </button>
-          <button class="btn  center btnXoa mt-1 large" id ='tieuHuy'>
-            Tiêu hủy
-          </button>
+          ${
+            taiKhoan[1] === "GiamDoc"
+              ? `<button class="btn  center btnXoa mt-1 large" id ='tieuHuy' >
+            Cập nhật số lượng tồn
+          </button>`
+              : ""
+          }
               </div>`
               : `
             <button class="btn large center secondary mt-1" id ='quayLai'>
@@ -454,7 +464,7 @@ function renderThem() {
   const btnLap = document.querySelector("#lapKK");
   btnLap.addEventListener("click", async (e) => {
     if (kho.value === "") {
-      alert("Vui lòng chọn kho muốn kiểm kê");
+      thongBaoLoi("Vui lòng chọn kho muốn kiểm kê");
       return;
     }
     if (loai.value == 1) {
@@ -469,7 +479,7 @@ function renderThem() {
       };
       const res = await lapDonKiemKe(ttkk);
       if (res) {
-        alert("Bạn đã tạo biên bản kiểm kê thành công!");
+        await modalThongBao("Bạn đã tạo biên bản kiểm kê thành công!", true);
         window.location.reload();
       }
     } else {
@@ -494,7 +504,10 @@ function renderThem() {
           };
           const res = await lapDonKiemKe(ttkk);
           if (res) {
-            alert("Bạn đã tạo biên bản kiểm kê thành công!");
+            await modalThongBao(
+              "Bạn đã tạo biên bản kiểm kê thành công!",
+              true
+            );
             window.location.reload();
           }
         }
@@ -503,6 +516,8 @@ function renderThem() {
   });
 }
 function themNL() {
+  let uniqueMa = [...new Set(dsSanPham.map((nl) => nl.MaSanPham))];
+  dsSanPham = uniqueMa.map((u) => dsSanPham.find((nl) => nl.MaSanPham == u));
   let html = `<h4 class="mt-1">Danh sách nguyên liệu cần kiểm kê</h4>
           <div div class="mt-1" id='danhsachNL'>
           <div class="mt-1" >
@@ -611,7 +626,7 @@ async function renderKiemKe(chiTiet) {
     if (kiemKeValue == 1) {
       let res = await capNhatTrangThai(chiTiet, 3);
       if (res) {
-        alert("Bạn đã cập nhật thành công");
+        await modalThongBao("Bạn đã cập nhật thành công", true);
         window.location.reload();
       }
     } else {
@@ -624,7 +639,7 @@ async function renderKiemKe(chiTiet) {
       let dsMoTa = [];
       for (let index = 0; index < nls.length; index++) {
         if (!nls[index].value || !loai[index].value || !soLuong[index].value) {
-          alert("Vui lòng nhập đủ thông tin");
+          thongBaoLoi("Vui lòng nhập đủ thông tin");
           dsNl.splice(0);
           loai.splice(0);
           soLuong.splice(0);
@@ -659,13 +674,11 @@ async function renderKiemKe(chiTiet) {
           }
         }
       }
-      console.log(nls);
     }
   });
 }
 async function themKiemKe(chiTiet) {
   let dsSanPham = await laySanPhamTheoDon(chiTiet);
-  console.log(dsSanPham);
   dsSanPham = dsSanPham.sort((a, b) => a.MaChiTietSanPham - b.MaChiTietSanPham);
   let html = `<h4 class="mt-1">Danh sách nguyên liệu cần kiểm kê</h4>
           <div div class="mt-1" id='danhsachNL'>
